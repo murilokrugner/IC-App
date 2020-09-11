@@ -17,7 +17,12 @@ function AuthRoutes() {
         }}
         initialRouteName="SignIn">
         <Auth.Screen name="SignIn" component={SignIn} />
-        <Auth.Screen name="SignUp" component={SignUp} />
+        <Auth.Screen name="SignUp" component={SignUp} 
+          options={{
+            headerShown: true, 
+            headerTitle:"Criar conta"          
+          }}
+        />
       </Auth.Navigator>
     </NavigationContainer>
   );

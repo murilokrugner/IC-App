@@ -7,7 +7,8 @@ export const Container = styled.View`
   padding: 0 16px;
   background: #ECF6FF;
   border-radius: 10px;
-  margin-bottom: 8px;
+  margin-top: 5px;
+  margin-bottom: 16px;
   flex-direction: row;
   align-items: center;
 `;
@@ -21,4 +22,5 @@ export const TextInput = styled.TextInput`
 
 export const Icon = styled(FeatherIcon)`
   margin-right: 16px;
+  color: #f08080;
 `;
