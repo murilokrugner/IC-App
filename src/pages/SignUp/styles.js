@@ -22,12 +22,17 @@ export const BoxForm = styled.View`
 `;
 
 export const BoxPassword = styled(RectButton)`
+  flex-direction: row;
+  justify-content: center;
   margin-top: 20px;
   color: #fff;
   background-color: #fff;
+  margin-right: 20px;
 `;
 
 export const ClickPassword = styled.Text`
+  flex-direction: row;
+  justify-content: center;
   color: #f08080;
   font-size: 16px;
   font-family: 'RobotoSlab-Regular';

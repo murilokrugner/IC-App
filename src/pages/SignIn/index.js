@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Image} from 'react-native';
+import {Image, Alert, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Container, BoxForm, BoxPassword, ClickPassword, CreateAccountButton, CreateAccountButtonText} from './styles';
@@ -22,8 +22,13 @@ function SignIn() {
     async function handleSubmit() {}
 
     return(
-        <KeyboardAvoidingView style={{flex: 1}}>
-            <ScrollView style={{flex: 1}}>
+        <KeyboardAvoidingView style={{flex: 1}}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            enabled>
+            <ScrollView  showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+                
+            >
                 <Container>
                     <Image source={Screen} style={{width: 420, height: 400}}/>
                     <BoxForm>

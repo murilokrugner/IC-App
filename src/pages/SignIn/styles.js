@@ -1,8 +1,10 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
+    flex: 1;
+    height: 100%; 
     flex-direction: column;
-    height: 100%;
+
     justify-content: center;
     align-items: center;
 
@@ -17,11 +19,14 @@ export const BoxForm = styled.View`
     justify-content: center;
     align-items: center;
 
-    margin-top: 10px;
+    
 `;
 
 export const BoxPassword = styled.View`
-  margin-top: 20px;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 30px;
+
 `;
 
 export const ClickPassword = styled.Text`

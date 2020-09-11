@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
 import { Alert } from 'react-native';
 
-const AuthContext = createContext();
+const AuthContext = React.createContext({});
 
 function AuthUser({ children }) {
     const [data, setData] = useState();
