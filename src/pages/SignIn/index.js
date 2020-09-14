@@ -49,7 +49,7 @@ function SignIn() {
                     <BoxPassword>
                         <ClickPassword>Esqueci minha senha</ClickPassword>
                     </BoxPassword>
-                    <CreateAccountButton onPress={() => { navigation.navigate('SignUp') }}>
+                    <CreateAccountButton onPress={() => { navigation.navigate('WhatUser') }}>
                         <Icon name="log-in" size={20} color="#f08080" />
                         <CreateAccountButtonText>Criar uma conta</CreateAccountButtonText>
                     </CreateAccountButton>

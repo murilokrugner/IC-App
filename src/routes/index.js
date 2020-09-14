@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AuthRoutes from './auth.routes';
+//mport HomeRoutes from './home.routes';
 
 import { useAuth } from '../hooks/auth';
 
