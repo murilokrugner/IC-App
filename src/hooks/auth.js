@@ -2,6 +2,7 @@ import React, { useCallback, createContext, useState, useContext, useEffect } fr
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
 import { Alert } from 'react-native';
+import { useAuth } from '../hooks/auth';
 
 const AuthContext = React.createContext({});
 
@@ -10,17 +11,18 @@ function AuthUser({ children }) {
     const [loading, setLoading] = useState(true);
     const [loadingLogin, setLoadingLogin] = useState(false);
 
+    
+
     useEffect(() => {
         async function loadStorageData() {
-            const [token, user_code, user_name, user_email] = await AsyncStorage.multiGet([
+            const [token, name, email] = await AsyncStorage.multiGet([
                 '@App:token',
-                '@App:user_code',
-                '@App:user_name',
-                '@App:user_email',                
+                '@App:name',
+                '@App:email',                
             ]);
 
-            if (token[1] && user_name[1]) {
-                setData({ token: token[1], user_code: user_code[1], user_name: user_name[1], user_email: user_email[1] });
+            if (token[1] && name[1]) {
+                setData({ token: token[1], name: name[1], email: email[1] });
             }
 
             setLoading(false);
@@ -29,11 +31,11 @@ function AuthUser({ children }) {
         loadStorageData();
     }, []);
 
-    async function signIn( user_password ) {
+    async function signIn( {user_email, password} ) {
         setLoadingLogin(true);
         const response = await api.post('session', {
-            user_email,
-            user_password,
+            email: user_email,
+            password: password,
         });
 
         if (!response.data) {
@@ -42,28 +44,28 @@ function AuthUser({ children }) {
             return;
         }
 
-        const { token, user_code, user_name, user_email} = response.data;
+        const { token, id, name, email} = response.data;
 
         await AsyncStorage.multiSet([
             ['@AbramidesApp:token', token],            
-            ['@AbramidesApp:user_code', user_code],
-            ['@AbramidesApp:user_name', user_name],
-            ['@AbramidesApp:user_email', user_email],
+            ['@AbramidesApp:id', id],
+            ['@AbramidesApp:name', name],
+            ['@AbramidesApp:email', email],
         ]);
 
-        setData({ token, user_code, user_name, user_email });
+        setData({ token, id, ame, email });
 
         setLoadingLogin(false);
     };
 
     const signOut = useCallback(async () => {
-        await AsyncStorage.multiRemove(['@AbramidesApp:token', '@AbramidesApp:user_code', '@AbramidesApp:user_name', '@AbramidesApp:email']);
+        await AsyncStorage.multiRemove(['@AbramidesApp:token', '@AbramidesApp:id', '@AbramidesApp:name', '@AbramidesApp:email']);
 
         setData();
     }, []);
 
     return (
-        <AuthContext.Provider value={{user_code: data.user_code, user_name: data.user_name, loading, signIn, signOut, user_email: data.user_email }}>
+        <AuthContext.Provider value={{name: data.name, loading, signIn, signOut, email: data.email }}>
             {children}
         </AuthContext.Provider>
     );
