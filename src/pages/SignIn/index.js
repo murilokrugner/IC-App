@@ -22,35 +22,11 @@ function SignIn() {
     const formRef = useRef(null);
     const passwordRef = useRef();
 
-    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     async function handleSubmit() {     
-        setLoading(true);
-
-        const response = await api.post('session', {
-            email: email,
-            password: password,
-        })
-
-        if (!response.data) {
-            Alert.alert('Dados inválidos');
-            setLoading(false);
-            return;
-        }
-
-        console.log(response.data.user);
-
-        const {token} = response.data;
-
-        await AsyncStorage.multiSet([
-            ['@App:token', token],            
-            ['@App:name', response.data.user.name],
-            ['@App:email', response.data.user.email],
-        ]);
-
-        setLoading(false);                
+        signIn(email, password);
     }
 
     return(

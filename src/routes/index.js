@@ -7,29 +7,7 @@ import HomeRoutes from './home.routes';
 import { useAuth } from '../hooks/auth';
 
 function Routes() {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(false);
-
-  const { email } = useAuth();
-
-  /*useEffect(() => {
-    async function loadStorageData() {
-      const [token, id, name, email] = await AsyncStorage.multiGet([
-          '@App:token',
-          '@App:name',
-          '@App:email',                
-      ]);
-
-      if (token[1] && name[1]) {
-          setData(true);
-          
-      }    
-      
-      setLoading(false);
-    }
-
-  loadStorageData();
-  })*/
+  const { dataAuth, loading } = useAuth();
 
   if (loading) {
     return (
@@ -38,13 +16,13 @@ function Routes() {
         </View>
     )
   } else {
-    if (email) {
+    if (!dataAuth) {
       return (
-        <HomeRoutes />
+        <AuthRoutes />
       )  
     } else {
       return (
-        <AuthRoutes />
+        <HomeRoutes />
       )  
     }
   }  

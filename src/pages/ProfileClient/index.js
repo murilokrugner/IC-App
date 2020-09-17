@@ -1,11 +1,14 @@
 import React from 'react';
 import {Container, ButtonExit, TitleButtonExit} from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useAuth } from '../../hooks/auth';
 
 function ProfileClient() {
+    const { signOut } = useAuth();
+
 
     async function handleExit() {
-        await AsyncStorage.multiRemove(['@App:token', '@App:name', '@App:email']);
+        signOut();
     }
 
     return(

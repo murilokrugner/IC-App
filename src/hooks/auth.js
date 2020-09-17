@@ -1,18 +1,15 @@
-import React, { useCallback, createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
-import { Alert } from 'react-native';
-import { useAuth } from '../hooks/auth';
 
 const AuthContext = React.createContext({});
 
 function AuthUser({ children }) {
-    const [data, setData] = useState();
+    const [dataAuth, setDataAuth] = useState();
     const [loading, setLoading] = useState(true);
     const [loadingLogin, setLoadingLogin] = useState(false);
-
     
-
     useEffect(() => {
         async function loadStorageData() {
             const [token, name, email] = await AsyncStorage.multiGet([
@@ -22,7 +19,7 @@ function AuthUser({ children }) {
             ]);
 
             if (token[1] && name[1]) {
-                setData({ token: token[1], name: name[1], email: email[1] });
+                setDataAuth({ token: token[1], name: name[1], email: email[1] });
             }
 
             setLoading(false);
@@ -31,41 +28,41 @@ function AuthUser({ children }) {
         loadStorageData();
     }, []);
 
-    async function signIn( {user_email, password} ) {
-        setLoadingLogin(true);
-        const response = await api.post('session', {
-            email: user_email,
-            password: password,
-        });
+    async function signIn(user_email, password) {
+        try {
+            setLoadingLogin(true);
+            const response = await api.post('session', {
+                email: user_email,
+                password: password,
+            });
 
-        if (!response.data) {
-            Alert.alert('Dados inválidos');
+            const { name, email} = response.data.user;
+            const {token} = response.data;
+
+            await AsyncStorage.multiSet([
+                ['@App:token', token],            
+                ['@App:name', name],
+                ['@App:email', email],
+            ]);
+
+            setDataAuth({ token, name, email });
+
             setLoadingLogin(false);
-            return;
+        } catch (error) {
+            setLoadingLogin(false);
+            Alert.alert('Dados inválidos');
         }
-
-        const { token, id, name, email} = response.data;
-
-        await AsyncStorage.multiSet([
-            ['@AbramidesApp:token', token],            
-            ['@AbramidesApp:id', id],
-            ['@AbramidesApp:name', name],
-            ['@AbramidesApp:email', email],
-        ]);
-
-        setData({ token, id, ame, email });
-
-        setLoadingLogin(false);
     };
 
     const signOut = useCallback(async () => {
-        await AsyncStorage.multiRemove(['@AbramidesApp:token', '@AbramidesApp:id', '@AbramidesApp:name', '@AbramidesApp:email']);
+        await AsyncStorage.multiRemove(['@App:token', '@App:name', '@App:email']);
 
-        setData();
+        setDataAuth();
     }, []);
 
+    
     return (
-        <AuthContext.Provider value={{name: data.name, loading, signIn, signOut, email: data.email }}>
+        <AuthContext.Provider value={{dataAuth, loading, signIn, loadingLogin, signOut}}>
             {children}
         </AuthContext.Provider>
     );

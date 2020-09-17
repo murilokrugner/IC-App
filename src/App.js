@@ -6,13 +6,17 @@ import {View, StatusBar} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Routes from './routes/';
 
+import AppUser from './hooks';
+
 function App() {
   return (
     <NavigationContainer>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"/>
-      <View style={{ flex: 1, backgroundColor: '#fff' }} >
-        <Routes />
-      </View>
+      <AppUser>
+        <View style={{ flex: 1, backgroundColor: '#fff' }} >
+          <Routes />
+        </View>
+      </AppUser>
     </NavigationContainer>
   )
 }
