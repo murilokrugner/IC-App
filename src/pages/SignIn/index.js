@@ -4,9 +4,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import {KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Container, BoxForm, BoxPassword, ClickPassword, CreateAccountButton, CreateAccountButtonText} from './styles';
 import { useNavigation } from '@react-navigation/native';
+
 import InputAuth from '../../components/InputAuth';
 import ButtonAuth from '../../components/ButtonAuth';
-import AsyncStorage from '@react-native-community/async-storage';
 import { useAuth } from '../../hooks/auth';
 
 import { Form } from '@unform/mobile';
@@ -14,6 +14,8 @@ import { Form } from '@unform/mobile';
 import Screen from '../../assets/screen.png';
 
 import api from '../../services/api';
+
+
 
 function SignIn() {
     const navigation = useNavigation();

@@ -2,8 +2,15 @@ import React, { createContext, useState, useContext, useEffect, useCallback } fr
 import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
-
+import * as Yup from 'yup';
 const AuthContext = React.createContext({});
+
+const schema = Yup.object().shape({
+    email: Yup.string()
+      .email('Insira um e-mail válido')
+      .required('O e-mail é obrigatório'),
+    password: Yup.string().required('A senha é obrigatória'),
+  });
 
 function AuthUser({ children }) {
     const [dataAuth, setDataAuth] = useState();
@@ -31,6 +38,7 @@ function AuthUser({ children }) {
     async function signIn(user_email, password) {
         try {
             setLoadingLogin(true);
+        
             const response = await api.post('session', {
                 email: user_email,
                 password: password,

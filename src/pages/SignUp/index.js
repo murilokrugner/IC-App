@@ -1,6 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
-
 import {Container, BoxForm, BoxPassword, ClickPassword} from './styles';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
@@ -27,6 +26,8 @@ function SignUp() {
 
     const [loadingLocation, setLoadingLocation] = useState(true);
     const [coordinates, setCoordinates] = useState({});
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
     const [location, setLocation] = useState();
 
     const [name, setName] = useState('');
@@ -40,6 +41,8 @@ function SignUp() {
         Geolocation.getCurrentPosition(
           async ({coords}) => {
             setCoordinates(coords);
+            setLatitude(coords.latitude);
+            setLongitude(coords.longitude);
           },
           (error) => {
             console.log(error);
@@ -52,7 +55,7 @@ function SignUp() {
             const address = response.results[0].formatted_address;
             //const location = address.substring(0, address.indexOf(','));
     
-            setLocation(address);
+            setLocation(address);            
             setLoadingLocation(false);
           },
           (error) => {
@@ -79,8 +82,8 @@ function SignUp() {
                 phone: 0,
                 mobile_phone: mobilePhone,
                 password: password,
-                locationX: coordinates.latitude,
-                locationY: coordinates.longitude,
+                locationX: latitude,
+                locationY: longitude,
                 document: 0,
                 address:"",
                 number_address:0,
@@ -88,9 +91,13 @@ function SignUp() {
                 cep_address: 0,
                 state_address: "São Paulo",
                 provider: false,
-            });            
-
+            });        
+            
             setLoading(false);
+            Alert.alert('Sua conta foi criada com sucesso! Faça login');
+            navigation.goBack();
+            navigation.goBack();
+
         } catch (error) {
             setLoading(false);
             Alert.alert('Não foi possível fazer o seu registro, tente novamente mais tarde');
@@ -126,6 +133,7 @@ function SignUp() {
                                 onSubmitEditing={() => passwordRef.current.focus()}
                                 value={mobilePhone}
                                 onChangeText={setMobilePhone}
+                                keyboardType="numeric"
                             />
                             <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
                                 secureTextEntry returnKeyType="next" autoCorrect={false}                            
