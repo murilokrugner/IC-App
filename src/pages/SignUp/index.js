@@ -1,7 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 import {Container, BoxForm, BoxPassword, ClickPassword} from './styles';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import { Form } from '@unform/mobile';
@@ -150,7 +149,7 @@ function SignUp() {
                                     marginTop: 5,
                                     marginBottom: 16                                 
                                 }}                                
-                                placeholder={'Celular'}
+                                placeholder={'          Celular'}
                                 placeholderTextColor={'#666360'}
                                 ref={mobilephoneRef}
                                 name="mobile-phone" 

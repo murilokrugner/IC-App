@@ -8,7 +8,8 @@ import { Form } from '@unform/mobile';
 import { useNavigation } from '@react-navigation/native';
 import InputAuth from '../../components/InputAuth';
 import ButtonAuth from '../../components/ButtonAuth';
-
+import {TextInputMask} from 'react-native-masked-text';
+import {Picker} from '@react-native-community/picker';
 import api from '../../services/api';
 
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
@@ -51,6 +52,36 @@ function SignUpProvider() {
     const[state, setState] = useState('');
     const[password, setPassword] = useState('');
     const[passwordRepeat, setPasswordRepeat] = useState('');
+
+    const [stateItens, setStateItens] = useState([
+       {item: "Acre (AC)"},
+       {item: "Alagoas (AL)"},
+       {item: "Amapá (AP)"},
+       {item: "Amazonas (AM)"},
+       {item: "Bahia (BA)"},
+       {item: "Ceará (CE)"},
+       {item: "Distrito Federal (DF)"},
+       {item: "Espírito Santo (ES)"},
+       {item: "Goiás (GO)"},
+       {item: "Maranhão (MA)"},
+       {item: "Mato Grosso (MT)"},
+       {item: "Mato Grosso do Sul (MS)"},
+       {item: "Minas Gerais (MG)"},
+       {item: "Pará (PA)"},
+       {item: "Paraíba (PB)"},
+       {item: "Paraná (PR)"},
+       {item: "Pernambuco (PE)"},
+       {item: "Piauí (PI)"},
+       {item: "Rio de Janeiro (RJ)"},
+       {item: "Rio Grande do Norte (RN)"},
+       {item: "Rio Grande do Sul (RS)"},
+       {item: "Rondônia (RO)"},
+       {item: "Roraima (RR)"},
+       {item: "Santa Catarina (SC)"},
+       {item: "São Paulo (SP)"},
+       {item: "Sergipe (SE)"},
+       {item: "Tocantins (TO)"},
+    ])
 
     useEffect(() => {
         Geolocation.getCurrentPosition(
@@ -138,28 +169,101 @@ function SignUpProvider() {
                                 autoCapitalize="none"
                                 keyboardType="email-address"
                                 returnKeyType="next"     
-                                onSubmitEditing={() => mobilephoneRef.current.focus()}
+                                onSubmitEditing={() => telphoneRef.current.focus()}
                                 value={email}
                                 onChangeText={setEmail}
-                            />
-                            <InputAuth ref={mobilephoneRef} name="tel-phone" icon="phone" placeholder="Telefone Fixo" returnKeyType="next"                                 
-                                onSubmitEditing={() => telphoneRef.current.focus()}
-                                value={mobilePhone}
-                                onChangeText={setMobilePhone}
-                                keyboardType="numeric"
-                            />
-                            <InputAuth ref={telphoneRef} name="mobile-phone" icon="smartphone" placeholder="Celular" returnKeyType="next"                                 
-                                onSubmitEditing={() => documentRef.current.focus()}
+                            />                            
+                            <TextInputMask
+                                type={'cel-phone'}
                                 value={phone}
-                                onChangeText={setPhone}
-                                keyboardType="numeric"
-                            />
-                            <InputAuth ref={documentRef} name="document" icon="edit-2" placeholder="CNPJ" returnKeyType="next"                                 
-                                onSubmitEditing={() => addressRef.current.focus()}
+                                onChangeText={text => {
+                                    setPhone(text);
+                                }}
+                                withDDD={true}
+                                maskType={'BRL'}
+                                dddMask={'(99)'}
+                                style={{
+                                    backgroundColor: '#ECF6FF',
+                                    width: 330,
+                                    height: 60,
+                                    borderRadius: 10,
+                                    padding: 15,
+                                    fontSize: 16,
+                                    color: '#000',   
+                                    marginTop: 5,
+                                    marginBottom: 16                                 
+                                }}                                
+                                placeholder={'          Telefone Fixo'}
+                                placeholderTextColor={'#666360'}
+                                ref={telphoneRef}
+                                name="phone" 
+                                actions={{
+                                    title: 'Icone',
+                                    showWithText: true,
+                                    show: "always",
+                                    icon: require('../../assets/smartphone.png'),
+                                }}
+                                                             
+                                returnKeyType="next" 
+                                onSubmitEditing={() => mobilephoneRef.current.focus()}
+                                />
+                            <TextInputMask
+                                type={'cel-phone'}
+                                value={mobilePhone}
+                                onChangeText={text => {
+                                    setMobilePhone(text);
+                                }}
+                                withDDD={true}
+                                maskType={'BRL'}
+                                dddMask={'(99)'}
+                                style={{
+                                    backgroundColor: '#ECF6FF',
+                                    width: 330,
+                                    height: 60,
+                                    borderRadius: 10,
+                                    padding: 15,
+                                    fontSize: 16,
+                                    color: '#000',   
+                                    marginTop: 5,
+                                    marginBottom: 16                                 
+                                }}                                
+                                placeholder={'          Celular'}
+                                placeholderTextColor={'#666360'}
+                                ref={mobilephoneRef}
+                                name="mobile-phone" 
+                                actions={{
+                                    title: 'Icone',
+                                    showWithText: true,
+                                    show: "always",
+                                    icon: require('../../assets/smartphone.png'),
+                                }}
+                                                             
+                                returnKeyType="next" 
+                                onSubmitEditing={() => documentRef.current.focus()}
+                                />
+                                <TextInputMask
+                                type={'cnpj'}
                                 value={cnpj}
-                                onChangeText={setCnpj}
-                                keyboardType="numeric"
-                            />
+                                placeholder={'          CNPJ'}
+                                placeholderTextColor={'#666360'}
+                                ref={documentRef}
+                                onChangeText={text => {
+                                    setCnpj(text);
+                                }}
+                                style={{
+                                    backgroundColor: '#ECF6FF',
+                                    width: 330,
+                                    height: 60,
+                                    borderRadius: 10,
+                                    padding: 15,
+                                    fontSize: 16,
+                                    color: '#000',   
+                                    marginTop: 5,
+                                    marginBottom: 16                                 
+                                }}
+                                returnKeyType="next" 
+                                onSubmitEditing={() => addressRef.current.focus()}
+                                />
                             <InputAuth ref={addressRef } name="address" icon="map-pin" placeholder="Endereço" returnKeyType="next"                                 
                                 onSubmitEditing={() => numberRef.current.focus()}
                                 value={address}
@@ -181,17 +285,46 @@ function SignUpProvider() {
                                 value={point}
                                 onChangeText={setPoint}
                             />
-                            <InputAuth ref={cepRef} name="cep" icon="map-pin" placeholder="CEP" returnKeyType="next"                                 
-                                onSubmitEditing={() => stateRef.current.focus()}
-                                value={cep}
-                                onChangeText={setCep}
-                                keyboardType="numeric"
+                            <TextInputMask
+                            type={'zip-code'}
+                            name="cep"
+                            value={cep}
+                            ref={cepRef}
+                            onChangeText={text => {
+                                setCep(text);
+                            }}
+                            style={{
+                                backgroundColor: '#ECF6FF',
+                                width: 330,
+                                height: 60,
+                                borderRadius: 10,
+                                padding: 15,
+                                fontSize: 16,
+                                color: '#000',   
+                                marginTop: 5,
+                                marginBottom: 16                                 
+                            }}
+                            placeholder={'          CEP'}
+                            placeholderTextColor={'#666360'}
+                            returnKeyType="next" 
+                            onSubmitEditing={() => stateRef.current.focus()}
                             />
-                            <InputAuth ref={stateRef } name="state" icon="map" placeholder="Estado" returnKeyType="next"                                 
-                                onSubmitEditing={() => passwordRef.current.focus()}
-                                value={state}
-                                onChangeText={setState}
-                            />  
+                            <Picker
+                                selectedValue={stateItens}
+                                style={{height: 20, width: 320}}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setState(itemValue)
+                                }>
+
+                                <Picker.Item key={"Estado"} label={"Estado "} value={"Estado"}/>
+                                {stateItens.map(i => {
+                                <Picker.Item
+                                    key={i.item}
+                                    label={i.item}
+                                    value={i.item}
+                                    />
+                                })}
+                            </Picker>
                             <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
                                 secureTextEntry returnKeyType="send" autoCorrect={false}                            
                                 autoCapitalize="none"
