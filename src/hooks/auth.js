@@ -38,7 +38,7 @@ function AuthUser({ children }) {
     async function signIn(user_email, password) {
         try {
             setLoadingLogin(true);
-        
+      
             const response = await api.post('session', {
                 email: user_email,
                 password: password,

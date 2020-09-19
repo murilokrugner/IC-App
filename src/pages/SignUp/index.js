@@ -1,13 +1,14 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 import {Container, BoxForm, BoxPassword, ClickPassword} from './styles';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import { Form } from '@unform/mobile';
 import { useNavigation } from '@react-navigation/native';
 import InputAuth from '../../components/InputAuth';
 import ButtonAuth from '../../components/ButtonAuth';
-
+import {TextInputMask} from 'react-native-masked-text';
 import api from '../../services/api';
 
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
@@ -129,12 +130,40 @@ function SignUp() {
                                 value={email}
                                 onChangeText={setEmail}
                             />
-                            <InputAuth ref={mobilephoneRef} name="mobile-phone" icon="phone" placeholder="Celular" returnKeyType="next"                                 
-                                onSubmitEditing={() => passwordRef.current.focus()}
+                            <TextInputMask
+                                type={'cel-phone'}
                                 value={mobilePhone}
-                                onChangeText={setMobilePhone}
-                                keyboardType="numeric"
-                            />
+                                onChangeText={text => {
+                                    setMobilePhone(text);
+                                }}
+                                withDDD={true}
+                                maskType={'BRL'}
+                                dddMask={'(99)'}
+                                style={{
+                                    backgroundColor: '#ECF6FF',
+                                    width: 330,
+                                    height: 60,
+                                    borderRadius: 10,
+                                    padding: 15,
+                                    fontSize: 16,
+                                    color: '#000',   
+                                    marginTop: 5,
+                                    marginBottom: 16                                 
+                                }}                                
+                                placeholder={'Celular'}
+                                placeholderTextColor={'#666360'}
+                                ref={mobilephoneRef}
+                                name="mobile-phone" 
+                                actions={{
+                                    title: 'Icone',
+                                    showWithText: true,
+                                    show: "always",
+                                    icon: require('../../assets/smartphone.png'),
+                                }}
+                                                             
+                                returnKeyType="next" 
+                                onSubmitEditing={() => passwordRef.current.focus()}
+                                />
                             <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
                                 secureTextEntry returnKeyType="next" autoCorrect={false}                            
                                 autoCapitalize="none"
