@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 
-import {Container, BoxForm, BoxPassword, ClickPassword} from './styles';
+import {Container, BoxForm, BoxPassword, ClickPassword, BoxInputMask, Icon, BoxPicker} from './styles';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import { Form } from '@unform/mobile';
@@ -82,6 +82,8 @@ function SignUpProvider() {
        {item: "Sergipe (SE)"},
        {item: "Tocantins (TO)"},
     ])
+
+    console.log(stateItens);
 
     useEffect(() => {
         Geolocation.getCurrentPosition(
@@ -172,7 +174,8 @@ function SignUpProvider() {
                                 onSubmitEditing={() => telphoneRef.current.focus()}
                                 value={email}
                                 onChangeText={setEmail}
-                            />                            
+                            />       
+                            <BoxInputMask>
                             <TextInputMask
                                 type={'cel-phone'}
                                 value={phone}
@@ -184,8 +187,8 @@ function SignUpProvider() {
                                 dddMask={'(99)'}
                                 style={{
                                     backgroundColor: '#ECF6FF',
-                                    width: 330,
-                                    height: 60,
+                                    width: 313,
+                                    height: 58,
                                     borderRadius: 10,
                                     padding: 15,
                                     fontSize: 16,
@@ -207,41 +210,50 @@ function SignUpProvider() {
                                 returnKeyType="next" 
                                 onSubmitEditing={() => mobilephoneRef.current.focus()}
                                 />
-                            <TextInputMask
-                                type={'cel-phone'}
-                                value={mobilePhone}
-                                onChangeText={text => {
-                                    setMobilePhone(text);
-                                }}
-                                withDDD={true}
-                                maskType={'BRL'}
-                                dddMask={'(99)'}
-                                style={{
-                                    backgroundColor: '#ECF6FF',
-                                    width: 330,
-                                    height: 60,
-                                    borderRadius: 10,
-                                    padding: 15,
-                                    fontSize: 16,
-                                    color: '#000',   
-                                    marginTop: 5,
-                                    marginBottom: 16                                 
-                                }}                                
-                                placeholder={'          Celular'}
-                                placeholderTextColor={'#666360'}
-                                ref={mobilephoneRef}
-                                name="mobile-phone" 
-                                actions={{
-                                    title: 'Icone',
-                                    showWithText: true,
-                                    show: "always",
-                                    icon: require('../../assets/smartphone.png'),
-                                }}
-                                                             
-                                returnKeyType="next" 
-                                onSubmitEditing={() => documentRef.current.focus()}
-                                />
+                                <Icon name={'smartphone'} size={20} color="#666360" />
+                            </BoxInputMask>  
+
+                            <BoxInputMask>                                           
                                 <TextInputMask
+                                    type={'cel-phone'}
+                                    value={mobilePhone}
+                                    onChangeText={text => {
+                                        setMobilePhone(text);
+                                    }}
+                                    withDDD={true}
+                                    maskType={'BRL'}
+                                    dddMask={'(99)'}
+                                    style={{
+                                        backgroundColor: '#ECF6FF',
+                                        width: 313,
+                                        height: 58,
+                                        borderRadius: 10,
+                                        padding: 15,
+                                        fontSize: 16,
+                                        color: '#000',   
+                                        marginTop: 5,
+                                        marginBottom: 16                                 
+                                    }}                                
+                                    placeholder={'          Celular'}
+                                    placeholderTextColor={'#666360'}
+                                    ref={mobilephoneRef}
+                                    name="mobile-phone" 
+                                    actions={{
+                                        title: 'Icone',
+                                        showWithText: true,
+                                        show: "always",
+                                        icon: require('../../assets/smartphone.png'),
+                                    }}
+                                                                
+                                    returnKeyType="next" 
+                                    onSubmitEditing={() => documentRef.current.focus()}
+                                    />                               
+                                <Icon name={'phone'} size={20} color="#666360" />
+                            </BoxInputMask> 
+                            <BoxInputMask>
+
+                           
+                            <TextInputMask
                                 type={'cnpj'}
                                 value={cnpj}
                                 placeholder={'          CNPJ'}
@@ -252,8 +264,8 @@ function SignUpProvider() {
                                 }}
                                 style={{
                                     backgroundColor: '#ECF6FF',
-                                    width: 330,
-                                    height: 60,
+                                    width: 313,
+                                    height: 58,
                                     borderRadius: 10,
                                     padding: 15,
                                     fontSize: 16,
@@ -264,6 +276,8 @@ function SignUpProvider() {
                                 returnKeyType="next" 
                                 onSubmitEditing={() => addressRef.current.focus()}
                                 />
+                                <Icon name={'book'} size={20} color="#666360" />
+                            </BoxInputMask> 
                             <InputAuth ref={addressRef } name="address" icon="map-pin" placeholder="Endereço" returnKeyType="next"                                 
                                 onSubmitEditing={() => numberRef.current.focus()}
                                 value={address}
@@ -285,6 +299,7 @@ function SignUpProvider() {
                                 value={point}
                                 onChangeText={setPoint}
                             />
+                            <BoxInputMask>
                             <TextInputMask
                             type={'zip-code'}
                             name="cep"
@@ -295,8 +310,8 @@ function SignUpProvider() {
                             }}
                             style={{
                                 backgroundColor: '#ECF6FF',
-                                width: 330,
-                                height: 60,
+                                width: 313,
+                                height: 58,
                                 borderRadius: 10,
                                 padding: 15,
                                 fontSize: 16,
@@ -309,22 +324,22 @@ function SignUpProvider() {
                             returnKeyType="next" 
                             onSubmitEditing={() => stateRef.current.focus()}
                             />
-                            <Picker
-                                selectedValue={stateItens}
-                                style={{height: 20, width: 320}}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setState(itemValue)
-                                }>
+                            <Icon name={'minus-square'} size={20} color="#666360" />
+                            </BoxInputMask> 
+                            <BoxPicker>
+                                <Picker
+                                    selectedValue={stateItens}
+                                    style={{height: 20, width: 300, color: '#666360'}}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        setState(itemValue)
+                                    }>
 
-                                <Picker.Item key={"Estado"} label={"Estado "} value={"Estado"}/>
-                                {stateItens.map(i => {
-                                <Picker.Item
-                                    key={i.item}
-                                    label={i.item}
-                                    value={i.item}
-                                    />
-                                })}
-                            </Picker>
+                                    <Picker.Item key={"Estado"} label={"Selecione um Estado"} value={"Estado"}/>
+                                    {stateItens.map(item => (
+                                        <Picker.Item key={item.item} label={item.item} value={item.item}/>     
+                                    ))}                                  
+                                </Picker>
+                            </BoxPicker>
                             <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
                                 secureTextEntry returnKeyType="send" autoCorrect={false}                            
                                 autoCapitalize="none"

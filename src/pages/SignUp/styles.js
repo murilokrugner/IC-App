@@ -39,3 +39,19 @@ export const ClickPassword = styled.Text`
   font-family: 'RobotoSlab-Regular';
   margin-left: 16px;
 `;
+
+export const BoxInputMask = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;  
+
+`;
+
+export const Icon = styled(FeatherIcon)`
+  position: absolute;
+  margin-left: 16px; 
+  margin-bottom: 34px;
+  left: 0;
+  bottom: 0%;
+  color: #f08080;
+`;

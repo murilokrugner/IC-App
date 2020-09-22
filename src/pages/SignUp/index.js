@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
-import {Container, BoxForm, BoxPassword, ClickPassword} from './styles';
+import {Container, BoxForm, BoxPassword, ClickPassword, BoxInputMask, Icon} from './styles';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import { Form } from '@unform/mobile';
@@ -82,9 +82,9 @@ function SignUp() {
                 phone: 0,
                 mobile_phone: mobilePhone,
                 password: password,
-                locationX: latitude,
-                locationY: longitude,
-                document: 0,
+                location_x: latitude,
+                location_y: longitude,
+                //document: 0,
                 address:"",
                 number_address:0,
                 neighborhood_address:"",
@@ -129,47 +129,43 @@ function SignUp() {
                                 value={email}
                                 onChangeText={setEmail}
                             />
-                            <TextInputMask
-                                type={'cel-phone'}
-                                value={mobilePhone}
-                                onChangeText={text => {
-                                    setMobilePhone(text);
-                                }}
-                                withDDD={true}
-                                maskType={'BRL'}
-                                dddMask={'(99)'}
-                                style={{
-                                    backgroundColor: '#ECF6FF',
-                                    width: 330,
-                                    height: 60,
-                                    borderRadius: 10,
-                                    padding: 15,
-                                    fontSize: 16,
-                                    color: '#000',   
-                                    marginTop: 5,
-                                    marginBottom: 16                                 
-                                }}                                
-                                placeholder={'          Celular'}
-                                placeholderTextColor={'#666360'}
-                                ref={mobilephoneRef}
-                                name="mobile-phone" 
-                                actions={{
-                                    title: 'Icone',
-                                    showWithText: true,
-                                    show: "always",
-                                    icon: require('../../assets/smartphone.png'),
-                                }}
-                                                             
-                                returnKeyType="next" 
-                                onSubmitEditing={() => passwordRef.current.focus()}
+                            <BoxInputMask>                                
+                                <TextInputMask
+                                    type={'cel-phone'}
+                                    value={mobilePhone}
+                                    onChangeText={text => {
+                                        setMobilePhone(text);
+                                    }}
+                                    withDDD={true}
+                                    maskType={'BRL'}
+                                    dddMask={'(99)'}
+                                    style={{
+                                        backgroundColor: '#ECF6FF',
+                                        width: 313,
+                                        height: 58,
+                                        borderRadius: 10,
+                                        padding: 16,
+                                        fontSize: 16,
+                                        color: '#000',   
+                                        marginTop: 5,                                        
+                                        marginBottom: 16,                          
+                                    }}                                
+                                    placeholder={'          Celular'}
+                                    placeholderTextColor={'#666360'}
+                                    ref={mobilephoneRef}
+                                    name="mobile-phone"                                                                 
+                                    returnKeyType="next" 
+                                    onSubmitEditing={() => passwordRef.current.focus()}
+                                    />
+                                    <Icon name={'smartphone'} size={20} color="#666360" />
+                                </BoxInputMask>
+                                <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
+                                    secureTextEntry returnKeyType="next" autoCorrect={false}                            
+                                    autoCapitalize="none"
+                                    onSubmitEditing={() => passwordRepeatRed.current.focus()}    
+                                    value={password}
+                                    onChangeText={setPassword}
                                 />
-                            <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
-                                secureTextEntry returnKeyType="next" autoCorrect={false}                            
-                                autoCapitalize="none"
-                                onSubmitEditing={() => passwordRepeatRed.current.focus()}    
-                                value={password}
-                                onChangeText={setPassword}
-                            />
                             <InputAuth ref={passwordRepeatRed} name="password" icon="lock" placeholder="Confirmar Senha" 
                                 secureTextEntry returnKeyType="send" autoCorrect={false}                            
                                 autoCapitalize="none"
