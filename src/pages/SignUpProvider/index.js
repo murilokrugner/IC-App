@@ -54,8 +54,8 @@ function SignUpProvider() {
     const[state, setState] = useState('        Selecione um Estado');
     const[password, setPassword] = useState('');
     const[passwordRepeat, setPasswordRepeat] = useState('');
-    const[checkedCnpj, setCheckedCnpj] = useState();
-    const[checkedCpf, setCheckedCpf] = useState();
+    const[checkedCnpj, setCheckedCnpj] = useState('');
+    const[checkedCpf, setCheckedCpf] = useState('');
 
     const [stateItens, setStateItens] = useState([
        {item: "        Acre (AC)"},
@@ -129,6 +129,12 @@ function SignUpProvider() {
                 return;
             }
 
+            if (checkedCnpj === '' && checkedCpf === '') {
+                Alert.alert('Selecione o tipo da empresa');
+                setLoading(false);
+                return;
+            }
+
             
             const response = await api.post('users', {
                 name: name,
@@ -139,7 +145,6 @@ function SignUpProvider() {
                 password: password,
                 location_x: coordinates.latitude,
                 location_y: coordinates.longitude,
-                document: cnpj,
                 address: address,
                 number_address: number,
                 point_address: point,
@@ -147,13 +152,17 @@ function SignUpProvider() {
                 cep_address: cep,
                 state_address: state,
                 provider: true,
-            });       
-            
+            });    
+                                        
             setLoading(false);
-            Alert.alert('Sua conta foi criada com sucesso! Faça login');
-            navigation.goBack();
-            navigation.goBack();
+            Alert.alert('Sua conta foi criada com sucesso!');
 
+            if (checkedCnpj === 'first') {
+                navigation.navigate('WithCnpj', {email});
+            } else {
+                navigation.navigate('WithCpf', {email});
+            }
+           
         } catch (error) {
             setLoading(false);
             Alert.alert('Não foi possível fazer o seu registro, tente novamente mais tarde');
@@ -259,35 +268,7 @@ function SignUpProvider() {
                                     onSubmitEditing={() => documentRef.current.focus()}
                                     />                               
                                 <Icon name={'phone'} size={20} color="#666360" />
-                            </BoxInputMask> 
-                            <BoxInputMask>
-
-                           
-                            <TextInputMask
-                                type={'cnpj'}
-                                value={cnpj}
-                                placeholder={'          CNPJ'}
-                                placeholderTextColor={'#666360'}
-                                ref={documentRef}
-                                onChangeText={text => {
-                                    setCnpj(text);
-                                }}
-                                style={{
-                                    backgroundColor: '#ECF6FF',
-                                    width: 330,
-                                    height: 58,
-                                    borderRadius: 10,
-                                    padding: 15,
-                                    fontSize: 16,
-                                    color: '#000',   
-                                    marginTop: 5,
-                                    marginBottom: 16                                 
-                                }}
-                                returnKeyType="next" 
-                                onSubmitEditing={() => addressRef.current.focus()}
-                                />
-                                <Icon name={'book'} size={20} color="#666360" />
-                            </BoxInputMask> 
+                            </BoxInputMask>                             
                             <InputAuth ref={addressRef } name="address" icon="map-pin" placeholder="Endereço" returnKeyType="next"                                 
                                 onSubmitEditing={() => numberRef.current.focus()}
                                 value={address}
