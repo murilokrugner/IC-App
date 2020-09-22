@@ -104,6 +104,10 @@ function SignUp() {
         }
     }
 
+    function handleCancel() {
+        navigation.goBack();
+    }
+
     return(
         <KeyboardAvoidingView style={{flex: 1}}>
             <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
@@ -132,6 +136,7 @@ function SignUp() {
                             <BoxInputMask>                                
                                 <TextInputMask
                                     type={'cel-phone'}
+                                    ref={mobilephoneRef}
                                     value={mobilePhone}
                                     onChangeText={text => {
                                         setMobilePhone(text);
@@ -141,7 +146,7 @@ function SignUp() {
                                     dddMask={'(99)'}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 313,
+                                        width: 330,
                                         height: 58,
                                         borderRadius: 10,
                                         padding: 16,
@@ -152,7 +157,6 @@ function SignUp() {
                                     }}                                
                                     placeholder={'          Celular'}
                                     placeholderTextColor={'#666360'}
-                                    ref={mobilephoneRef}
                                     name="mobile-phone"                                                                 
                                     returnKeyType="next" 
                                     onSubmitEditing={() => passwordRef.current.focus()}
@@ -172,11 +176,10 @@ function SignUp() {
                                 onSubmitEditing={handleSubmit}  
                                 value={passwordRepeat}
                                 onChangeText={setPasswordRepeat}  
-                            />
+                            />                                                        
                             <ButtonAuth onPress={() => {formRef.current.submitForm()}} loading={loading}>Criar Conta</ButtonAuth>
-                        </Form>
-
-                        <BoxPassword onPres={() => {navigation.goBack()}}>
+                        </Form>                        
+                        <BoxPassword onPres={handleCancel}>
                             <ClickPassword>Cancelar</ClickPassword>
                         </BoxPassword>                                                
                     </BoxForm>                    

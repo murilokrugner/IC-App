@@ -19,14 +19,15 @@ function AuthUser({ children }) {
     
     useEffect(() => {
         async function loadStorageData() {
-            const [token, name, email] = await AsyncStorage.multiGet([
+            const [token, name, email, provider] = await AsyncStorage.multiGet([
                 '@App:token',
                 '@App:name',
-                '@App:email',                
+                '@App:email', 
+                '@App:provider',               
             ]);
 
             if (token[1] && name[1]) {
-                setDataAuth({ token: token[1], name: name[1], email: email[1] });
+                setDataAuth({ token: token[1], name: name[1], email: email[1], prov: provider[1] });
             }
 
             setLoading(false);
@@ -44,16 +45,19 @@ function AuthUser({ children }) {
                 password: password,
             });
 
-            const { name, email} = response.data.user;
+            const { name, email, provider} = response.data.user;
             const {token} = response.data;
+
+            const prov = provider === true ? '1' : '0';
 
             await AsyncStorage.multiSet([
                 ['@App:token', token],            
                 ['@App:name', name],
                 ['@App:email', email],
+                ['@App:provider', prov],
             ]);
 
-            setDataAuth({ token, name, email });
+            setDataAuth({ token, name, email, prov });
 
             setLoadingLogin(false);
         } catch (error) {
@@ -63,7 +67,7 @@ function AuthUser({ children }) {
     };
 
     const signOut = useCallback(async () => {
-        await AsyncStorage.multiRemove(['@App:token', '@App:name', '@App:email']);
+        await AsyncStorage.multiRemove(['@App:token', '@App:name', '@App:email', '@App:provider']);
 
         setDataAuth();
     }, []);

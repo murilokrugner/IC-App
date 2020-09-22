@@ -1,7 +1,8 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 
-import {Container, BoxForm, BoxPassword, ClickPassword, BoxInputMask, Icon, BoxPicker} from './styles';
+import {Container, BoxForm, BoxPassword, ClickPassword, BoxInputMask, 
+    Icon, BoxPicker, TextRadio, TextTitleRadio, BoxRadioTitle, BoxRadio} from './styles';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import { Form } from '@unform/mobile';
@@ -10,6 +11,7 @@ import InputAuth from '../../components/InputAuth';
 import ButtonAuth from '../../components/ButtonAuth';
 import {TextInputMask} from 'react-native-masked-text';
 import {Picker} from '@react-native-community/picker';
+import { RadioButton } from 'react-native-paper';
 import api from '../../services/api';
 
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
@@ -49,41 +51,41 @@ function SignUpProvider() {
     const[bairr, setBairr] = useState('');
     const[point, setPoint] = useState('');
     const[cep, setCep] = useState('');
-    const[state, setState] = useState('');
+    const[state, setState] = useState('        Selecione um Estado');
     const[password, setPassword] = useState('');
     const[passwordRepeat, setPasswordRepeat] = useState('');
+    const[checkedCnpj, setCheckedCnpj] = useState();
+    const[checkedCpf, setCheckedCpf] = useState();
 
     const [stateItens, setStateItens] = useState([
-       {item: "Acre (AC)"},
-       {item: "Alagoas (AL)"},
-       {item: "Amapá (AP)"},
-       {item: "Amazonas (AM)"},
-       {item: "Bahia (BA)"},
-       {item: "Ceará (CE)"},
-       {item: "Distrito Federal (DF)"},
-       {item: "Espírito Santo (ES)"},
-       {item: "Goiás (GO)"},
-       {item: "Maranhão (MA)"},
-       {item: "Mato Grosso (MT)"},
-       {item: "Mato Grosso do Sul (MS)"},
-       {item: "Minas Gerais (MG)"},
-       {item: "Pará (PA)"},
-       {item: "Paraíba (PB)"},
-       {item: "Paraná (PR)"},
-       {item: "Pernambuco (PE)"},
-       {item: "Piauí (PI)"},
-       {item: "Rio de Janeiro (RJ)"},
-       {item: "Rio Grande do Norte (RN)"},
-       {item: "Rio Grande do Sul (RS)"},
-       {item: "Rondônia (RO)"},
-       {item: "Roraima (RR)"},
-       {item: "Santa Catarina (SC)"},
-       {item: "São Paulo (SP)"},
-       {item: "Sergipe (SE)"},
-       {item: "Tocantins (TO)"},
+       {item: "        Acre (AC)"},
+       {item: "        Alagoas (AL)"},
+       {item: "        Amapá (AP)"},
+       {item: "        Amazonas (AM)"},
+       {item: "        Bahia (BA)"},
+       {item: "        Ceará (CE)"},
+       {item: "        Distrito Federal (DF)"},
+       {item: "        Espírito Santo (ES)"},
+       {item: "        Goiás (GO)"},
+       {item: "        Maranhão (MA)"},
+       {item: "        Mato Grosso (MT)"},
+       {item: "        Mato Grosso do Sul (MS)"},
+       {item: "        Minas Gerais (MG)"},
+       {item: "        Pará (PA)"},
+       {item: "        Paraíba (PB)"},
+       {item: "        Paraná (PR)"},
+       {item: "        Pernambuco (PE)"},
+       {item: "        Piauí (PI)"},
+       {item: "        Rio de Janeiro (RJ)"},
+       {item: "        Rio Grande do Norte (RN)"},
+       {item: "        Rio Grande do Sul (RS)"},
+       {item: "        Rondônia (RO)"},
+       {item: "        Roraima (RR)"},
+       {item: "        Santa Catarina (SC)"},
+       {item: "        São Paulo (SP)"},
+       {item: "        Sergipe (SE)"},
+       {item: "        Tocantins (TO)"},
     ])
-
-    console.log(stateItens);
 
     useEffect(() => {
         Geolocation.getCurrentPosition(
@@ -115,12 +117,19 @@ function SignUpProvider() {
         try {
             setLoading(true);
 
+            if (state === '        Selecione um Estado') {
+                Alert.alert('Informe um estado');
+                setLoading(false);
+                return;
+            }
+
             if (password !== passwordRepeat) {
                 Alert.alert('A senha não coecidem');
                 setLoading(false);
                 return;
             }
 
+            
             const response = await api.post('users', {
                 name: name,
                 nickname: nickname,
@@ -133,11 +142,12 @@ function SignUpProvider() {
                 document: cnpj,
                 address: address,
                 number_address: number,
+                point_address: point,
                 neighborhood_address: bairr,
                 cep_address: cep,
-                state_address: "São Paulo",
+                state_address: state,
                 provider: true,
-            });        
+            });       
             
             setLoading(false);
             Alert.alert('Sua conta foi criada com sucesso! Faça login');
@@ -187,7 +197,7 @@ function SignUpProvider() {
                                 dddMask={'(99)'}
                                 style={{
                                     backgroundColor: '#ECF6FF',
-                                    width: 313,
+                                    width: 330,
                                     height: 58,
                                     borderRadius: 10,
                                     padding: 15,
@@ -225,7 +235,7 @@ function SignUpProvider() {
                                     dddMask={'(99)'}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 313,
+                                        width: 330,
                                         height: 58,
                                         borderRadius: 10,
                                         padding: 15,
@@ -264,7 +274,7 @@ function SignUpProvider() {
                                 }}
                                 style={{
                                     backgroundColor: '#ECF6FF',
-                                    width: 313,
+                                    width: 330,
                                     height: 58,
                                     borderRadius: 10,
                                     padding: 15,
@@ -310,7 +320,7 @@ function SignUpProvider() {
                             }}
                             style={{
                                 backgroundColor: '#ECF6FF',
-                                width: 313,
+                                width: 330,
                                 height: 58,
                                 borderRadius: 10,
                                 padding: 15,
@@ -325,21 +335,24 @@ function SignUpProvider() {
                             onSubmitEditing={() => stateRef.current.focus()}
                             />
                             <Icon name={'minus-square'} size={20} color="#666360" />
-                            </BoxInputMask> 
-                            <BoxPicker>
-                                <Picker
-                                    selectedValue={stateItens}
-                                    style={{height: 20, width: 300, color: '#666360'}}
-                                    onValueChange={(itemValue, itemIndex) =>
-                                        setState(itemValue)
-                                    }>
+                            </BoxInputMask>
+                            <BoxInputMask> 
+                                <BoxPicker>
+                                    <Picker
+                                        selectedValue={state}
+                                        style={{height: 20, width: 300, color: '#666360'}}
+                                        onValueChange={(itemValue, itemIndex) =>
+                                            setState(itemValue)
+                                        }>
 
-                                    <Picker.Item key={"Estado"} label={"Selecione um Estado"} value={"Estado"}/>
-                                    {stateItens.map(item => (
-                                        <Picker.Item key={item.item} label={item.item} value={item.item}/>     
-                                    ))}                                  
-                                </Picker>
-                            </BoxPicker>
+                                        <Picker.Item key={"Estado"} label={"        Selecione um Estado"} value={"Estado"}/>
+                                        {stateItens.map(item => (
+                                            <Picker.Item key={item.item} label={item.item} value={item.item}/>     
+                                        ))}                                  
+                                    </Picker>
+                                </BoxPicker>
+                                <Icon name={'map'} size={20} color="#666360" />
+                            </BoxInputMask> 
                             <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
                                 secureTextEntry returnKeyType="send" autoCorrect={false}                            
                                 autoCapitalize="none"
@@ -354,6 +367,25 @@ function SignUpProvider() {
                                 value={passwordRepeat}
                                 onChangeText={setPasswordRepeat}
                             />
+                            <BoxRadioTitle>                           
+                                <TextTitleRadio>Você possui:</TextTitleRadio>
+                                <BoxRadio>                            
+                                    <TextRadio>CNPJ</TextRadio>
+                                    <RadioButton
+                                        value="first"
+                                        status={checkedCnpj === 'first' ? 'checked' : 'unchecked' }
+                                        onPress={() => {setCheckedCnpj('first'), setCheckedCpf('')}}
+
+                                    />
+                                    <TextRadio>CPF</TextRadio>
+                                    <RadioButton
+                                        value="first"
+                                        status={checkedCpf === 'first' ? 'checked' : 'unchecked' }
+                                        onPress={() => {setCheckedCpf('first'), setCheckedCnpj('')}}
+
+                                    />
+                                </BoxRadio>
+                            </BoxRadioTitle>
                             <ButtonAuth onPress={() => {formRef.current.submitForm()}} loading={loading}>Criar Conta</ButtonAuth>
                         </Form>
 

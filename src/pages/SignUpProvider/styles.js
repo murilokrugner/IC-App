@@ -57,7 +57,7 @@ export const Icon = styled(FeatherIcon)`
 `;
 
 export const BoxPicker = styled.View`
-  width: 313px;
+  width: 330px;
   height: 58px;
 
   background-color: #ECF6FF;
@@ -69,3 +69,30 @@ export const BoxPicker = styled.View`
   margin-bottom: 16px;  
 
 `;
+
+export const BoxRadioTitle = styled.View`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;  
+
+export const BoxRadio = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 330px;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+`; 
+
+export const TextRadio = styled.Text`
+  font-size: 16px;
+`;
+
+export const TextTitleRadio = styled.Text`
+  font-size: 17px;
+  margin-top: 10px;
+  
+`; 

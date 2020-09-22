@@ -7,6 +7,9 @@ import SignUp from '../../pages/SignUp';
 import SignUpProvider from '../../pages/SignUpProvider';
 import WhatUser from '../../pages/WhatUser';
 
+import WithCnpj from '../../pages/RegisterDocumentProvider/WithCnpj';
+import WithCpf from '../../pages/RegisterDocumentProvider/WithCpf';
+
 const Auth = createStackNavigator();
 
 function AuthRoutes() {
@@ -35,6 +38,18 @@ function AuthRoutes() {
           options={{
             headerShown: true, 
             headerTitle:"Você é um?"          
+          }}
+        />
+        <Auth.Screen name="WithCnpj" component={WithCnpj} 
+          options={{
+            headerShown: true, 
+            headerTitle:"Informe seu CNPJ"          
+          }}
+        />
+        <Auth.Screen name="WithCpf" component={WithCpf} 
+          options={{
+            headerShown: true, 
+            headerTitle:"Informe seu CPF"          
           }}
         />
       </Auth.Navigator>

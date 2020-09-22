@@ -3,11 +3,16 @@ import {View, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import AuthRoutes from './auth.routes';
 import HomeRoutes from './home.routes';
+import ProviderRoutes from './provider.routes';
 
 import { useAuth } from '../hooks/auth';
 
 function Routes() {
-  const { dataAuth, loading } = useAuth();
+  const { dataAuth, loading, signOut } = useAuth();
+
+  //signOut();
+
+  console.log(dataAuth);
 
   if (loading) {
     return (
@@ -20,10 +25,14 @@ function Routes() {
       return (
         <AuthRoutes />
       )  
-    } else {
+    } else if (dataAuth.prov === '0') {
       return (
         <HomeRoutes />
       )  
+    } else {
+      return (
+        <ProviderRoutes />
+      )
     }
   }  
 }
