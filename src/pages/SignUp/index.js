@@ -91,6 +91,8 @@ function SignUp() {
                 cep_address: 0,
                 state_address: "São Paulo",
                 provider: false,
+                type_document: "0",
+                first_access: "0",
             });        
             
             setLoading(false);

@@ -19,15 +19,18 @@ function AuthUser({ children }) {
     
     useEffect(() => {
         async function loadStorageData() {
-            const [token, name, email, provider] = await AsyncStorage.multiGet([
+            const [token, name, email, provider, type_document, first_access] = await AsyncStorage.multiGet([
                 '@App:token',
                 '@App:name',
                 '@App:email', 
-                '@App:provider',               
+                '@App:provider',
+                '@App:type_document',  
+                '@App:first_access',                 
             ]);
 
             if (token[1] && name[1]) {
-                setDataAuth({ token: token[1], name: name[1], email: email[1], prov: provider[1] });
+                setDataAuth({ token: token[1], name: name[1], email: email[1], prov: provider[1], 
+                        type_document: type_document[1], first_access: first_access[1] });
             }
 
             setLoading(false);
@@ -45,7 +48,7 @@ function AuthUser({ children }) {
                 password: password,
             });
 
-            const { name, email, provider} = response.data.user;
+            const { name, email, provider, type_document, first_access} = response.data.user;
             const {token} = response.data;
 
             const prov = provider === true ? '1' : '0';
@@ -55,9 +58,11 @@ function AuthUser({ children }) {
                 ['@App:name', name],
                 ['@App:email', email],
                 ['@App:provider', prov],
+                ['@App:type_document', type_document],
+                ['@App:first_access', first_access],
             ]);
 
-            setDataAuth({ token, name, email, prov });
+            setDataAuth({ token, name, email, prov, type_document, first_access });
 
             setLoadingLogin(false);
         } catch (error) {
@@ -67,7 +72,7 @@ function AuthUser({ children }) {
     };
 
     const signOut = useCallback(async () => {
-        await AsyncStorage.multiRemove(['@App:token', '@App:name', '@App:email', '@App:provider']);
+        await AsyncStorage.multiRemove(['@App:token', '@App:name', '@App:email', '@App:provider', '@App:type_document', '@App:first_access']);
 
         setDataAuth();
     }, []);

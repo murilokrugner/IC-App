@@ -8,13 +8,17 @@ import Routes from './routes/';
 
 import AppUser from './hooks';
 
+import FlashMessage from "react-native-flash-message";
+
 function App() {
+
   return (
     <NavigationContainer>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"/>
       <AppUser>
         <View style={{ flex: 1, backgroundColor: '#fff' }} >
           <Routes />
+          <FlashMessage position="top"/>
         </View>
       </AppUser>
     </NavigationContainer>

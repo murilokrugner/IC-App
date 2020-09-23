@@ -152,6 +152,8 @@ function SignUpProvider() {
                 cep_address: cep,
                 state_address: state,
                 provider: true,
+                type_document: "0",
+                first_access: "0",
             });    
                                         
             setLoading(false);
