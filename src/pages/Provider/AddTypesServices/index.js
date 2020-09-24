@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import { ActivityIndicator } from 'react-native';
+import { Alert, ActivityIndicator } from 'react-native';
 
-import { Container, Box, TitleBox, BoxPicker, BoxButton, BoxServices, Service, ButtonNext } from './styles';
+import { Container, Box, TitleBox, BoxPicker, BoxButton, BoxAlignServices, BoxServices, BoxSelectService, 
+  Service, BoxDelService, DelService, ButtonNext } from './styles';
 
 import {Picker} from '@react-native-community/picker';
 
 import { useAuth } from '../../../hooks/auth';
 
 import api from '../../../services/api';
+
+import Delete from '../../../assets/delete.png';
 
 const AddTypesServices = () => {
   const { dataAuth } = useAuth();
@@ -20,6 +23,8 @@ const AddTypesServices = () => {
       description : "Carregando...",
     },
   ]);
+  const [addServices, setAddServices] = useState();
+  const [countServices, setCountServices] = useState();
 
   useEffect(() => {
     async function loadServices() {
@@ -30,25 +35,85 @@ const AddTypesServices = () => {
 
       setLoading(false);
     }
+  
+    async function loadAddServices() {
+      setLoadingServices(true);
+      const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
+
+      setAddServices(response.data);
+
+      setLoadingServices(false);
+
+    }
+
+    async function getCountServices() {
+      const response = await api.get(`/servicesProviderRoutes?provider=${dataAuth.id}`);
+
+      setCountServices(response.data.count);
+    }
 
     loadServices();
+    loadAddServices();
+    getCountServices();
 
   }, []);
 
   useEffect(() => {
+    async function loadAddServices() {
+      try {
+        setLoadingServices(true);   
+        const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);    
+              
+        setAddServices(response.data);
+
+        setLoadingServices(false);  
+      } catch (error) {        
+        setAddServices();
+        setLoadingServices(false);
+        return;
+      }       
+    }
+
+    async function getCountServices() {
+      const response = await api.get(`/servicesProviderRoutes?provider=${dataAuth.id}`);
+
+      setCountServices(response.data.count);
+    }
+
     async function addService() {
       setLoadingServices(true);
 
+      if (countServices === 5) {
+        Alert.alert('Você já adicionou 5 serviços');
+        setSelectService('        Selecione um serviço');
+        setLoadingServices(false);
+        return;
+      }
+
       const response = await api.post('/serviceProvider', {
-        "description": "",
+        "description": "nda",
         "id_provider": dataAuth.id,
         "service": selectService,
         "price": 0,
         "time": 0
       })
+
+      if (response.data.error === 'Esse serviço já existe cadastrado') {
+        Alert.alert('O serviço selecionado já foi adicionado');
+        setLoadingServices(false);
+        setSelectService('        Selecione um serviço');
+        return;
+      }
     
       setLoadingServices(false);
+      setSelectService('        Selecione um serviço');
+      loadAddServices();
+      getCountServices();
     }
+
+    if (selectService !== '        Selecione um serviço') {
+      addService();          
+    }    
   }, [selectService]);
 
   return (
@@ -77,7 +142,22 @@ const AddTypesServices = () => {
           {loadingServices ? (
             <ActivityIndicator color="#000" size="small" />  
           ) : (
-            <Service>Serviço selecionado</Service>
+            <>
+              {addServices === undefined ? (
+                <></>
+              ) : (
+                <BoxAlignServices>
+                  {addServices.map(item => (
+                      <BoxSelectService key={item.id}>
+                        <Service>{item.service.description}</Service>
+                        <BoxDelService>
+                          <DelService source={Delete}/>
+                        </BoxDelService>                      
+                      </BoxSelectService>                 
+                  ))}
+                </BoxAlignServices>
+              )}  
+            </>          
           )}          
         </BoxServices>
         <BoxButton>             
