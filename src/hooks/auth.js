@@ -19,7 +19,8 @@ function AuthUser({ children }) {
     
     useEffect(() => {
         async function loadStorageData() {
-            const [token, name, email, provider, type_document, first_access] = await AsyncStorage.multiGet([
+            const [id, token, name, email, provider, type_document, first_access] = await AsyncStorage.multiGet([
+                '@App:id',
                 '@App:token',
                 '@App:name',
                 '@App:email', 
@@ -29,7 +30,7 @@ function AuthUser({ children }) {
             ]);
 
             if (token[1] && name[1]) {
-                setDataAuth({ token: token[1], name: name[1], email: email[1], prov: provider[1], 
+                setDataAuth({ id: id[1], token: token[1], name: name[1], email: email[1], prov: provider[1], 
                         type_document: type_document[1], first_access: first_access[1] });
             }
 
@@ -49,11 +50,13 @@ function AuthUser({ children }) {
             });
 
             const { name, email, provider, type_document, first_access} = response.data.user;
+            const idInt = response.data.user.id;
             const {token} = response.data;
 
             const prov = provider === true ? '1' : '0';
 
             await AsyncStorage.multiSet([
+                ['@App:id', idInt.toString()], 
                 ['@App:token', token],            
                 ['@App:name', name],
                 ['@App:email', email],
@@ -62,17 +65,19 @@ function AuthUser({ children }) {
                 ['@App:first_access', first_access],
             ]);
 
-            setDataAuth({ token, name, email, prov, type_document, first_access });
+            const id = idInt.toString();
+
+            setDataAuth({ id, token, name, email, prov, type_document, first_access });
 
             setLoadingLogin(false);
         } catch (error) {
             setLoadingLogin(false);
-            Alert.alert('Dados inválidos');
+            Alert.alert('Não foi possível fazer login, tente novamente mais tarde');
         }
     };
 
     const signOut = useCallback(async () => {
-        await AsyncStorage.multiRemove(['@App:token', '@App:name', '@App:email', '@App:provider', '@App:type_document', '@App:first_access']);
+        await AsyncStorage.multiRemove(['@App:id', '@App:token', '@App:name', '@App:email', '@App:provider', '@App:type_document', '@App:first_access']);
 
         setDataAuth();
     }, []);

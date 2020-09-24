@@ -10,8 +10,6 @@ import WhatUser from '../../pages/WhatUser';
 import WithCnpj from '../../pages/RegisterDocumentProvider/WithCnpj';
 import WithCpf from '../../pages/RegisterDocumentProvider/WithCpf';
 
-import AddTypesServices from '../../pages/Provider/AddTypesServices';
-
 const Auth = createStackNavigator();
 
 function AuthRoutes() {
@@ -22,8 +20,8 @@ function AuthRoutes() {
           headerShown: false,
           cardStyle: { backgroundColor: '#fff' },
         }}
-        initialRouteName="AddTypesServices">
-        <Auth.Screen name="AddTypesServices" component={AddTypesServices} />
+        initialRouteName="SignIn">
+        <Auth.Screen name="SignIn" component={SignIn} />
         <Auth.Screen name="SignUp" component={SignUp} 
           options={{
             headerShown: true, 

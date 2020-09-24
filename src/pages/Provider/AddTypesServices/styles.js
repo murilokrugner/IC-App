@@ -22,6 +22,21 @@ export const TitleBox = styled.Text`
     font-weight: bold;
 `;
 
+export const BoxPicker = styled.View`
+    margin-top: 20px;
+`;
+
+export const BoxButton = styled.View`
+    margin-top: 330px;
+`;
+
+export const BoxServices = styled.View`
+    margin-top: 70px;
+
+`;
+
+export const Service = styled.Text``;
+
 export const ButtonNext = styled(Button)`
     width: 200px;
 
