@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView, Alert, ActivityIndicator } from 'react-native';
 
 import { Container, Box, TitleBox, BoxPicker, BoxButton, BoxAlignServices, BoxServices, BoxSelectService, 
   Service, BoxDelService, DelService, ButtonNext } from './styles';
@@ -210,54 +210,56 @@ const AddTypesServices = () => {
   }
 
   return (
-    <Container>
-      <Box>
-        <TitleBox>Selecione os serviços que você ou sua empresa irá prestar</TitleBox>
-        <TitleBox>Selecione até cinco serviços: </TitleBox>
-        {loading ? (
-          <ActivityIndicator color="#000" size="small" />
-        ) : (
-          <BoxPicker>         
-            <Picker
-              selectedValue={selectService}
-              style={{height: 20, width: 300, color: '#666360'}}
-              onValueChange={(itemValue, itemIndex) =>
-                  setSelectService(itemValue)
-              }>
-                <Picker.Item key={"Estado"} label={"        Selecione um serviço"} value={"Estado"}/>                                 
-                {services.map(item => (
-                      <Picker.Item key={item.description} label={item.description} value={item.description}/>  
-                ))}
-            </Picker> 
-          </BoxPicker>
-        )} 
-        <BoxServices>
-          {loadingServices ? (
-            <ActivityIndicator color="#000" size="small" />  
+    <SafeAreaView>
+      <Container>
+        <Box>
+          <TitleBox>Selecione os serviços que você ou sua empresa irá prestar</TitleBox>
+          <TitleBox>Selecione até cinco serviços: </TitleBox>
+          {loading ? (
+            <ActivityIndicator color="#000" size="small" />
           ) : (
-            <>
-              {addServices === undefined ? (
-                <></>
-              ) : (
-                <BoxAlignServices>
-                  {addServices.map(item => (
-                      <BoxSelectService key={item.id}>
-                        <Service>{item.service.description}</Service>
-                        <BoxDelService onPress={() => {handleDelete(item.id)}}>
-                          <DelService source={Delete}/>
-                        </BoxDelService>                      
-                      </BoxSelectService>                 
+            <BoxPicker>         
+              <Picker
+                selectedValue={selectService}
+                style={{height: 20, width: 300, color: '#666360'}}
+                onValueChange={(itemValue, itemIndex) =>
+                    setSelectService(itemValue)
+                }>
+                  <Picker.Item key={"Estado"} label={"        Selecione um serviço"} value={"Estado"}/>                                 
+                  {services.map(item => (
+                        <Picker.Item key={item.description} label={item.description} value={item.description}/>  
                   ))}
-                </BoxAlignServices>
-              )}  
-            </>          
-          )}          
-        </BoxServices>
-        <BoxButton>             
-          <ButtonNext onPress={handleNext}>Avançar</ButtonNext>
-        </BoxButton>   
-      </Box>  
-    </Container>
+              </Picker> 
+            </BoxPicker>
+          )} 
+          <BoxServices>
+            {loadingServices ? (
+              <ActivityIndicator color="#000" size="small" />  
+            ) : (
+              <>
+                {addServices === undefined ? (
+                  <></>
+                ) : (
+                  <BoxAlignServices>
+                    {addServices.map(item => (
+                        <BoxSelectService key={item.id}>
+                          <Service>{item.service.description}</Service>
+                          <BoxDelService onPress={() => {handleDelete(item.id)}}>
+                            <DelService source={Delete}/>
+                          </BoxDelService>                      
+                        </BoxSelectService>                 
+                    ))}
+                  </BoxAlignServices>
+                )}  
+              </>          
+            )}          
+          </BoxServices>
+          <BoxButton>             
+            <ButtonNext onPress={handleNext}>Avançar</ButtonNext>
+          </BoxButton>   
+        </Box>  
+      </Container>
+    </SafeAreaView>
   )
 }
 

@@ -65,7 +65,7 @@ export const BoxPositionSelectPhoto = styled.View`
     position: absolute;
 `;
 
-export const BoxSelectPhoto = styled.View`
+export const BoxSelectPhoto = styled(Button)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -77,7 +77,20 @@ export const BoxSelectPhoto = styled.View`
     margin: 10px;
 `;
 
+export const BoxImageSelectPhoto = styled.View`
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 30px;
+    height: 30px; 
+`;
+
 export const SelectPhoto = styled.Image`
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: 30px;
     height: 30px; 
 `;

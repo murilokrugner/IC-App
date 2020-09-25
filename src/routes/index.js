@@ -8,11 +8,7 @@ import ProviderRoutes from './provider.routes';
 import { useAuth } from '../hooks/auth';
 
 function Routes() {
-  const { dataAuth, loading, signOut } = useAuth();
-
-  //signOut();
-
-  console.log(dataAuth);
+  const { dataAuth, loading } = useAuth();
 
   if (loading) {
     return (
