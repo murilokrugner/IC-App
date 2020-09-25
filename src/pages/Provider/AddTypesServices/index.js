@@ -5,7 +5,7 @@ import { Container, Box, TitleBox, BoxPicker, BoxButton, BoxAlignServices, BoxSe
   Service, BoxDelService, DelService, ButtonNext } from './styles';
 
 import {Picker} from '@react-native-community/picker';
-
+import { showMessage } from "react-native-flash-message";
 import { useAuth } from '../../../hooks/auth';
 
 import api from '../../../services/api';
@@ -27,6 +27,17 @@ const AddTypesServices = () => {
   const [countServices, setCountServices] = useState();
 
   useEffect(() => {
+    showMessage({
+      message: "Adicione os serviços :)",
+      type: "info",
+      duration: 5000,        
+      titleStyle: {
+          fontSize: 17,
+          fontWeight: 'bold',
+      },
+      backgroundColor: '#f08080',
+    });
+
     async function loadServices() {
       setLoading(true);
       const response = await api.get('/services');
@@ -67,7 +78,8 @@ const AddTypesServices = () => {
         setAddServices(response.data);
 
         setLoadingServices(false);  
-      } catch (error) {        
+      } catch (error) {      
+        Alert.alert('Não foi possível carregar os items, tente novamente mais tarde');  
         setAddServices();
         setLoadingServices(false);
         return;
@@ -81,40 +93,121 @@ const AddTypesServices = () => {
     }
 
     async function addService() {
-      setLoadingServices(true);
+      try {
+        setLoadingServices(true);
 
-      if (countServices === 5) {
-        Alert.alert('Você já adicionou 5 serviços');
-        setSelectService('        Selecione um serviço');
+        if (countServices === 5) {
+          showMessage({
+            message: "Você já adicionou 5 serviços",
+            type: "info",
+            duration: 5000,        
+            titleStyle: {
+                fontSize: 17,
+                fontWeight: 'bold',
+            },
+            backgroundColor: '#4D90F0',
+          });
+          setSelectService('        Selecione um serviço');
+          setLoadingServices(false);
+          return;
+        }
+
+        const response = await api.post('/serviceProvider', {
+          "description": "nda",
+          "id_provider": dataAuth.id,
+          "service": selectService,
+          "price": 0,
+          "time": 0
+        });
+
+      
         setLoadingServices(false);
-        return;
-      }
-
-      const response = await api.post('/serviceProvider', {
-        "description": "nda",
-        "id_provider": dataAuth.id,
-        "service": selectService,
-        "price": 0,
-        "time": 0
-      })
-
-      if (response.data.error === 'Esse serviço já existe cadastrado') {
-        Alert.alert('O serviço selecionado já foi adicionado');
+        setSelectService('        Selecione um serviço');
+        loadAddServices();
+        getCountServices();  
+      } catch (error) {
+        showMessage({
+          message: "O serviço selecionado já foi adicionado",
+          type: "info",
+          duration: 5000,        
+          titleStyle: {
+              fontSize: 17,
+              fontWeight: 'bold',
+          },
+          backgroundColor: '#F03124',
+        });
         setLoadingServices(false);
         setSelectService('        Selecione um serviço');
-        return;
-      }
-    
-      setLoadingServices(false);
-      setSelectService('        Selecione um serviço');
-      loadAddServices();
-      getCountServices();
+      }      
     }
 
     if (selectService !== '        Selecione um serviço') {
       addService();          
     }    
   }, [selectService]);
+
+  async function handleDelete(id) {
+    async function loadAddServices() {
+      try {
+        setLoadingServices(true);   
+        const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);    
+              
+        setAddServices(response.data);
+
+        setLoadingServices(false);  
+      } catch (error) {      
+        Alert.alert('Não foi possível carregar os items, tente novamente mais tarde');  
+        setAddServices();
+        setLoadingServices(false);
+        return;
+      }       
+    }
+
+    async function getCountServices() {
+      const response = await api.get(`/servicesProviderRoutes?provider=${dataAuth.id}`);
+
+      setCountServices(response.data.count);
+    }
+
+    try {
+      setLoadingServices(true);
+      const response = await api.delete(`serviceProvider?id=${id}`);
+
+      loadAddServices();
+      getCountServices();
+
+      setLoadingServices(false);
+    } catch (error) {
+      showMessage({
+        message: "Não foi possível excluir o serviço, tente novamente mais tarde",
+        type: "info",
+        duration: 5000,        
+        titleStyle: {
+            fontSize: 17,
+            fontWeight: 'bold',
+        },
+        backgroundColor: '#F03124',
+      });
+      setLoadingServices(false); 
+    }
+  }
+
+  function handleNext() {
+    if (countServices === 0) {
+      showMessage({
+        message: "Adicione pelo menos um serviço",
+        type: "info",
+        duration: 5000,        
+        titleStyle: {
+            fontSize: 17,
+            fontWeight: 'bold',
+        },
+        backgroundColor: '#4D90F0',
+      });
+
+      return;
+    }
+  }
 
   return (
     <Container>
@@ -150,7 +243,7 @@ const AddTypesServices = () => {
                   {addServices.map(item => (
                       <BoxSelectService key={item.id}>
                         <Service>{item.service.description}</Service>
-                        <BoxDelService>
+                        <BoxDelService onPress={() => {handleDelete(item.id)}}>
                           <DelService source={Delete}/>
                         </BoxDelService>                      
                       </BoxSelectService>                 
@@ -161,7 +254,7 @@ const AddTypesServices = () => {
           )}          
         </BoxServices>
         <BoxButton>             
-          <ButtonNext>Avançar</ButtonNext>
+          <ButtonNext onPress={handleNext}>Avançar</ButtonNext>
         </BoxButton>   
       </Box>  
     </Container>

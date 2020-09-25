@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 import Button from '../../../components/ButtonAuth';
+import { Dimensions } from 'react-native';
+import {RectButton} from 'react-native-gesture-handler';
+const widthPerf = Math.trunc(parseInt(Dimensions.get('window').width));
+//const heightPerf = Math.trunc(parseInt(Dimensions.get('window').height));
 
 export const Container = styled.View`
     flex:1;
@@ -31,10 +35,10 @@ export const BoxButton = styled.View`
 `;
 
 export const BoxAlignServices = styled.View`
-    width: 100%;
+    width: ${widthPerf};
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center;    
 `;
 
 export const BoxServices = styled.View`
@@ -43,7 +47,7 @@ export const BoxServices = styled.View`
 `;
 
 export const BoxSelectService = styled.View`
-    width: 180px;
+    width: 170px;
     height: 40px;
     border-radius: 50px;
     background-color: #f08080;
@@ -55,7 +59,7 @@ export const BoxSelectService = styled.View`
     margin: 10px;
 `;
 
-export const BoxDelService = styled.View`
+export const BoxDelService = styled(RectButton)`
     justify-content: center;
     align-items: center;
     width: 25px;
