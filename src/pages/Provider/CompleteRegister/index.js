@@ -16,6 +16,8 @@ import Camera from '../../../assets/camera.png';
 import Murilo from '../../../assets/murilo.jpg';
 import Stars from '../../../assets/starts.png';
 
+import api from '../../../services/api';
+
 const CompleteRegister = () => {
     const navigation = useNavigation();
 
@@ -77,36 +79,39 @@ const CompleteRegister = () => {
                         includeExif: true,
                       }).then(image => {
                         setPreview(image.data);
-
-                        let prefix;
-                        let ext;
-              
-                        if (upload.fileName) {
-                          [prefix, ext] = upload.fileName.split('.');
-                          ext = ext.toLowerCase() === 'heic' ? 'jpg' : ext;
-                        } else {
-                          prefix = new Date().getTime();
-                          ext = 'jpg';
-                        }
-              
+             
                         const imageData = {
-                          uri: upload.path,
-                          type: upload.exif,
-                          name: `${prefix}.${ext}`,
+                          originalname: image.path,
+                          filename: image.path,
                         };
-
-                        const data = new FormData();
-
-                        data.append('file', imageData);
-
-
-                        setLoadingPreview(false);
+                    
+                        handleUploadPhoto(image.path);                        
                       });  
                 },
               },
             ],
           );                
         }
+
+  async function handleUploadPhoto(image) {
+    const data = new FormData();
+
+    data.append('file', {
+      originalname: "file://", //Your Image File Path
+      type: 'image/jpeg', 
+      filename: "imagename.jpg",
+   });
+
+    const response = await api.post('files', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body: data,
+    });
+
+    setLoadingPreview(false);
+  }
 
   return (
     <SafeAreaView>
