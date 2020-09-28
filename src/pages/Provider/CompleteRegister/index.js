@@ -97,9 +97,9 @@ const CompleteRegister = () => {
     const data = new FormData();
 
     data.append('file', {
-      originalname: "file://", //Your Image File Path
+      originalname: image, //Your Image File Path
       type: 'image/jpeg', 
-      filename: "imagename.jpg",
+      filename: image,
    });
 
     const response = await api.post('files', {
