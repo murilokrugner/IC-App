@@ -7,13 +7,14 @@ import { Container, Box, TitleBox, BoxPicker, BoxButton, BoxAlignServices, BoxSe
 import {Picker} from '@react-native-community/picker';
 import { showMessage } from "react-native-flash-message";
 import { useAuth } from '../../../hooks/auth';
-
+import { useNavigation } from '@react-navigation/native';
 import api from '../../../services/api';
 
 import Delete from '../../../assets/delete.png';
 
 const AddTypesServices = () => {
   const { dataAuth } = useAuth();
+  const navigation = useNavigation();
 
   const [selectService, setSelectService] = useState('        Selecione um serviço');
   const [loading, setLoading] = useState(false);
@@ -206,6 +207,8 @@ const AddTypesServices = () => {
       });
 
       return;
+    } else {
+      navigation.navigate('CompleteServices');
     }
   }
 

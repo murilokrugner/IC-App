@@ -6,8 +6,6 @@ import Home from '../../pages/Provider/Home';
 
 import ServicesIcon from '../../assets/services.png';
 
-import CompleteServices from '../../pages/Provider/CompleteServices';
-
 const Tab = createBottomTabNavigator();
 
 function ProviderRoutes() {
@@ -28,7 +26,7 @@ function ProviderRoutes() {
         },
     }}
     >
-      <Tab.Screen name="CompleteServices" component={CompleteServices}
+      <Tab.Screen name="Home" component={Home}
         options={{
         tabBarLabel: 'Serviços',
         tabBarIcon: ({ color, size }) => (

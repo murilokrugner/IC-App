@@ -22,7 +22,7 @@ export const Box = styled.View`
 `;
 
 export const BoxService = styled.View`
-    border: 0.7px;
+    border: 1px;
     border-radius: 20px;
     justify-content: center;
     width: 330px;

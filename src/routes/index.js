@@ -4,11 +4,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 import AuthRoutes from './auth.routes';
 import HomeRoutes from './home.routes';
 import ProviderRoutes from './provider.routes';
+import StackProviderRoutes from './provider.routes/Stack/';
 
 import { useAuth } from '../hooks/auth';
 
 function Routes() {
-  const { dataAuth, loading } = useAuth();
+  const { dataAuth, loading, signOut } = useAuth();
+
+  //signOut()
 
   if (loading) {
     return (
@@ -25,6 +28,10 @@ function Routes() {
       return (
         <HomeRoutes />
       )  
+    } else if (dataAuth.prov === '1' && dataAuth.first_access === "0") {
+      return (
+        <StackProviderRoutes />
+      )
     } else {
       return (
         <ProviderRoutes />
