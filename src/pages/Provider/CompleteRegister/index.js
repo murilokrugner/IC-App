@@ -8,8 +8,8 @@ import { Container, Box, BoxImageCover, ImageCover, BoxPositionSelectCover,
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from "react-native-flash-message";
 
-//import ImagePicker from 'react-native-image-picker';
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-picker';
+//import ImagePicker from 'react-native-image-crop-picker';
 
 import Crf from '../../../assets/crf.jpg';
 import Camera from '../../../assets/camera.png';
@@ -44,7 +44,7 @@ const CompleteRegister = () => {
     function handleUpImage() {
         setLoadingPreview(true);
 
-        Alert.alert(
+        /*Alert.alert(
             'Selecionar imagem',
             'Onde deseja selecionar a imagem?',
             [
@@ -79,36 +79,63 @@ const CompleteRegister = () => {
                         includeExif: true,
                       }).then(image => {
                         setPreview(image.data);
-             
-                        const imageData = {
-                          originalname: image.path,
-                          filename: image.path,
-                        };
-                    
-                        handleUploadPhoto(image.path);                        
+                                 
+                        handleUploadPhoto(image.path, image.mime);                        
                       });  
                 },
               },
             ],
-          );                
+          ); */
+          ImagePicker.showImagePicker(
+            {
+              title: 'Selecione uma nova foto',
+            },
+            upload => {
+              if (upload.uri) {
+                const previewData = {
+                  uri: `data:image/jpeg;base64,${upload.data}`,
+                };
+      
+                let prefix;
+                let ext;
+      
+                if (upload.fileName) {
+                  [prefix, ext] = upload.fileName.split('.');
+                  ext = ext.toLowerCase() === 'heic' ? 'jpg' : ext;
+                } else {
+                  prefix = new Date().getTime();
+                  ext = 'jpg';
+                }
+      
+                const imageData = {
+                  filename: upload.uri,
+                  type: upload.type,
+                  originalname: `${prefix}.${ext}`,
+                };
+
+                const data = new FormData();
+
+                data.append('file', imageData);
+      
+                setPreview(previewData);
+                handleUploadPhoto(data);
+              }
+            },
+          );               
         }
 
-  async function handleUploadPhoto(image) {
-    const data = new FormData();
+  async function handleUploadPhoto(data) {
 
-    data.append('file', {
-      originalname: image, //Your Image File Path
-      type: 'image/jpeg', 
-      filename: image,
-   });
+    //console.log(data);
 
-    const response = await api.post('files', {
-      method: "POST",
+    /*const response = await api.post('files', {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
       body: data,
-    });
+    });*/
+
+    const response = await api.post('files', data);
 
     setLoadingPreview(false);
   }
@@ -131,7 +158,7 @@ const CompleteRegister = () => {
                     ) : (
                         <>
                             {preview !== undefined && (
-                                <ImagePhoto  source={{uri: `data:image/jpg;base64,${preview}`}} />
+                                <ImagePhoto  source={preview} />
                             )}
                         </>
                     )}

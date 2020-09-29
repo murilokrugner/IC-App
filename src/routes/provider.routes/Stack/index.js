@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import CompleteRegister from '../../pages/Provider/CompleteRegister';
 import AddTypesServices from '../../pages/Provider/AddTypesServices';
+import CompleteServices from '../../pages/Provider/CompleteServices';
 import ProviderRoutes from '../index';
 
 const Stack = createStackNavigator();
@@ -16,7 +17,7 @@ function StackProviderRoutes() {
           headerShown: false,
           cardStyle: { backgroundColor: '#fff' },
         }}
-        initialRouteName="CompleteRegister">
+        initialRouteName="CompleteServices">
         <Stack.Screen name="CompleteRegister" component={CompleteRegister} />
         <Stack.Screen name="AddTypesServices" component={AddTypesServices} />
         <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} />
