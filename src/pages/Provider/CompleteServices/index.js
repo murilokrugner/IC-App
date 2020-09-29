@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { View } from 'react-native';
 
-import { Container, BoxLoading, Box, BoxService, Service, NameService, ButtonEdit, ImageEdit } from './styles';
+import { Container, BoxLoading, Box, BoxService, Service, 
+    NameService, ButtonEdit, ImageEdit, BoxButtonFinished, ButtonFinished } from './styles';
 import { useAuth } from '../../../hooks/auth';
 
 import api from '../../../services/api';
@@ -64,9 +65,14 @@ const CompleteServices = () => {
                                 </Service>
                             </BoxService>
                         ))}
-                    </>
+                    </>                    
                 </Box>
-            )}          
+            )}  
+            {loading !== true && (
+                <BoxButtonFinished>                    
+                    <ButtonFinished onPress={() => {}}>Concluir</ButtonFinished>
+                </BoxButtonFinished> 
+            )}                   
       </Container>
   )
 }

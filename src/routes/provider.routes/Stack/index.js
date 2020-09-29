@@ -16,13 +16,38 @@ function StackProviderRoutes() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+          headerTitleAlign: 'center',
           cardStyle: { backgroundColor: '#fff' },
         }}
         initialRouteName="CompleteRegister">
-        <Stack.Screen name="CompleteServices" component={CompleteServices} />
-        <Stack.Screen name="CompleteRegister" component={CompleteRegister} />
-        <Stack.Screen name="AddTypesServices" component={AddTypesServices} />
-        <Stack.Screen name="EditCompleteServices" component={EditCompleteServices} />
+        <Stack.Screen name="CompleteServices" component={CompleteServices} 
+          options={{
+            headerShown: true,
+            headerTitle: "Complete os serviços"
+            
+          }}
+        />
+        <Stack.Screen name="CompleteRegister" component={CompleteRegister} 
+          options={{
+            headerShown: true,
+            headerTitle: "Complete seu perfil"
+            
+          }}
+        />
+        <Stack.Screen name="AddTypesServices" component={AddTypesServices} 
+          options={{
+            headerShown: true,
+            headerTitle: "Adicione seus serviços"
+            
+          }}
+        />
+        <Stack.Screen name="EditCompleteServices" component={EditCompleteServices} 
+          options={{
+            headerShown: true,
+            headerTitle: "Editar serviço"
+            
+          }}
+        />
         <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} />
       </Stack.Navigator>
     </NavigationContainer>

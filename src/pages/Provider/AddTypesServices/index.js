@@ -118,7 +118,8 @@ const AddTypesServices = () => {
           "id_provider": dataAuth.id,
           "service": selectService,
           "price": 0,
-          "time": 0
+          "time": 0,
+          "complete": false,
         });
 
       

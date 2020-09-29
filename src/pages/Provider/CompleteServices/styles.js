@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {RectButton} from 'react-native-gesture-handler';
+import Button from '../../../components/ButtonAuth';
 
 export const Container = styled.View`
   flex: 1;
@@ -49,4 +50,13 @@ export const ButtonEdit = styled(RectButton)`
 export const ImageEdit = styled.Image`
     width: 24px;
     height: 24px;
+`;
+
+export const BoxButtonFinished = styled.View`
+    flex-direction: row;
+    justify-content: center;
+`;
+
+export const ButtonFinished = styled(Button)`
+    width: 200px;
 `;
