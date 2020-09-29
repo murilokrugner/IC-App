@@ -37,7 +37,7 @@ const EditCompleteServices = () => {
   useEffect(() => {
     async function load() {
       
-      const response = await api.get(`serviceProvider?provider=${idUser}&service=${idService}`);
+      const response = await api.get(`serviceslist?provider=${idUser}&service=${idService}`);
 
       setData(response.data);
       setLoading(false);

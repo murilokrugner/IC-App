@@ -108,9 +108,9 @@ const CompleteRegister = () => {
                 }
       
                 const imageData = {
-                  filename: upload.uri,
+                  uri: upload.uri,
                   type: upload.type,
-                  originalname: `${prefix}.${ext}`,
+                  name: `${prefix}.${ext}`,
                 };
 
                 const data = new FormData();
@@ -126,16 +126,11 @@ const CompleteRegister = () => {
 
   async function handleUploadPhoto(data) {
 
-    //console.log(data);
-
-    /*const response = await api.post('files', {
+    const response = await api.post('files', data, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      body: data,
-    });*/
-
-    const response = await api.post('files', data);
+    });
 
     setLoadingPreview(false);
   }
