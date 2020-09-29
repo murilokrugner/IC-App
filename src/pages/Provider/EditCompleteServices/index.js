@@ -1,13 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { ScrollView, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, SafeAreaView, ActivityIndicator } from 'react-native';
 
-import { Container, BoxForm, BoxTitleService, TitleService, TextTitle, Line, 
+import { Container, BoxLoading, BoxForm, BoxTitleService, TitleService, TextTitle, Line, 
   BoxTextImage, TextImage, BoxAddImage, ContainerImage,
     ButtonAddImage, ImageAdd, BoxImages, 
       ImageService, BoxButtonSave, ButtonSave, BoxPositionDelete,BoxDelete, ImageDelete } from './styles';
 import { TextInputMask } from 'react-native-masked-text'
 import api from '../../../services/api';
-
+import { useAuth } from '../../../hooks/auth';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 
 import Add from '../../../assets/add.png';
@@ -16,6 +17,16 @@ import Remove from '../../../assets/remove.png';
 
 const EditCompleteServices = () => {
   const formRef = useRef(null);
+
+  const navigation = useNavigation();
+
+  const { dataAuth } = useAuth();
+
+  const idUser = dataAuth.id;
+
+  const route = useRoute();
+  
+  const idService = route.params.id;
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
@@ -26,7 +37,7 @@ const EditCompleteServices = () => {
   useEffect(() => {
     async function load() {
       
-      const response = await api.get(`/`);
+      const response = await api.get(`serviceProvider?provider=${idUser}&service=${idService}`);
 
       setData(response.data);
       setLoading(false);
@@ -39,7 +50,12 @@ const EditCompleteServices = () => {
 
   return (
       <Container>
-        <SafeAreaView>        
+        {loading ? (
+          <BoxLoading>
+            <ActivityIndicator color="#000" size="small" />
+          </BoxLoading>
+        ) : (
+          <SafeAreaView>        
             <ScrollView style={{flex: 1, height: '100%'}}>
                 <BoxTitleService>
                   <TitleService>Informatíca</TitleService>
@@ -171,6 +187,7 @@ const EditCompleteServices = () => {
                 </BoxButtonSave>                             
             </ScrollView>                   
         </SafeAreaView>
+        )}
       </Container>
     )
 }
