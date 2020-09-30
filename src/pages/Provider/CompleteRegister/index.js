@@ -53,6 +53,8 @@ const CompleteRegister = () => {
 
             if (response.data.user.avatar === null) {
               setImagePhoto();
+              setLoadingPreview(false);
+              setLoadingPreviewCover(false);
             } else {
               setImagePhoto(response.data.user.avatar.url);
               setLoadingPreview(false);
@@ -61,6 +63,8 @@ const CompleteRegister = () => {
 
             if (response.data.user.cover === null) {
               setImageCover();
+              setLoadingPreview(false);
+              setLoadingPreviewCover(false);
             } else {
               setImageCover(response.data.user.cover.url);
               setLoadingPreview(false);
