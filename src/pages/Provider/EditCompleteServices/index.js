@@ -52,7 +52,7 @@ const EditCompleteServices = () => {
       <Container>
         {loading ? (
           <BoxLoading>
-            <ActivityIndicator color="#000" size="small" />
+            <ActivityIndicator color="#000" size="large" />
           </BoxLoading>
         ) : (
           <SafeAreaView>        

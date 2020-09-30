@@ -70,81 +70,83 @@ const AddTypesServices = () => {
 
   }, []);
 
-  useEffect(() => {
-    async function loadAddServices() {
-      try {
-        setLoadingServices(true);   
-        const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);    
-              
-        setAddServices(response.data);
+  console.log(selectService);
 
-        setLoadingServices(false);  
-      } catch (error) {      
-        Alert.alert('Não foi possível carregar os items, tente novamente mais tarde');  
-        setAddServices();
-        setLoadingServices(false);
-        return;
-      }       
-    }
-
-    async function getCountServices() {
-      const response = await api.get(`/servicesProviderRoutes?provider=${dataAuth.id}`);
-
-      setCountServices(response.data.count);
-    }
-
-    async function addService() {
-      try {
-        setLoadingServices(true);
-
-        if (countServices === 5) {
+  useEffect(() => {  
+    if (selectService !== '        Selecione um serviço') {
+      async function loadAddServices() {
+        try {
+          setLoadingServices(true);   
+          const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);    
+                
+          setAddServices(response.data);
+  
+          setLoadingServices(false);  
+        } catch (error) {      
+          Alert.alert('Não foi possível carregar os items, tente novamente mais tarde');  
+          setAddServices();
+          setLoadingServices(false);
+          return;
+        }       
+      }
+  
+      async function getCountServices() {
+        const response = await api.get(`/servicesProviderRoutes?provider=${dataAuth.id}`);
+  
+        setCountServices(response.data.count);
+      }
+  
+      async function addService() {
+        try {
+          setLoadingServices(true);
+  
+          if (countServices === 5) {
+            showMessage({
+              message: "Você já adicionou 5 serviços",
+              type: "info",
+              duration: 5000,        
+              titleStyle: {
+                  fontSize: 17,
+                  fontWeight: 'bold',
+              },
+              backgroundColor: '#4D90F0',
+            });
+            setSelectService('        Selecione um serviço');
+            setLoadingServices(false);
+            return;
+          }
+  
+          const response = await api.post('/serviceProvider', {
+            "description": "nda",
+            "id_provider": dataAuth.id,
+            "service": selectService,
+            "price": 0,
+            "time": 0,
+            "complete": false,
+          });
+  
+        
+          setLoadingServices(false);
+          setSelectService('        Selecione um serviço');
+          loadAddServices();
+          getCountServices();  
+        } catch (error) {
           showMessage({
-            message: "Você já adicionou 5 serviços",
+            message: "O serviço selecionado já foi adicionado",
             type: "info",
             duration: 5000,        
             titleStyle: {
                 fontSize: 17,
                 fontWeight: 'bold',
             },
-            backgroundColor: '#4D90F0',
+            backgroundColor: '#F03124',
           });
-          setSelectService('        Selecione um serviço');
           setLoadingServices(false);
-          return;
-        }
-
-        const response = await api.post('/serviceProvider', {
-          "description": "nda",
-          "id_provider": dataAuth.id,
-          "service": selectService,
-          "price": 0,
-          "time": 0,
-          "complete": false,
-        });
-
-      
-        setLoadingServices(false);
-        setSelectService('        Selecione um serviço');
-        loadAddServices();
-        getCountServices();  
-      } catch (error) {
-        showMessage({
-          message: "O serviço selecionado já foi adicionado",
-          type: "info",
-          duration: 5000,        
-          titleStyle: {
-              fontSize: 17,
-              fontWeight: 'bold',
-          },
-          backgroundColor: '#F03124',
-        });
-        setLoadingServices(false);
-        setSelectService('        Selecione um serviço');
-      }      
-    }
-
-    if (selectService !== '        Selecione um serviço') {
-      addService();          
+          setSelectService('        Selecione um serviço');
+        }      
+      }
+  
+      addService();           
     }    
   }, [selectService]);
 
@@ -229,7 +231,7 @@ const AddTypesServices = () => {
                 onValueChange={(itemValue, itemIndex) =>
                     setSelectService(itemValue)
                 }>
-                  <Picker.Item key={"Estado"} label={"        Selecione um serviço"} value={"Estado"}/>                                 
+                  <Picker.Item key={"        Selecione um serviço"} label={"        Selecione um serviço"} value={"        Selecione um serviço"}/>                                 
                   {services.map(item => (
                         <Picker.Item key={item.description} label={item.description} value={item.description}/>  
                   ))}
