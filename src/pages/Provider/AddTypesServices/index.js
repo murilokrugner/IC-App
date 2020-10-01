@@ -9,10 +9,10 @@ import { showMessage } from "react-native-flash-message";
 import { useAuth } from '../../../hooks/auth';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../../services/api';
-
+import { withNavigationFocus } from '@react-navigation/compat';
 import Delete from '../../../assets/delete.png';
 
-const AddTypesServices = () => {
+function AddTypesServices({isFocused}) {
   const { dataAuth } = useAuth();
   const navigation = useNavigation();
 
@@ -28,47 +28,49 @@ const AddTypesServices = () => {
   const [countServices, setCountServices] = useState();
 
   useEffect(() => {
-    showMessage({
-      message: "Adicione os serviços :)",
-      type: "info",
-      duration: 5000,        
-      titleStyle: {
-          fontSize: 17,
-          fontWeight: 'bold',
-      },
-      backgroundColor: '#f08080',
-    });
-
-    async function loadServices() {
-      setLoading(true);
-      const response = await api.get('/services');
-
-      setServices(response.data);
-
-      setLoading(false);
-    }
+    if (isFocused) {
+      showMessage({
+        message: "Adicione os serviços :)",
+        type: "info",
+        duration: 5000,        
+        titleStyle: {
+            fontSize: 17,
+            fontWeight: 'bold',
+        },
+        backgroundColor: '#f08080',
+      });
   
-    async function loadAddServices() {
-      setLoadingServices(true);
-      const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
-
-      setAddServices(response.data);
-
-      setLoadingServices(false);
-
+      async function loadServices() {
+        setLoading(true);
+        const response = await api.get('/services');
+  
+        setServices(response.data);
+  
+        setLoading(false);
+      }
+    
+      async function loadAddServices() {
+        setLoadingServices(true);
+        const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
+  
+        setAddServices(response.data);
+  
+        setLoadingServices(false);
+  
+      }
+  
+      async function getCountServices() {
+        const response = await api.get(`/servicesProviderRoutes?provider=${dataAuth.id}`);
+  
+        setCountServices(response.data.count);
+      }
+  
+      loadServices();
+      loadAddServices();
+      getCountServices();
     }
 
-    async function getCountServices() {
-      const response = await api.get(`/servicesProviderRoutes?provider=${dataAuth.id}`);
-
-      setCountServices(response.data.count);
-    }
-
-    loadServices();
-    loadAddServices();
-    getCountServices();
-
-  }, []);
+  }, [isFocused]);
 
   console.log(selectService);
 
@@ -269,4 +271,4 @@ const AddTypesServices = () => {
   )
 }
 
-export default AddTypesServices;
+export default withNavigationFocus(AddTypesServices);

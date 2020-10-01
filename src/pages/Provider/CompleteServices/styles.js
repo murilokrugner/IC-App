@@ -18,7 +18,7 @@ export const BoxLoading = styled.View`
 
 export const Box = styled.View`
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     height: 300px;
 `;
 

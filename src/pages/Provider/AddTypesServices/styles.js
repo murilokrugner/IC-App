@@ -47,13 +47,13 @@ export const BoxServices = styled.View`
 `;
 
 export const BoxSelectService = styled.View`
-    width: 170px;
-    height: 40px;
+    width: 175;
+    height: 45px;
     border-radius: 50px;
     background-color: #f08080;
 
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 20px;
     margin: 10px;

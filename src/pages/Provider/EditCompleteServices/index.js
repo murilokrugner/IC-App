@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { ScrollView, KeyboardAvoidingView, SafeAreaView, ActivityIndicator } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, TextInput, Alert } from 'react-native';
 
 import { Container, BoxLoading, BoxForm, BoxTitleService, TitleService, TextTitle, Line, 
   BoxTextImage, TextImage, BoxAddImage, ContainerImage,
@@ -30,7 +30,9 @@ const EditCompleteServices = () => {
 
   const [loading, setLoading] = useState(true);
   const [loadingImage, setLoadingImage] = useState(false);
-  const [loadingImageDb, setLoadingImageDb] = useState(true); 
+  const [loadingImageDb, setLoadingImageDb] = useState(false); 
+  const [loadingSave, setLoadingSave] = useState(false);
+
   const [data, setData] = useState({});
   const [images, setImages] = useState();
   const [inputPrice, setInputPrice] = useState('');
@@ -39,28 +41,28 @@ const EditCompleteServices = () => {
 
   useEffect(() => {
     async function load() {
+      setLoadingImageDb(true);
       
       const response = await api.get(`serviceslist?provider=${idUser}&service=${idService}`);
 
       setData(response.data);
-      setLoading(false);
-    }
+      
+      const responseImage = await api.get(`files_services?id=${idUser}`);
 
-    async function loadImages() {
-      const response = await api.get(`files_services?id=${idUser}`);
-
-      if (response.error) {
+      if (responseImage.data === []) {
         setImages();
         setLoadingImageDb(false);
+        setLoading(false);
       } else {
-        setImages(response.data);
+        setImages(responseImage.data);
         setLoadingImageDb(false);
+        setLoading(false);
       }
     }
 
     load();
-    loadImages();
   }, []);
+
 
   function handleUpImage() {
     setLoadingImage(true);
@@ -118,11 +120,27 @@ const EditCompleteServices = () => {
 
   async function handleUploadImage(data) {
     try {
+      async function loadImages() {
+        const response = await api.get(`files_services?id=${idUser}`);
+  
+        if (response.error) {
+          setImages();
+          setLoadingImageDb(false);
+          setLoadingImage(false);
+        } else {
+          setImages(response.data);
+          setLoadingImageDb(false);
+          setLoadingImage(false);
+        }
+      }      
+
       const response = await api.post(`files_services?id=${idUser}`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      loadImages();
 
       setLoadingImage(false);
     } catch (error) {
@@ -131,7 +149,74 @@ const EditCompleteServices = () => {
   }
 
   async function handleSubmit() {
+    setLoadingSave(true);
+    if (inputPrice === '') {
+      Alert.alert('Por favor, informe o preço médio do serviço!');
+      setLoadingSave(false);
+      return;
+    }
 
+    if (inputTime === '') {
+      Alert.alert('Por favor, informe o tempo médio do serviço!');
+      setLoadingSave(false);
+      return;
+    }
+
+    if (inputDescription === '') {
+      Alert.alert('Por favor, informe uma descrição para o serviço');
+      setLoadingSave(false);
+      return;
+    }
+
+    if (images === []) {
+      Alert.alert('Por favor, adicione por o menos uma foto do serviço');
+      setLoadingSave(false);
+      return;
+    }
+
+    try {
+      const priceFormatted = inputPrice.slice(2);
+      const response = await api.put('serviceProvider', {
+        id: idService,
+        description: inputDescription,
+        price: parseFloat(priceFormatted),
+        time: inputTime,
+        
+      });
+
+      setLoadingSave(false);
+      navigation.goBack();
+      Alert.alert('Serviço atualizado!');
+      
+    } catch (error) {
+      Alert.alert('Ocorreu um erro ao tentar salvar o serviço, tente novamente mais tarde');
+      setLoadingSave(false);
+    }
+  }
+
+  async function deleteImage(id) {
+    try {
+      setLoadingImageDb(true);      
+      async function loadImages() {
+        const response = await api.get(`files_services?id=${idUser}`);
+  
+        if (response.data === []) {
+          setImages();
+          setLoadingImageDb(false);
+        } else {
+          setImages(response.data);
+          setLoadingImageDb(false);
+        }
+      }
+
+      const response = await api.delete(`files_services?id=${id}`);
+  
+      loadImages();
+
+      setLoadingImageDb(false);
+    } catch (error) {
+      setLoadingImageDb(false);
+    }
   }
 
   return (
@@ -199,16 +284,9 @@ const EditCompleteServices = () => {
 
                             /> 
                         <TextTitle>Descrição do serviço:</TextTitle> 
-                        <TextInputMask
-                          type={'custom'}
+                        <TextInput
                           value={inputDescription}
-                          onChangeText={text => {
-                              setInputDescription(text);
-                          }}
-                          options={{
-                            mask: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'+
-                              'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-                          }}
+                          onChangeText={text => setInputDescription(text)}
                           style={{
                               backgroundColor: '#FAFBFD',
                               width: 350,
@@ -247,22 +325,30 @@ const EditCompleteServices = () => {
                     </BoxLoading>
                   ) : (
                     <>
-                      {images.map(item => (
-                        <ContainerImage key={item.id}>
-                        <ImageService source={{uri: item.url}}></ImageService>
-                          <BoxPositionDelete>                  
-                            <BoxDelete onPress={() => {}}>
-                              <ImageDelete source={Remove}></ImageDelete>
-                            </BoxDelete>
-                          </BoxPositionDelete>
-                        </ContainerImage>
-                      ))}
+                      {loadingImageDb ? (
+                        <BoxLoading>
+                          <ActivityIndicator color="#000" size="small" />
+                        </BoxLoading>
+                      ) : (
+                        <>  
+                          {images.map(item => (
+                            <ContainerImage key={item.id}>
+                            <ImageService source={{uri: item.url}}></ImageService>
+                              <BoxPositionDelete>                  
+                                <BoxDelete onPress={() => {deleteImage(item.id)}}>
+                                  <ImageDelete source={Remove}></ImageDelete>
+                                </BoxDelete>
+                              </BoxPositionDelete>
+                            </ContainerImage>
+                          ))}
+                        </>
+                      )}
                     </>
                   )}
                   
                 </BoxImages>    
                 <BoxButtonSave>
-                   <ButtonSave>Salvar</ButtonSave>
+                   <ButtonSave loading={loadingSave} onPress={handleSubmit}>Salvar</ButtonSave>
                 </BoxButtonSave>                             
             </ScrollView>                   
         </SafeAreaView>
