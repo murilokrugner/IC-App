@@ -46,6 +46,13 @@ const EditCompleteServices = () => {
       const response = await api.get(`serviceslist?provider=${idUser}&service=${idService}`);
 
       setData(response.data);
+      setInputTime(response.data.time);
+      
+      const priceFormatted = response.data.price;
+
+      setInputPrice('R$'+priceFormatted.toString());
+
+      setInputDescription(response.data.description);
       
       const responseImage = await api.get(`files_services?id=${idUser}`);
 
@@ -54,7 +61,7 @@ const EditCompleteServices = () => {
         setLoadingImageDb(false);
         setLoading(false);
       } else {
-        setImages(responseImage.data);
+        setImages(responseImage.data);             
         setLoadingImageDb(false);
         setLoading(false);
       }
@@ -168,7 +175,9 @@ const EditCompleteServices = () => {
       return;
     }
 
-    if (images === []) {
+    console.log(images);
+
+    if (images === undefined) {
       Alert.alert('Por favor, adicione por o menos uma foto do serviço');
       setLoadingSave(false);
       return;
@@ -179,7 +188,7 @@ const EditCompleteServices = () => {
       const response = await api.put('serviceProvider', {
         id: idService,
         description: inputDescription,
-        price: parseFloat(priceFormatted),
+        price: parseFloat(priceFormatted).toFixed(2),
         time: inputTime,
         
       });

@@ -26,6 +26,7 @@ function AddTypesServices({isFocused}) {
   ]);
   const [addServices, setAddServices] = useState();
   const [countServices, setCountServices] = useState();
+  
 
   useEffect(() => {
     if (isFocused) {
