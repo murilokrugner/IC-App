@@ -16,8 +16,8 @@ import Stars from '../../../assets/starts.png';
 
 import api from '../../../services/api';
 
-const CompleteRegister = () => {
-    const { dataAuth } = useAuth();
+function ProfileScreen() {
+  const { dataAuth } = useAuth();
     const navigation = useNavigation();
 
     function handleNext() {
@@ -33,18 +33,7 @@ const CompleteRegister = () => {
 
     const userId = dataAuth.id;
 
-    useEffect(() => {
-        showMessage({
-            message: "Complete seu perfil, adicionando algumas fotos",
-            type: "info",
-            duration: 5000,        
-            titleStyle: {
-                fontSize: 17,
-                fontWeight: 'bold',
-            },
-            backgroundColor: '#f08080',
-          });   
-          
+    useEffect(() => {          
           async function loadImages() {
             setLoadingPreview(true);
             setLoadingPreviewCover(true);
@@ -283,68 +272,66 @@ const CompleteRegister = () => {
 
   return (
     <SafeAreaView>
-        <Container>
-            <Box>        
-                <BoxImageCover>
-                {loadingPreviewCover ? (
-                    <ActivityIndicator style={{marginBottom: 130}} color="#000" size="small" />
+    <Container>
+        <Box>        
+            <BoxImageCover>
+            {loadingPreviewCover ? (
+                <ActivityIndicator style={{marginBottom: 130}} color="#000" size="small" />
+              ) : (
+                <>
+                  {previewCover ? (
+                    <ImageCover  source={previewCover} />
                   ) : (
-                    <>
-                      {previewCover ? (
-                        <ImageCover  source={previewCover} />
-                      ) : (
-                        <ImageCover  source={{
-                          uri: imageCover !== undefined
-                            ? imageCover
-                            : `https://api.adorable.io/avatars/220/cover.png`,
-                          }} />
-                      )}
-                    </>
+                    <ImageCover  source={{
+                      uri: imageCover !== undefined
+                        ? imageCover
+                        : `https://api.adorable.io/avatars/220/cover.png`,
+                      }} />
                   )}
-                    <BoxPositionSelectPhoto style={{width: 390, height: 260}}>
-                        <BoxSelectPhoto onPress={handleUpCover}>
-                            <BoxImageSelectPhoto>                            
-                                <SelectPhoto source={Camera} />
-                            </BoxImageSelectPhoto>
-                        </BoxSelectPhoto>
-                    </BoxPositionSelectPhoto>          
-                </BoxImageCover>        
-                <BoxPhoto>
-                  {loadingPreview ? (
-                    <ActivityIndicator style={{marginTop: 130}} color="#000" size="small" />
+                </>
+              )}
+                <BoxPositionSelectPhoto style={{width: 390, height: 260}}>
+                    <BoxSelectPhoto onPress={handleUpCover}>
+                        <BoxImageSelectPhoto>                            
+                            <SelectPhoto source={Camera} />
+                        </BoxImageSelectPhoto>
+                    </BoxSelectPhoto>
+                </BoxPositionSelectPhoto>          
+            </BoxImageCover>        
+            <BoxPhoto>
+              {loadingPreview ? (
+                <ActivityIndicator style={{marginTop: 130}} color="#000" size="small" />
+              ) : (
+                <>
+                  {preview ? (
+                    <ImagePhoto  source={preview} />
                   ) : (
-                    <>
-                      {preview ? (
-                        <ImagePhoto  source={preview} />
-                      ) : (
-                        <ImagePhoto  source={{
-                          uri: imagePhoto !== undefined
-                            ? imagePhoto
-                            : `https://api.adorable.io/avatars/220/moment.png`,
-                          }} />
-                      )}
-                    </>
+                    <ImagePhoto  source={{
+                      uri: imagePhoto !== undefined
+                        ? imagePhoto
+                        : `https://api.adorable.io/avatars/220/moment.png`,
+                      }} />
                   )}
-                    <BoxPositionSelectPhoto>
-                        <BoxSelectPhoto onPress={handleUpImage}>
-                            <BoxImageSelectPhoto>                            
-                                <SelectPhoto source={Camera} />
-                            </BoxImageSelectPhoto>
-                        </BoxSelectPhoto>
-                    </BoxPositionSelectPhoto>
-                </BoxPhoto>
-                <BoxName>
-                    <Name>{dataAuth.name}</Name>                
-                </BoxName>   
-                <BoxStars>
-                    <ImageStar source={Stars} />
-                </BoxStars>      
-
-                <ButtonNext onPress={handleNext}>Avançar</ButtonNext>   
-            </Box>
-        </Container>
-    </SafeAreaView>
+                </>
+              )}
+                <BoxPositionSelectPhoto>
+                    <BoxSelectPhoto onPress={handleUpImage}>
+                        <BoxImageSelectPhoto>                            
+                            <SelectPhoto source={Camera} />
+                        </BoxImageSelectPhoto>
+                    </BoxSelectPhoto>
+                </BoxPositionSelectPhoto>
+            </BoxPhoto>
+            <BoxName>
+                <Name>{dataAuth.name}</Name>                
+            </BoxName>   
+            <BoxStars>
+                <ImageStar source={Stars} />
+            </BoxStars>       
+        </Box>
+    </Container>
+</SafeAreaView>
   )
 }
 
-export default CompleteRegister;
+export default ProfileScreen;

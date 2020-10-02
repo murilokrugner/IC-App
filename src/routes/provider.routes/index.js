@@ -3,7 +3,7 @@ import { Image, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../../pages/Provider/Home';
-
+import Profile from '../../pages/Provider/Profile';
 import ServicesIcon from '../../assets/services.png';
 
 const Tab = createBottomTabNavigator();
@@ -28,7 +28,15 @@ function ProviderRoutes() {
     >
       <Tab.Screen name="Home" component={Home}
         options={{
-        tabBarLabel: 'Serviços',
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ color, size }) => (
+          <Image source={ServicesIcon} style={{width: 32, height: 32}}/>
+        ),
+      }}
+    />
+    <Tab.Screen name="Profile" component={Profile}
+        options={{
+        tabBarLabel: 'Profile',
         tabBarIcon: ({ color, size }) => (
           <Image source={ServicesIcon} style={{width: 32, height: 32}}/>
         ),

@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import { Container, BoxLoading, Box, BoxService, Service, 
     NameService, ButtonEdit, ImageEdit, BoxButtonFinished, ButtonFinished } from './styles';
 import { useAuth } from '../../../hooks/auth';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import api from '../../../services/api';
 import { ActivityIndicator, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +20,7 @@ function CompleteServices({isFocused}) {
     const [data, setData] = useState({});
 
     const [stateService, setStateService] = useState(true);
+    const [loadingFinished, setLoadingFinished] = useState(false);
 
     useEffect(() => {
         showMessage({
@@ -64,12 +65,23 @@ function CompleteServices({isFocused}) {
         navigation.navigate('EditCompleteServices', {id});
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
+        setLoadingFinished(true);
         if (stateService === false) {
             Alert.alert('Por favor, complete o cadastro de todos os serviços');
+            setLoadingFinished(false);
             return;
         } else {
-            navigation.navigate('ProviderRoutes');
+            const response = await api.put(`firstaccessconfirm?id=${dataAuth.id}`)
+
+            await AsyncStorage.multiSet([
+                ['@App:first_access', "1"],
+            ]);
+
+            if (response.data.ok === "ok") {
+                setLoadingFinished(false);
+                navigation.navigate('ProviderRoutes');
+            }            
         }
     }
 
@@ -97,7 +109,7 @@ function CompleteServices({isFocused}) {
             )}  
             {loading !== true && (
                 <BoxButtonFinished>                    
-                    <ButtonFinished onPress={handleSubmit}>Concluir</ButtonFinished>
+                    <ButtonFinished loading={loadingFinished} onPress={handleSubmit}>Concluir</ButtonFinished>
                 </BoxButtonFinished> 
             )}                   
       </Container>
