@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View } from 'react-native';
+import { Alert } from 'react-native';
 
 import { Container, BoxLoading, Box, BoxService, Service, 
     NameService, ButtonEdit, ImageEdit, BoxButtonFinished, ButtonFinished } from './styles';
@@ -9,15 +9,17 @@ import api from '../../../services/api';
 import { ActivityIndicator, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Edit from '../../../assets/edit.png';
-
+import { withNavigationFocus } from '@react-navigation/compat';
 import { showMessage } from "react-native-flash-message";
 
-const CompleteServices = () => {
+function CompleteServices({isFocused}) {
     const { dataAuth } = useAuth();
     const navigation = useNavigation();
 
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState({});
+
+    const [stateService, setStateService] = useState(true);
 
     useEffect(() => {
         showMessage({
@@ -31,19 +33,44 @@ const CompleteServices = () => {
             backgroundColor: '#f08080',
           });  
 
-        async function loadServices() {
-            setLoading(true);
-            const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
-
-            setData(response.data);
-            setLoading(false);
+        if (isFocused) {
+            async function loadServices() {
+                setLoading(true);
+                const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
+    
+                setData(response.data);
+                setLoading(false);
+            }
+    
+            loadServices();
+    
+            async function verifyServices() {
+                setStateService(true); 
+                const response = await api.get(`verifyservices?provider=${dataAuth.id}`);
+    
+                const services = response.data.map(item => {
+                    if (item.complete === false) {
+                        setStateService(false);          
+                        return          
+                    };
+                })
+            }
+    
+            verifyServices();
         }
-
-        loadServices();
-    }, []);
+    }, [isFocused]);
 
     function handleEdit(id) {
         navigation.navigate('EditCompleteServices', {id});
+    }
+
+    function handleSubmit() {
+        if (stateService === false) {
+            Alert.alert('Por favor, complete o cadastro de todos os serviços');
+            return;
+        } else {
+            navigation.navigate('ProviderRoutes');
+        }
     }
 
   return (
@@ -70,11 +97,11 @@ const CompleteServices = () => {
             )}  
             {loading !== true && (
                 <BoxButtonFinished>                    
-                    <ButtonFinished onPress={() => {}}>Concluir</ButtonFinished>
+                    <ButtonFinished onPress={handleSubmit}>Concluir</ButtonFinished>
                 </BoxButtonFinished> 
             )}                   
       </Container>
   )
 }
 
-export default CompleteServices;
+export default withNavigationFocus(CompleteServices);
