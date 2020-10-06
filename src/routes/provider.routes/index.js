@@ -3,10 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ProviderRoutes from './Tab';
-import StoreRoutesProvider from './Store';
-import AddServiceRoutesProvider from './Services/AddService';   
+import SelectCategory from '../../pages/Provider/Store/SelectCategory';
+import AddTypesServices from '../../pages/Provider/ServicesProfileScreen/AddTypesServices';
+import EditCompleteServices from '../../pages/Provider/ServicesProfileScreen/EditCompleteServices';
 
-import EditServiceRoutesProvider from './Services/EditService';   
+import FirstAccessRoutes from './FirstAccessRoutes';
 
 const Stack = createStackNavigator();
 
@@ -15,21 +16,43 @@ function RoutesProviderAll() {
     <NavigationContainer independent={true}>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
           headerTitleAlign: 'center',
           cardStyle: { backgroundColor: '#fff' },
         }}
         initialRouteName="ProviderRoutes">
         <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} 
-          
+           options={{
+            headerShown: false,
+            
+          }}
         />
-        <Stack.Screen name="StoreRoutesProvider" component={StoreRoutesProvider} 
-          
+        <Stack.Screen name="SelectCategory" component={SelectCategory} 
+           options={{
+            headerShown: true,
+            headerTitle: "Selecione a categoria do produto"
+            
+          }}
         />   
-        <Stack.Screen name="EditServiceRoutesProvider" component={EditServiceRoutesProvider} 
+        <Stack.Screen name="AddTypesServices" component={AddTypesServices} 
+           options={{
+            headerShown: true,
+            headerTitle: "Adicione um novo serviço"
+            
+          }}
         />   
-        <Stack.Screen name="AddServiceRoutesProvider" component={AddServiceRoutesProvider} 
-        />     
+        <Stack.Screen name="EditCompleteServices" component={EditCompleteServices} 
+           options={{
+            headerShown: true,
+            headerTitle: "Editar serviço"
+            
+          }}
+        />    
+        <Stack.Screen name="FirstAccessRoutes" component={FirstAccessRoutes} 
+           options={{
+            headerShown: false,          
+          }}
+        />   
       </Stack.Navigator>
     </NavigationContainer>
 

@@ -11,7 +11,7 @@ function Store() {
   const navigation = useNavigation();
 
   function handleNext() {
-    navigation.navigate('StoreRoutesProvider');
+    navigation.navigate('SelectCategory');
   }
   return (
     <Container>

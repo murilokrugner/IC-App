@@ -7,10 +7,11 @@ import AddTypesServices from '../../../pages/Provider/AddTypesServices';
 import CompleteServices from '../../../pages/Provider/CompleteServices';
 import EditCompleteServices from '../../../pages/Provider/EditCompleteServices';
 
+import RoutesProviderAll from '../index';
 
 const Stack = createStackNavigator();
 
-function StackProviderRoutes() {
+function FirstAccessRoutes() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
@@ -47,11 +48,16 @@ function StackProviderRoutes() {
             headerTitle: "Editar serviço"
             
           }}
-        />
-        <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} />        
+        />     
+        <Stack.Screen name="RoutesProviderAll" component={RoutesProviderAll} 
+          options={{
+            headerShown: false,
+            
+          }}
+        /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default StackProviderRoutes;
+export default FirstAccessRoutes;

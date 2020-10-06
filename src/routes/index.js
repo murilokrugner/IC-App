@@ -3,14 +3,14 @@ import {View, ActivityIndicator} from 'react-native';
 import AuthRoutes from './auth.routes';
 import HomeRoutes from './home.routes';
 import RoutesProviderAll from './provider.routes/index';
-import StackProviderRoutes from './provider.routes/Stack';
+import FirstAccessRoutes from './provider.routes/FirstAccessRoutes';
 
 import { useAuth } from '../hooks/auth';
 
 function Routes() {
   const { dataAuth, loading, signOut } = useAuth();
 
-  //signOut()
+//signOut()
 
   if (loading) {
     return (
@@ -29,7 +29,7 @@ function Routes() {
       )  
     } else if (dataAuth.prov === '1' && dataAuth.first_access === "0") {
       return (
-        <StackProviderRoutes />
+        <FirstAccessRoutes />
       )
     } else {
       return (

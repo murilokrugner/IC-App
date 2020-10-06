@@ -10,8 +10,6 @@ import CifraoIcon from '../../../assets/cifrao.png';
 import HomeIcon from '../../../assets/home.png';
 import ProfileIcon from '../../../assets/profile.png';
 
-import StoreRoutesProvider from './../Store';
-
 const Tab = createBottomTabNavigator();
 
 function ProviderRoutes() {
