@@ -8,6 +8,8 @@ import CompleteServices from '../../../pages/Provider/CompleteServices';
 import EditCompleteServices from '../../../pages/Provider/EditCompleteServices';
 import ProviderRoutes from '../index';
 
+import HomeRoutesProvider from '../../provider.routes/Home';
+
 const Stack = createStackNavigator();
 
 function StackProviderRoutes() {
@@ -49,6 +51,7 @@ function StackProviderRoutes() {
           }}
         />
         <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} />
+        <Stack.Screen name="HomeRoutesProvider" component={HomeRoutesProvider} />
       </Stack.Navigator>
     </NavigationContainer>
   );

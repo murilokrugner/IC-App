@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Dimensions, View, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 import { Container } from './styles';
 
@@ -8,13 +8,14 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 
 import ProfileScreen from '../ProfileScreen';
+import Coments from '../Coments';
 
 
 const ProfileRoute = () => (
     <ProfileScreen />
   );
   const ComentsRoute = () => (
-    <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+    <Coments />
   );
 
   const initialLayout = { width: Dimensions.get('window').width };
@@ -36,6 +37,9 @@ function Profile(props) {
           {...props}
           indicatorStyle={{ backgroundColor: 'blue' }}          
           style={{ backgroundColor: 'white' }}
+          labelStyle={{
+            color: "#000"
+          }}
         />
       );   
     

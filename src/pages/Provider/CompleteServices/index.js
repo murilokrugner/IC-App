@@ -80,7 +80,7 @@ function CompleteServices({isFocused}) {
 
             if (response.data.ok === "ok") {
                 setLoadingFinished(false);
-                navigation.navigate('ProviderRoutes');
+                navigation.navigate('HomeRoutesProvider');
             }            
         }
     }

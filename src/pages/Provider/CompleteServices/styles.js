@@ -19,7 +19,7 @@ export const BoxLoading = styled.View`
 export const Box = styled.View`
     flex-direction: column;
     align-items: center;
-    height: 300px;
+    height: auto;
 `;
 
 export const BoxService = styled.View`
@@ -55,6 +55,8 @@ export const ImageEdit = styled.Image`
 export const BoxButtonFinished = styled.View`
     flex-direction: row;
     justify-content: center;
+
+    margin-top: 40px;
 `;
 
 export const ButtonFinished = styled(Button)`

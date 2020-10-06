@@ -1,22 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import { ActivityIndicator, SafeAreaView, Alert } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, Alert, Text } from 'react-native';
 
-import { Container, Box, BoxImageCover, ImageCover, 
-    BoxPositionSelectPhoto, BoxImageSelectPhoto, BoxSelectPhoto, SelectPhoto, 
-        BoxPhoto, ImagePhoto, BoxName, Name, BoxStars, ImageStar, ButtonNext } from './styles';
+import { Container, Box, BoxImageCover, ImageCover, BoxPositionSelectPhoto, BoxImageSelectPhoto, BoxSelectPhoto, SelectPhoto, 
+      BoxPhoto, ImagePhoto, BoxName, Name, BoxStars, ImageStar, ButtonNext, BoxTextServices, TextServices, 
+      BoxContainerServices, BoxButtonAdd, ButtonAdd, BoxServices, BoxLoading, BoxContainerService, BoxService, Service, NameService, ButtonEdit, ImageEdit } from './styles';
 
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from "react-native-flash-message";
-
+import Edit from '../../../assets/edit.png';
 import ImagePicker from 'react-native-image-picker';
 import { useAuth } from '../../../hooks/auth';
-
+import { withNavigationFocus } from '@react-navigation/compat';
 import Camera from '../../../assets/camera.png';
 import Stars from '../../../assets/starts.png';
-
+import Add from '../../../assets/add.png';
 import api from '../../../services/api';
 
-function ProfileScreen() {
+function ProfileScreen({isFocused}) {
   const { dataAuth } = useAuth();
     const navigation = useNavigation();
 
@@ -26,43 +26,72 @@ function ProfileScreen() {
 
     const [loadingPreview, setLoadingPreview] = useState(false);
     const [loadingPreviewCover, setLoadingPreviewCover] = useState(false);
+    const [loadingServices, setLoadingService] = useState(false);
     const [preview, setPreview] = useState('');
     const [previewCover, setPreviewCover] = useState('');
     const [imageCover, setImageCover] = useState();
     const [imagePhoto, setImagePhoto] = useState();
+    const [data, setData] = useState();
 
     const userId = dataAuth.id;
 
-    useEffect(() => {          
-          async function loadImages() {
-            setLoadingPreview(true);
-            setLoadingPreviewCover(true);
+    useEffect(() => { 
+      async function loadImages() {
+        setLoadingPreview(true);
+        setLoadingPreviewCover(true);
 
-            const response = await api.get(`getImages?id=${userId}`);
+        const response = await api.get(`getImages?id=${userId}`);
 
-            if (response.data.user.avatar === null) {
-              setImagePhoto();
-              setLoadingPreview(false);
-              setLoadingPreviewCover(false);
-            } else {
-              setImagePhoto(response.data.user.avatar.url);
-              setLoadingPreview(false);
-              setLoadingPreviewCover(false);
-            }
+        if (response.data.user.avatar === null) {
+          setImagePhoto();
+          setLoadingPreview(false);
+          setLoadingPreviewCover(false);
+        } else {
+          setImagePhoto(response.data.user.avatar.url);
+          setLoadingPreview(false);
+          setLoadingPreviewCover(false);
+        }
 
-            if (response.data.user.cover === null) {
-              setImageCover();
-              setLoadingPreview(false);
-              setLoadingPreviewCover(false);
-            } else {
-              setImageCover(response.data.user.cover.url);
-              setLoadingPreview(false);
-              setLoadingPreviewCover(false);
-            }
-          }
+        if (response.data.user.cover === null) {
+          setImageCover();
+          setLoadingPreview(false);
+          setLoadingPreviewCover(false);
+        } else {
+          setImageCover(response.data.user.cover.url);
+          setLoadingPreview(false);
+          setLoadingPreviewCover(false);
+        }
+      }   
+      
+      loadImages();
+      
+      async function loadServices() {
+        setLoadingService(true);
+        const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
 
-          loadImages();
+        setData(response.data);
+        setLoadingService(false);
+    }
+
+      loadServices(); 
+                
     }, []);
+
+    useEffect(() => {
+      if (isFocused) {
+          
+
+        async function loadServices() {
+          setLoadingService(true);
+          const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
+
+          setData(response.data);
+          setLoadingService(false);
+      }
+
+        loadServices();          
+      }
+    }, [isFocused])
 
     function handleUpCover(){
       setLoadingPreviewCover(true);
@@ -270,8 +299,17 @@ function ProfileScreen() {
     setLoadingPreview(false);
   }
 
+  function handleEdit(id) {
+    navigation.navigate('EditCompleteServices', {id});
+  } 
+
+  function handleAddService() {
+    navigation.navigate('AddTypesServices');
+  }
+
   return (
     <SafeAreaView>
+  <ScrollView>
     <Container>
         <Box>        
             <BoxImageCover>
@@ -321,17 +359,53 @@ function ProfileScreen() {
                         </BoxImageSelectPhoto>
                     </BoxSelectPhoto>
                 </BoxPositionSelectPhoto>
-            </BoxPhoto>
-            <BoxName>
+            </BoxPhoto>                            
+        </Box>
+        <BoxName>
                 <Name>{dataAuth.name}</Name>                
             </BoxName>   
             <BoxStars>
                 <ImageStar source={Stars} />
-            </BoxStars>       
-        </Box>
+            </BoxStars> 
+        <BoxTextServices>
+          <TextServices>Adicionar serviço</TextServices>
+          <BoxButtonAdd onPress={handleAddService}>
+            <ButtonAdd source={Add}></ButtonAdd>
+          </BoxButtonAdd>
+        </BoxTextServices>  
+      <BoxContainerServices>
+      
+       
+        {loadingServices ? (
+              <BoxLoading>
+                  <ActivityIndicator color="#000" size="small" />
+              </BoxLoading>
+            ) : (
+                <BoxContainerService>           
+                  {data !== undefined ? (
+                        <>
+                          {data.map(item => (
+                            <BoxService  key={item.id} style={item.complete ? {borderColor: '#15754A'} : {borderColor: '#F01F02'}}>
+                                <Service>
+                                    <NameService>{item.service.description}</NameService>
+                                    <ButtonEdit onPress={() => {handleEdit(item.id)}}>
+                                        <ImageEdit source={Edit}></ImageEdit>
+                                    </ButtonEdit>
+                                </Service>
+                            </BoxService>
+                          ))}
+                        </>                                                   
+                        ) : (
+                          <Text>Nenhum serviço adicionado</Text>
+                        )}                        
+                </BoxContainerService>
+                    )}  
+             
+      </BoxContainerServices>
     </Container>
+    </ScrollView>
 </SafeAreaView>
   )
 }
 
-export default ProfileScreen;
+export default withNavigationFocus(ProfileScreen);

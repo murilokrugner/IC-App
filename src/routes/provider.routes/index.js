@@ -1,49 +1,36 @@
-import React from 'react';
-import { Image, Platform } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, {useEffect, useState} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import Home from '../../pages/Provider/Home';
-import Profile from '../../pages/Provider/Profile';
-import ServicesIcon from '../../assets/services.png';
+import ProviderRoutes from './Tab';
+import StoreRoutesProvider from './Store';
+import HomeRoutesProvider from './Home';    
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-function ProviderRoutes() {
-  return (
-      <Tab.Navigator
-      tabBarOptions={{
-        labelStyle: {
-          fontSize: 14,
-        },
-        activeTintColor: '#fff',
-        activeBackgroundColor: '#f08080',
-        inactiveBackgroundColor: '#f08080',
-        inactiveTintColor: '#000',
-        tabStyle: {
-        },
-        style: {
-          height: Platform.OS === 'ios' ? 100 : 65
-        },
-    }}
-    >
-      <Tab.Screen name="Home" component={Home}
-        options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ color, size }) => (
-          <Image source={ServicesIcon} style={{width: 32, height: 32}}/>
-        ),
-      }}
-    />
-    <Tab.Screen name="Profile" component={Profile}
-        options={{
-        tabBarLabel: 'Profile',
-        tabBarIcon: ({ color, size }) => (
-          <Image source={ServicesIcon} style={{width: 32, height: 32}}/>
-        ),
-      }}
-    />
-    </Tab.Navigator>
-);
+function RoutesProviderAll() {
+    return(
+    <NavigationContainer independent={true}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          headerTitleAlign: 'center',
+          cardStyle: { backgroundColor: '#fff' },
+        }}
+        initialRouteName="ProviderRoutes">
+        <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} 
+          
+        />
+        <Stack.Screen name="StoreRoutesProvider" component={StoreRoutesProvider} 
+          
+        />   
+        <Stack.Screen name="HomeRoutesProvider" component={HomeRoutesProvider} 
+        />      
+      </Stack.Navigator>
+    </NavigationContainer>
+
+    );
+   
 }
 
-export default ProviderRoutes;
+export default RoutesProviderAll;

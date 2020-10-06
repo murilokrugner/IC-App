@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {View, ActivityIndicator} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import AuthRoutes from './auth.routes';
 import HomeRoutes from './home.routes';
-import ProviderRoutes from './provider.routes';
-import StackProviderRoutes from './provider.routes/Stack/';
+import RoutesProviderAll from './provider.routes/index';
+import StackProviderRoutes from './provider.routes/Stack';
 
 import { useAuth } from '../hooks/auth';
 
@@ -34,7 +33,7 @@ function Routes() {
       )
     } else {
       return (
-        <ProviderRoutes />
+        <RoutesProviderAll />
       )
     }
   }  
