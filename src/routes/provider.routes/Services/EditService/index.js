@@ -2,13 +2,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import ProviderRoutes from '../Tab/index';
-import EditCompleteServices from '../../../pages/Provider/ServicesProfileScreen/EditCompleteServices';
-import AddTypesServices from '../../../pages/Provider/ServicesProfileScreen/AddTypesServices'
+import EditCompleteServices from '../../../../pages/Provider/ServicesProfileScreen/EditCompleteServices';
 
 const Stack = createStackNavigator();
 
-function HomeRoutesProvider() {
+function EditServiceRoutesProvider() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
@@ -24,17 +22,10 @@ function HomeRoutesProvider() {
             headerTitle: "Editar serviço"
             
           }}
-        />   
-        <Stack.Screen name="AddTypesServices" component={AddTypesServices} 
-          options={{
-            headerShown: true,
-            headerTitle: "Adicionar novo serviço"
-            
-          }}
-        />      
+        />        
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default HomeRoutesProvider;
+export default EditServiceRoutesProvider;

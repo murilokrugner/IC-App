@@ -300,7 +300,7 @@ function ProfileScreen({isFocused}) {
   }
 
   function handleEdit(id) {
-    navigation.navigate('EditCompleteServices', {id});
+    navigation.navigate('EditServiceRoutesProvider', {id});
   } 
 
   function handleAddService() {

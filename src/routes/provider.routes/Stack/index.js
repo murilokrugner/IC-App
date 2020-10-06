@@ -6,9 +6,7 @@ import CompleteRegister from '../../../pages/Provider/CompleteRegister'
 import AddTypesServices from '../../../pages/Provider/AddTypesServices';
 import CompleteServices from '../../../pages/Provider/CompleteServices';
 import EditCompleteServices from '../../../pages/Provider/EditCompleteServices';
-import ProviderRoutes from '../index';
 
-import HomeRoutesProvider from '../../provider.routes/Home';
 
 const Stack = createStackNavigator();
 
@@ -50,8 +48,7 @@ function StackProviderRoutes() {
             
           }}
         />
-        <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} />
-        <Stack.Screen name="HomeRoutesProvider" component={HomeRoutesProvider} />
+        <Stack.Screen name="ProviderRoutes" component={ProviderRoutes} />        
       </Stack.Navigator>
     </NavigationContainer>
   );
