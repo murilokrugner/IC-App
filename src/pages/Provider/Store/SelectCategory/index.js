@@ -4,13 +4,16 @@ import { ActivityIndicator } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import { useAuth } from '../../../../hooks/auth';
 import { Container, BoxLoading, BoxPicker, BoxCategories, 
-    BoxAlignServices, BoxSelectService, TextCategory, Service, BoxDelService, DelService, BoxButtonNext, ButtonNext } from './styles';
+    BoxAlignServices, ContainerBox, BoxSelectService, BoxTextCategory, TextCategory, Service, BoxDelService, DelService, BoxButtonNext, ButtonNext } from './styles';
 
 import api from '../../../../services/api';
+import { useNavigation } from '@react-navigation/native';
 
 import Delete from '../../../../assets/delete.png';
 
 const SelectCategory = () => {
+  const navigation = useNavigation();
+
   const [selectCategory, setSelectCategory] = useState('        Selecione uma categoria');
 
   const { dataAuth } = useAuth();
@@ -35,10 +38,14 @@ const SelectCategory = () => {
       setLoading(true);
       const response = await api.get(`products?provider=${dataAuth.id}`);
 
-      setData(response.data);
+      if (response.data === 'empty') {
+        setLoading(false);
+      } else {
+        setData(response.data);
 
-      setLoading(false);
-      setSelectCategory ('Selecione uma categoria');
+        setLoading(false);
+        setSelectCategory ('Selecione uma categoria');
+      }       
     }
 
     loadCategories();
@@ -54,6 +61,8 @@ const SelectCategory = () => {
         });
       }
 
+      saveCategory();
+
       async function loadCategory() {
         setLoading(true);
         const response = await api.get(`products?provider=${dataAuth.id}`);
@@ -64,13 +73,14 @@ const SelectCategory = () => {
         setSelectCategory ('Selecione uma categoria');
       }
 
-      saveCategory();
       loadCategory();
     }
   }, [selectCategory]);
 
-  async function handleDelete() {
+  async function handleDelete(id) {
+    const response = await api.delete(`products?id=${id}`);
 
+    setData();
   }
 
   return (
@@ -107,25 +117,29 @@ const SelectCategory = () => {
               <>
                 {data !== undefined && (
                   <>
-                    <TextCategory>Categoria adicionada: </TextCategory>
+                    <BoxTextCategory>
+                      <TextCategory>Categoria adicionada: </TextCategory>
+                    </BoxTextCategory>                    
                     <BoxAlignServices>                      
-                      {data.map(item => (                          
+                      {data.map(item => (          
+                        <ContainerBox>                
                           <BoxSelectService key={item.id}>                          
                             <Service>{item.category.description}</Service>
                             <BoxDelService onPress={() => {handleDelete(item.id)}}>
                               <DelService source={Delete}/>
                             </BoxDelService>                      
-                          </BoxSelectService>                 
+                          </BoxSelectService>  
+                          <BoxButtonNext>
+                            <ButtonNext onPress={() => {navigation.navigate('CreateProduct', {item})}}>Avançar</ButtonNext>
+                          </BoxButtonNext>  
+                        </ContainerBox>             
                       ))}
                     </BoxAlignServices>
                   </>
                 )}
               </>
             )}
-          </BoxCategories>
-          <BoxButtonNext>
-            <ButtonNext>Avançar</ButtonNext>
-          </BoxButtonNext>
+          </BoxCategories>          
       </Container>
   )
 }

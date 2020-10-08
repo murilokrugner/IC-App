@@ -7,6 +7,8 @@ import SelectCategory from '../../pages/Provider/Store/SelectCategory';
 import AddTypesServices from '../../pages/Provider/ServicesProfileScreen/AddTypesServices';
 import EditCompleteServices from '../../pages/Provider/ServicesProfileScreen/EditCompleteServices';
 
+import CreateProduct from '../../pages/Provider/Store/CreateProduct';
+
 import FirstAccessRoutes from './FirstAccessRoutes';
 
 const Stack = createStackNavigator();
@@ -31,6 +33,13 @@ function RoutesProviderAll() {
            options={{
             headerShown: true,
             headerTitle: "Selecione a categoria do produto"
+            
+          }}
+        />   
+        <Stack.Screen name="CreateProduct" component={CreateProduct} 
+           options={{
+            headerShown: true,
+            headerTitle: "Cadastrar um produto"
             
           }}
         />   

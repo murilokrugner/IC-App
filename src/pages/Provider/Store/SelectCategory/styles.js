@@ -6,9 +6,8 @@ const widthPerf = Math.trunc(parseInt(Dimensions.get('window').width));
 //const heightPerf = Math.trunc(parseInt(Dimensions.get('window').height));
 
 export const Container = styled.View`
-  flex: 1;
   align-items: center;
-  height: 100%;
+  height: 600px;
 `;
 
 export const BoxPicker = styled.View`
@@ -19,6 +18,7 @@ export const BoxPicker = styled.View`
 
   width: 100px;
   height: 100px;
+
 `;
 
 export const BoxLoading = styled.View`
@@ -27,7 +27,10 @@ export const BoxLoading = styled.View`
   align-items: center;
 `;
 
-export const BoxCategories = styled.View``;
+export const BoxCategories = styled.View`
+  position: absolute;
+
+`;
 
 export const BoxAlignServices = styled.View`
     width: ${widthPerf};
@@ -68,16 +71,28 @@ export const Service = styled.Text`
     color: #fff;
 `;
 
+export const BoxTextCategory = styled.View`
+  flex-direction: row;
+  justify-content: center;
+`;
+
 export const TextCategory = styled.Text`
-  font-size: 16px;
+  font-size: 18px;
 
   margin: 30px;
 `;
 
 export const BoxButtonNext = styled.View`
   margin-top: 200px;
+
 `;
 
 export const ButtonNext = styled(Button)`
   width: 150px;
+`;
+
+export const ContainerBox = styled.View`
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
 `;
