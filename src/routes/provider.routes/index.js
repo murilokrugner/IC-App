@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ProviderRoutes from './Tab';
-import SelectCategory from '../../pages/Provider/Store/SelectCategory';
 import AddTypesServices from '../../pages/Provider/ServicesProfileScreen/AddTypesServices';
 import EditCompleteServices from '../../pages/Provider/ServicesProfileScreen/EditCompleteServices';
 
@@ -28,14 +27,7 @@ function RoutesProviderAll() {
             headerShown: false,
             
           }}
-        />
-        <Stack.Screen name="SelectCategory" component={SelectCategory} 
-           options={{
-            headerShown: true,
-            headerTitle: "Selecione a categoria do produto"
-            
-          }}
-        />   
+        />  
         <Stack.Screen name="CreateProduct" component={CreateProduct} 
            options={{
             headerShown: true,

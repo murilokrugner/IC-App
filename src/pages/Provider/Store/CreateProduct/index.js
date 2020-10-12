@@ -17,8 +17,6 @@ function CreateProduct() {
 
   const route = useRoute();
 
-  const responseParams = route.params.item.id;
-
   const formRef = useRef(null);
 
   const [loading, setLoading] = useState(true);
@@ -33,23 +31,33 @@ function CreateProduct() {
   const [units, setUnits] = useState();
   const [selectUnit, setSelectUnit] = useState("        Selecione uma unidade");
 
+  const [categories, setCategories] = useState();
+  const [selectCategory, setSelectCategory] = useState("        Selecione uma Categoria");
+
   useEffect(() => {
     async function loadunits() {
       const response = await api.get('productunits');
 
       setUnits(response.data);
 
+    }
+
+    async function loadCategories() {
+      const response = await api.get('productcategory');
+
+      setCategories(response.data);
+
       setLoading(false);
     }
 
     loadunits();
+    loadCategories();
   }, []);
 
   async function handleSave() {
     setLoadingSave(true);
 
     const response = await api.updade('products', {
-      id: responseParams,
       description: description,
       forward_price: forwardPrice,
       cash_price: cashPrice,
@@ -139,7 +147,8 @@ function CreateProduct() {
              ) : (
               <>
                 {units !== undefined && (
-               <BoxPicker>
+                  <>
+                    <BoxPicker>
                 <Picker
                  selectedValue={selectUnit}
                  style={{height: 20, width: 300, color: '#666360'}}
@@ -152,6 +161,20 @@ function CreateProduct() {
                    ))}
                  </Picker> 
                 </BoxPicker>
+                <BoxPicker>
+                <Picker
+                 selectedValue={selectCategory}
+                 style={{height: 20, width: 300, color: '#666360'}}
+                 onValueChange={(itemValue, itemIndex) =>
+                   setSelectCategory(itemValue)
+                 }>
+                   <Picker.Item key={"        Selecione uma categoria"} label={"        Selecione uma categoria"} value={"        Selecione uma categoria"}/>                                 
+                   {categories.map(item => (
+                         <Picker.Item key={item.description} label={item.description} value={item.description} />  
+                   ))}
+                 </Picker> 
+                </BoxPicker>
+                  </>
               )}
               </>
              )}
