@@ -17,8 +17,8 @@ function HomeRoutes() {
           fontSize: 14,
         },
         activeTintColor: '#fff',
-        activeBackgroundColor: '#f08080',
-        inactiveBackgroundColor: '#f08080',
+        activeBackgroundColor: '#235A5C',
+        inactiveBackgroundColor: '#235A5C',
         inactiveTintColor: '#000',
         tabStyle: {
         },

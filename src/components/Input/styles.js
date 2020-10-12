@@ -21,5 +21,5 @@ export const TextInput = styled.TextInput`
 `;
 
 export const Icon = styled(FeatherIcon)`
-  color: #f08080;
+  color: #235A5C;
 `;

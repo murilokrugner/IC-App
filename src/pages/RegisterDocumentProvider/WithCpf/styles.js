@@ -21,7 +21,7 @@ export const Icon = styled(FeatherIcon)`
   margin-bottom: 34px;
   left: 0;
   bottom: 0%;
-  color: #f08080;
+  color: #235A5C;
 `;
 
 export const ButtonSubmit = styled(Button)``;

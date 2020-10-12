@@ -1,31 +1,30 @@
 import React from 'react';
-
-import {Container, BoxSelect, BoxBorder, BoxButton, ImageBox, TitleBox} from './styles';
+import {Alert} from 'react-native';
+import {Container, Box, BoxTitle, Line, BoxImages, ButtonProvider, ImageProvider, ButtonClient, ImageClient} from './styles';
 
 import { useNavigation } from '@react-navigation/native';
 
-import Client from '../../assets/client.png';
-import Worker from '../../assets/worker.png';
+import Provider from '../../assets/prestador_de_servico.jpg';
+import Client from '../../assets/cliente.jpg';
 
 function WhatUser() {
   const navigation = useNavigation();
 
   return(
     <Container>
-      <BoxSelect>
-        <BoxBorder>        
-          <BoxButton onPress={() => { navigation.navigate('SignUp') }}>
-              <ImageBox source={Client}/>
-              <TitleBox>Cliente</TitleBox>
-            </BoxButton> 
-          </BoxBorder>
-          <BoxBorder>  
-            <BoxButton onPress={() => { navigation.navigate('SignUpProvider') }}>
-              <ImageBox source={Worker}/>
-              <TitleBox>Prestador</TitleBox>
-            </BoxButton> 
-          </BoxBorder>
-      </BoxSelect>
+      <Box>
+        <BoxTitle>Você é um?</BoxTitle>
+        <Line />
+        <BoxImages>
+          <ButtonClient onPress={() => { navigation.navigate('SignUp') }}>
+            <ImageClient source={Client}/>
+          </ButtonClient>
+
+          <ButtonProvider onPress={() => { navigation.navigate('SignUpProvider') }}>
+            <ImageProvider source={Provider}/>
+          </ButtonProvider>
+        </BoxImages>
+      </Box>
     </Container>
   )
 }

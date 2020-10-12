@@ -1,46 +1,69 @@
 import styled from 'styled-components/native';
 import {RectButton} from 'react-native-gesture-handler';
 
+import Button from '../../components/ButtonAuth';
+
 export const Container = styled.View`
   flex: 1;
   flex-direction: column;
 
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `;
 
-export const BoxSelect = styled.View`
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  justify-content: space-around;
-`;
+export const Box = styled.View`
+  margin-top: 100px;
+  width: 370px;
+  height: 400px;
 
-export const BoxBorder = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border: 0.5px;
-  width: 160px;
-  height: 150px;
+  border: 1px;
+  border-color: #CFD1D0;
   border-radius: 20px;
 
-`;
+  background-color: #fff;
 
-export const BoxButton = styled(RectButton)`
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  width: 160px;
-  height: 150px;
 `;
 
-export const ImageBox = styled.Image`
-  width: 64px;
-  height: 64px;
+export const BoxTitle = styled.Text`
+  margin-top: 10px;
+  font-size: 22px;
+
 `;
 
-export const TitleBox = styled.Text`
-  margin-top: 5px;
-  font-size:  18px;
+export const Line = styled.View`
+  margin-top: 10px;
+  width: 100%;
+  height: 0.5px;
+
+  background-color: #235A5C;
+
+`;
+
+export const BoxImages = styled.View`
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  width: 370px;
+  height: 300px;
+`;
+
+export const ButtonProvider = styled(RectButton)`
+
+`;
+
+export const ImageProvider = styled.Image`
+  width: 350px;
+`;
+
+export const ButtonClient = styled(RectButton)`
+  width: 350px;
+
+`;
+
+export const ImageClient = styled.Image`
+  width: 350px;
 `;

@@ -8,7 +8,16 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
 
-    padding: 40px;
+    padding: 30px;
+`;
+
+export const TitleBox = styled.Text`
+  font-family: "";
+
+  font-size: 30px;
+
+  margin-top: 20px;
+
 `;
 
 export const BoxForm = styled.View`
@@ -18,6 +27,8 @@ export const BoxForm = styled.View`
 
     justify-content: center;
     align-items: center;
+
+    margin-top: 20px;
 
     
 `;
@@ -30,7 +41,7 @@ export const BoxPassword = styled.View`
 `;
 
 export const ClickPassword = styled.Text`
-  color: #f08080;
+  color: #235A5C;
   font-size: 16px;
   font-family: 'RobotoSlab-Regular';
   margin-left: 16px;
@@ -54,7 +65,7 @@ export const CreateAccountButton = styled.TouchableOpacity`
 `;
 
 export const CreateAccountButtonText = styled.Text`
-    color: #f08080;
+    color: #235A5C;
     font-size: 16px;
     font-family: 'RobotoSlab-Regular';
     margin-left: 16px;

@@ -42,7 +42,7 @@ const CompleteRegister = () => {
                 fontSize: 17,
                 fontWeight: 'bold',
             },
-            backgroundColor: '#f08080',
+            backgroundColor: '#235A5C',
           });   
           
           async function loadImages() {

@@ -10,6 +10,8 @@ import WhatUser from '../../pages/WhatUser';
 import WithCnpj from '../../pages/RegisterDocumentProvider/WithCnpj';
 import WithCpf from '../../pages/RegisterDocumentProvider/WithCpf';
 
+//import pattern from '../../assets/pattern_com_fundo.png';
+
 const Auth = createStackNavigator();
 
 function AuthRoutes() {
@@ -37,7 +39,7 @@ function AuthRoutes() {
         <Auth.Screen name="WhatUser" component={WhatUser} 
           options={{
             headerShown: true, 
-            headerTitle:"Você é um?"          
+            headerTitle:"Cadastro"          
           }}
         />
         <Auth.Screen name="WithCnpj" component={WithCnpj} 

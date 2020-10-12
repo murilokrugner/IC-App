@@ -50,7 +50,7 @@ export const BoxSelectService = styled.View`
     width: 175;
     height: 45px;
     border-radius: 50px;
-    background-color: #f08080;
+    background-color: #235A5C;
 
     flex-direction: row;
     justify-content: space-around;

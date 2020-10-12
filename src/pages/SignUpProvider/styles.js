@@ -34,7 +34,7 @@ export const BoxPassword = styled(RectButton)`
 export const ClickPassword = styled.Text`
   flex-direction: row;
   justify-content: center;
-  color: #f08080;
+  color: #235A5C;
   font-size: 16px;
   font-family: 'RobotoSlab-Regular';
   margin-left: 16px;
@@ -53,7 +53,7 @@ export const Icon = styled(FeatherIcon)`
   margin-bottom: 34px;
   left: 0;
   bottom: 0%;
-  color: #f08080;
+  color: #235A5C;
 `;
 
 export const BoxPicker = styled.View`
