@@ -110,7 +110,7 @@ function CreateProduct() {
 
     setLoadingSave(false);
 
-    const idProduct = response.data.id;
+    const idProduct = response.data;
 
     navigation.navigate('AddImagesProduct', {idProduct});
   }

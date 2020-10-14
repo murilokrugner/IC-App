@@ -103,8 +103,8 @@ function ProfileScreen({isFocused}) {
           takePhotoButtonTitle: 'Tirar uma foto',
           chooseWhichLibraryTitle: 'Selecionar imagem',
           chooseFromLibraryButtonTitle: 'Selecionar',
-          maxWidth: 220,
-          maxHeight: 220,
+          //maxWidth: 220,
+          //maxHeight: 220,
           storageOptions: {
           skipBackup: true,
           path: 'images',
@@ -207,8 +207,8 @@ function ProfileScreen({isFocused}) {
               takePhotoButtonTitle: 'Tirar uma foto',
               chooseWhichLibraryTitle: 'Selecionar imagem',
               chooseFromLibraryButtonTitle: 'Selecionar',
-              maxWidth: 220,
-              maxHeight: 220,
+             // maxWidth: 220,
+             // maxHeight: 220,
               storageOptions: {
               skipBackup: true,
               path: 'images',
