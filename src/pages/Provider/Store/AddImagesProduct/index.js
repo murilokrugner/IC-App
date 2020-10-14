@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { ScrollView, ActivityIndicator, Alert } from 'react-native';
 
-import { Container, BoxLoading, Box, TitleProduct, 
+import { Container, BoxLoading, Box, BoxTitleProduct, TitleProduct, 
   TitleText, BoxButtonAdd, ButtonAdd,   
   ButtonAddImage, BoxImages, ContainerImage, 
   ImageService, BoxPositionDelete, BoxDelete, ImageDelete, BoxButtonSave, ButtonSave, BoxButtonCancel, ButtonCancel } from './styles';
@@ -30,6 +30,8 @@ const AddImagesProduct = () => {
   const route = useRoute();
 
   const idProduct = route.params.idProduct.id;
+
+  const nameProduct = route.params.idProduct.description;
 
   useEffect(() => {
     async function loadImages() {
@@ -200,7 +202,9 @@ const AddImagesProduct = () => {
     <ScrollView style={{flex: 1}}>   
       <Container>            
             <Box>
-              <TitleProduct>Nome do produto aqui</TitleProduct>
+              <BoxTitleProduct>
+                <TitleProduct>{nameProduct}</TitleProduct>
+              </BoxTitleProduct>              
               <TitleText>Adicione algumas fotos do seu produto</TitleText>
               <BoxButtonAdd>
                 {loadingImage ? (

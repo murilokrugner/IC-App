@@ -4,13 +4,19 @@ import { Text } from 'react-native';
 import { Container, Box, ImageLogo, TextTitle, ButtonNext } from './styles';
 
 import StoreIcon from '../../../assets/store.png';
-
+import { useAuth } from '../../../hooks/auth';
 import { useNavigation } from '@react-navigation/native';
+
+import api from '../../../services/api';
 
 function Store() {
   const navigation = useNavigation();
 
-  function handleNext() {
+  const { dataAuth } = useAuth();
+
+  async function handleNext() {
+    const response = await api.put(`store?id=${dataAuth.id}`);
+
     navigation.navigate('CreateProduct');
   }
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Image, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -10,10 +10,30 @@ import MyStore from '../../../pages/Provider/Store/MyStore';
 
 import HomeIcon from '../../../assets/home.png';
 import ProfileIcon from '../../../assets/profile.png';
+import { withNavigationFocus } from '@react-navigation/compat';
+import { useAuth } from '../../../hooks/auth';
+import api from '../../../services/api';
 
 const Tab = createBottomTabNavigator();
 
-function ProviderRoutes() {
+function ProviderRoutes({isFocused}) {
+  const { dataAuth } = useAuth();
+
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    if (isFocused) {
+      async function loadVerifyStore() {
+        const response = await api.get(`store?id=${dataAuth.id}`);
+  
+        setData(response.data.store);
+      }
+  
+      loadVerifyStore();
+    }
+    
+  }, [isFocused]);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -35,7 +55,7 @@ function ProviderRoutes() {
     >          
     <Tab.Screen name="Profile" component={Profile}
         options={{
-        tabBarLabel: 'Profile',
+        tabBarLabel: 'Profile',        
         tabBarIcon: ({ color, size }) => (
           <Image source={ProfileIcon} style={{width: 40, height: 40}}/>
         ),
@@ -49,16 +69,28 @@ function ProviderRoutes() {
         ),
       }}
     />
-    <Tab.Screen name="Store" component={Store}
+    {data ? (
+      <Tab.Screen name="MyStore" component={MyStore}
+        options={{
+        tabBarLabel: 'Minha loja',
+        tabBarIcon: ({ color, size }) => (
+          <Image source={CifraoIcon} style={{width: 44, height: 44}}/>
+        ),
+      }}
+      />  
+    ) : (
+      <Tab.Screen name="Store" component={Store}
         options={{
         tabBarLabel: 'Store',
         tabBarIcon: ({ color, size }) => (
           <Image source={CifraoIcon} style={{width: 44, height: 44}}/>
         ),
       }}
-    />             
+    />  
+    )}
+               
     </Tab.Navigator>
 );
 }
 
-export default ProviderRoutes;
+export default withNavigationFocus(ProviderRoutes);

@@ -25,14 +25,25 @@ export const Box = styled.View`
   margin-top: 30px;
 `;
 
+export const BoxTitleProduct = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+
+  padding: 10px;
+
+  width: 100%;
+`;
+
 export const TitleProduct = styled.Text`
   font-size: 20px;
-
+  flex-direction: row;
+  justify-content: center;
   margin-top: 20px;
 `;
 
 export const TitleText = styled.Text`
-  font-size: 18px;
+  font-size: 18px;  
 
   margin-top: 20px;
 `;
