@@ -11,7 +11,7 @@ function Store() {
   const navigation = useNavigation();
 
   function handleNext() {
-    navigation.navigate('AddImagesProduct');
+    navigation.navigate('CreateProduct');
   }
   return (
     <Container>

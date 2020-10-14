@@ -6,6 +6,7 @@ import Home from '../../../pages/Provider/Home';
 import Profile from '../../../pages/Provider/Profile';
 import Store from '../../../pages/Provider/Store';
 import CifraoIcon from '../../../assets/cifrao.png';
+import MyStore from '../../../pages/Provider/Store/MyStore';
 
 import HomeIcon from '../../../assets/home.png';
 import ProfileIcon from '../../../assets/profile.png';

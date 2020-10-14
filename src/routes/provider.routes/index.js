@@ -9,6 +9,7 @@ import EditCompleteServices from '../../pages/Provider/ServicesProfileScreen/Edi
 import CreateProduct from '../../pages/Provider/Store/CreateProduct';
 import AddImagesProduct from '../../pages/Provider/Store/AddImagesProduct';
 
+
 import FirstAccessRoutes from './FirstAccessRoutes';
 
 const Stack = createStackNavigator();
@@ -40,7 +41,7 @@ function RoutesProviderAll() {
            options={{
             headerShown: false,            
           }}
-        />  
+        />   
         <Stack.Screen name="AddTypesServices" component={AddTypesServices} 
            options={{
             headerShown: true,

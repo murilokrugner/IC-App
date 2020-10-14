@@ -10,7 +10,7 @@ import { useAuth } from '../hooks/auth';
 function Routes() {
   const { dataAuth, loading, signOut } = useAuth();
 
-//signOut()
+//  signOut()
 
   if (loading) {
     return (

@@ -7,6 +7,7 @@ export const Container = styled.View`
   flex-direction: column;
   width: 100%;
   align-items: center;
+  justify-content: center;
 `;
 
 export const BoxLoading = styled.View`
@@ -114,10 +115,12 @@ export const BoxButtonCancel = styled.View`
   width: 200px;
 
   margin-top: 20px;
+  margin-bottom: 20px; 
 `;
 
 export const ButtonCancel = styled(Button)`
   width: 200px;
-
+  
   background-color: #EB1D0F;
+
 `;
