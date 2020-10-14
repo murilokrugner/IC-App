@@ -7,6 +7,7 @@ import AddTypesServices from '../../pages/Provider/ServicesProfileScreen/AddType
 import EditCompleteServices from '../../pages/Provider/ServicesProfileScreen/EditCompleteServices';
 
 import CreateProduct from '../../pages/Provider/Store/CreateProduct';
+import AddImagesProduct from '../../pages/Provider/Store/AddImagesProduct';
 
 import FirstAccessRoutes from './FirstAccessRoutes';
 
@@ -35,6 +36,11 @@ function RoutesProviderAll() {
             
           }}
         />   
+        <Stack.Screen name="AddImagesProduct" component={AddImagesProduct} 
+           options={{
+            headerShown: false,            
+          }}
+        />  
         <Stack.Screen name="AddTypesServices" component={AddTypesServices} 
            options={{
             headerShown: true,
