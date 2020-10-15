@@ -19,8 +19,9 @@ export const BoxTitle = styled.View`
   background-color: #235A5C;
   width: 100%;
   height: 60px;
-
-  justify-content: center;  
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;    
 `;
 
 export const TitleText = styled.Text`
@@ -112,7 +113,7 @@ export const Line = styled.View`
     background-color: #235A5C;
 `;
 
-export const ContainerProducts = styled.View`      
+export const ContainerProducts = styled.View`         
     flex-direction: row;
     margin-top: 15px;
     width: 100%;
@@ -131,14 +132,14 @@ export const Product = styled.View`
     justify-content: flex-start;
     align-items: center;
     margin: 3px;
-    width: 180px;
-    height: 270px;
+    width: 320px;
+    height: 370px;
 `;
 
 export const ImageProduct = styled.Image`
     margin-top: 5px;
-    width: 160px;
-    height: 120px;
+    width: 260px;
+    height: 220px;
 `;
 
 export const ProductDescription = styled.Text`
@@ -157,4 +158,22 @@ export const ButtonViewProduct = styled(Button)`
     margin-top: 5px;
     height: 30px;
     width: 130px;
+`;
+
+export const BoxButtonAdd = styled.View`
+  width: 35px;
+  height: 35px;
+
+  margin-right: 20px;
+`;
+
+export const ButtonAdd = styled(RectButton)`
+  width: 35px;
+  height: 35px;
+`;
+
+export const ButtonAddImage = styled.Image`
+  width: 35px;
+  height: 35px;
+
 `;

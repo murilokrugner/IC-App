@@ -65,7 +65,7 @@ function ProviderRoutes({isFocused}) {
         options={{
         tabBarLabel: '',    
         tabBarIcon: ({ color, size }) => (
-          <Image source={HomeIcon} style={{width: 50, height: 50}}/>
+          <Image source={HomeIcon} style={{width: 46, height: 46}}/>
         ),
       }}
     />
@@ -74,7 +74,7 @@ function ProviderRoutes({isFocused}) {
         options={{
         tabBarLabel: 'Minha loja',
         tabBarIcon: ({ color, size }) => (
-          <Image source={CifraoIcon} style={{width: 44, height: 44}}/>
+          <Image source={CifraoIcon} style={{width: 40, height: 40}}/>
         ),
       }}
       />  
@@ -83,7 +83,7 @@ function ProviderRoutes({isFocused}) {
         options={{
         tabBarLabel: 'Store',
         tabBarIcon: ({ color, size }) => (
-          <Image source={CifraoIcon} style={{width: 44, height: 44}}/>
+          <Image source={CifraoIcon} style={{width: 40, height: 40}}/>
         ),
       }}
     />  
