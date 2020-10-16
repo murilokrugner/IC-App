@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { ScrollView, SafeAreaView, ActivityIndicator, FlatList, View, Alert } from 'react-native';
+import { ScrollView, SafeAreaView, ActivityIndicator, FlatList, Text, Alert } from 'react-native';
 import { BoxLoading, Container, BoxTitle, TitleText, 
   BoxFilters, BoxOrder, OrderFilterTitle, 
   Filters, FilterTitle, BoxSelectFilters, 
@@ -7,6 +7,8 @@ import { BoxLoading, Container, BoxTitle, TitleText,
   ContainerProducts, Product, ImageProduct, 
   ProductDescription, ProductPrice, ButtonViewProduct, BoxButtonAdd, ButtonAdd, ButtonAddImage
 } from './styles';
+
+import {Picker} from '@react-native-community/picker';
 
 import Add from '../../../../assets/add2.png';
 
@@ -17,21 +19,44 @@ import { useAuth } from '../../../../hooks/auth';
 import api from '../../../../services/api';
 
 const MyStore = ({isFocused}) => {
+  const [selectOrder, setSelectOrder] = useState('Ordenar');
+
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(true);
+  const [loadingOrder, setLoadingOrder] = useState(false);
   const [filterVisible, setFilterVisible] = useState(false);
   const [products, setProducts] = useState();
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(5);
+  const [count, setCount] = useState(0);
 
   const { dataAuth } = useAuth();
 
   useEffect(() => {
     if (isFocused) {
       async function load() {
-        const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}`);
-  
-        setProducts(response.data);
+
+        if (selectOrder === 'Ordenar') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=created_at`);          
+
+          setProducts(response.data);
+        } else if (selectOrder === 'Descrição') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}`);          
+
+          setProducts(response.data);
+        } else if (selectOrder === 'Data') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+
+          setProducts(response.data);
+        } else if (selectOrder === 'Preço') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}`);
+
+          setProducts(response.data);
+        }            
+
+        const responseCount = await api.get(`mainCount?id=${dataAuth.id}`);
+
+        setCount(responseCount.data);
   
         setLoading(false);
       };
@@ -44,9 +69,28 @@ const MyStore = ({isFocused}) => {
   useEffect(() => {
     if (page !== 1) {
       async function load() {
-        const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}`);
-  
-        setProducts(response.data);
+
+        if(selectOrder === 'Ordenar') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+
+          setProducts(response.data);
+        } else if (selectOrder === 'Descrição') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}`);
+
+          setProducts(response.data);
+        } else if (selectOrder === 'Data') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+
+          setProducts(response.data);
+        } else if (selectOrder === 'Preço') {
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}`);
+
+          setProducts(response.data);
+        } 
+
+        const responseCount = await api.get(`mainCount?id=${dataAuth.id}`);
+
+        setCount(responseCount.data);
   
         setLoading(false);
       };
@@ -55,6 +99,43 @@ const MyStore = ({isFocused}) => {
     }
     
   }, [page]);
+
+  console.log(selectOrder);
+
+  useEffect(() => {
+      if (selectOrder !== 'Ordenar') {
+        async function load() {
+
+          setLoadingOrder(true);
+      
+          if(selectOrder === 'Ordenar') {
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+    
+            setProducts(response.data);
+          } else if (selectOrder === 'Descrição') {
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}`);
+    
+            setProducts(response.data);
+          } else if (selectOrder === 'Data') {
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+    
+            setProducts(response.data);
+          } else if (selectOrder === 'Preço') {
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}`);
+    
+            setProducts(response.data);
+          } 
+  
+          const responseCount = await api.get(`mainCount?id=${dataAuth.id}`);
+    
+          setCount(responseCount.data);
+    
+          setLoadingOrder(false);        
+      }  
+      
+      load();
+    };    
+  }, [selectOrder]);
   
 
   function openFilters() {
@@ -66,13 +147,20 @@ const MyStore = ({isFocused}) => {
   }
 
   function handleLoading() {
-    return (
-      <ActivityIndicator style={{marginBottom: 20}} size="small" color="#000"/>
-    )
+    if (page >= count) {
+      return (
+        <Text></Text>
+      )
+    } else {
+      return (
+        <ActivityIndicator style={{marginBottom: 20}} size="small" color="#000"/>
+      )
+    }
+    
   }
 
   function loadPage() {
-    setPage(page + 2);
+    setPage(page + 5);
   }
 
   function openAddProduct() {
@@ -97,7 +185,17 @@ const MyStore = ({isFocused}) => {
             </BoxTitle>
               <BoxFilters>
                 <BoxOrder>
-                  <OrderFilterTitle>Ordenação</OrderFilterTitle>
+                  <Picker
+                  selectedValue={selectOrder}
+                  style={{fontSize: 16, color: '#235A5C', width: 130}}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSelectOrder(itemValue)
+                  }> 
+                    <Picker.Item key={'Ordernar'} label={'Ordernar'} value={'Ordernar'} />                                                    
+                    <Picker.Item key={'Descrição'} label={'Descrição'} value={'Descrição'} />
+                    <Picker.Item key={'Data'} label={'Data'} value={'Data'} />
+                    <Picker.Item key={'Preço'} label={'Preço'} value={'Preço'} />
+                  </Picker>
                 </BoxOrder>
                 <Filters>
                   <ButtonFilters onPress={openFilters}>
@@ -117,9 +215,6 @@ const MyStore = ({isFocused}) => {
                       <ButtonFilter>Categoria</ButtonFilter>
                     </BoxButtonFilter>
                     <BoxButtonFilter>
-                      <ButtonFilter>Preço</ButtonFilter>
-                    </BoxButtonFilter>
-                    <BoxButtonFilter>
                       <ButtonFilter>Unidade</ButtonFilter>
                     </BoxButtonFilter>
                   </ScrollView>
@@ -129,7 +224,12 @@ const MyStore = ({isFocused}) => {
               ) : (
                 <></>
               )}                  
-              <ContainerProducts> 
+              {loadingOrder ? (
+                <BoxLoading>
+                <ActivityIndicator color="#000" size="large" />
+              </BoxLoading>
+              ) : (
+                <ContainerProducts> 
               <SafeAreaView >
                 <FlatList
                     ListFooterComponent={handleLoading}
@@ -148,7 +248,8 @@ const MyStore = ({isFocused}) => {
                     keyExtractor={item => item.id}
                     />  
                 </SafeAreaView>                                                                                       
-              </ContainerProducts>               
+              </ContainerProducts>
+              )}               
           </>
         )}                               
       </Container>

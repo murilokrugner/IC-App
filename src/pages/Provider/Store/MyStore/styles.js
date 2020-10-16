@@ -45,7 +45,7 @@ export const BoxOrder = styled.View`
   border: 1px;
   border-radius: 20px;
   border-color: #235A5C;
-  width: 120px;
+  width: 140px;
   height: 37px;
   
 `;
