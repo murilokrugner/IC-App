@@ -8,36 +8,53 @@ import { BoxLoading, Container, BoxTitle, TitleText,
   ProductDescription, ProductPrice, ButtonViewProduct, BoxButtonAdd, ButtonAdd, ButtonAddImage
 } from './styles';
 
-import Add from '../../../../assets/add.png';
+import Add from '../../../../assets/add2.png';
 
 import { useNavigation } from '@react-navigation/native';
-
+import { withNavigationFocus } from '@react-navigation/compat';
 import { useAuth } from '../../../../hooks/auth';
 
 import api from '../../../../services/api';
 
-const MyStore = () => {
+const MyStore = ({isFocused}) => {
   const navigation = useNavigation();
 
   const [loading, setLoading] = useState(true);
   const [filterVisible, setFilterVisible] = useState(false);
   const [products, setProducts] = useState();
+  const [page, setPage] = useState(2);
 
   const { dataAuth } = useAuth();
 
   useEffect(() => {
-    async function load() {
-      const response = await api.get(`mainProduct?id=${dataAuth.id}`);
+    if (isFocused) {
+      async function load() {
+        const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}`);
+  
+        setProducts(response.data);
+  
+        setLoading(false);
+      };
+  
+      load();
+    }
+    
+  }, [isFocused]);
 
-      setProducts(response.data);
-      console.log(response.data);
-
-      setLoading(false);
-    };
-
-    load();
-
-  }, []);
+  useEffect(() => {
+    if (page !== 1) {
+      async function load() {
+        const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}`);
+  
+        setProducts(response.data);
+  
+        setLoading(false);
+      };
+  
+      load();
+    }
+    
+  }, [page]);
   
 
   function openFilters() {
@@ -48,22 +65,14 @@ const MyStore = () => {
     }
   }
 
-  function handlelLoading() {
-    if(products) {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                
-            </View>
-        );
-    } else {
-        return (
-            <ActivityIndicator style={{marginBottom: 20}} size="small" color="#000"/>
-        )
-    }
+  function handleLoading() {
+    return (
+      <ActivityIndicator style={{marginBottom: 20}} size="small" color="#000"/>
+    )
   }
 
   function loadPage() {
-    
+    setPage(page + 2);
   }
 
   function openAddProduct() {
@@ -123,7 +132,7 @@ const MyStore = () => {
               <ContainerProducts> 
               <SafeAreaView >
                 <FlatList
-                    ListFooterComponent={handlelLoading}
+                    ListFooterComponent={handleLoading}
                     onEndReached={loadPage}
                     onEndReachedThreshold={0.01}
                     data={products}
@@ -146,4 +155,4 @@ const MyStore = () => {
   );
 }
 
-export default MyStore;
+export default withNavigationFocus(MyStore);

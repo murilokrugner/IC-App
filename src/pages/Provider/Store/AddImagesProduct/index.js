@@ -4,15 +4,16 @@ import { ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { Container, BoxLoading, Box, BoxTitleProduct, TitleProduct, 
   TitleText, BoxButtonAdd, ButtonAdd,   
   ButtonAddImage, BoxImages, ContainerImage, 
-  ImageService, BoxPositionDelete, BoxDelete, ImageDelete, BoxButtonSave, ButtonSave, BoxButtonCancel, ButtonCancel } from './styles';
+  ImageService, BoxPositionDelete, BoxDelete, 
+  ImageDelete, BoxButtonSave, ButtonSave, 
+  BoxButtonCancel, ButtonCancel, BoxPositionMark, BoxMarkMain, ImageMarkMain } from './styles';
 
 import ImagePicker from 'react-native-image-picker';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Add from '../../../../assets/add.png';
 import Remove from '../../../../assets/remove.png';
-
-import Teste from '../../../../assets/fretes.jpg';
+import Mark from '../../../../assets/book-mark.png';
 
 import api from '../../../../services/api';
 
@@ -198,6 +199,23 @@ const AddImagesProduct = () => {
     )    
   }
 
+  async function handleMarkMainFile(id) {
+    async function loadImages() {
+      const response = await api.get(`filesproducts?id=${idProduct}`);
+
+      if (response.data === 'empty') {
+        setLoading(false);
+      } else {
+        setImages(response.data); 
+        setLoading(false);
+      }
+    }
+
+    const updateFileMark = await api.put(`mainProduct?id=${id}&product=${idProduct}`);
+
+    loadImages();
+  }
+
   return (
     <ScrollView style={{flex: 1}}>   
       <Container>            
@@ -228,19 +246,26 @@ const AddImagesProduct = () => {
                   ) : (
                     <BoxImages>
                       {images.map(item => (
-                        <ContainerImage key={item.id}>
-                          <ImageService source={{uri: item.url}}></ImageService>
-                            <BoxPositionDelete>                  
+                        <ContainerImage onPress={() => {handleMarkMainFile(item.id)}} key={item.id}>
+                          <ImageService source={{uri: item.url}}></ImageService> 
+                            {item.main && (
+                              <BoxPositionMark>
+                                <BoxMarkMain>
+                                  <ImageMarkMain source={Mark} />
+                                </BoxMarkMain>  
+                              </BoxPositionMark> 
+                            )}                          
+                            <BoxPositionDelete>                                             
                               {loadingTrash ? (
                                 <BoxLoading>
                                   <ActivityIndicator color="#235A5C" size="small"/>
                                 </BoxLoading>
-                              ) : (
+                              ) : (                                
                                 <BoxDelete onPress={() => {handleDelete(item.id)}}>
-                                  <ImageDelete source={Remove}></ImageDelete>
-                                </BoxDelete>
-                              )}
-                            </BoxPositionDelete>
+                                  <ImageDelete source={Remove}/>
+                                </BoxDelete>                                                                                                  
+                              )}                                 
+                              </BoxPositionDelete>
                         </ContainerImage>
                       ))}
                   </BoxImages>

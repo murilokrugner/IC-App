@@ -72,7 +72,7 @@ export const BoxImages = styled.View`
     flex-wrap: wrap;
 `;
 
-export const ContainerImage = styled.View`  
+export const ContainerImage = styled(RectButton)`  
     width: 175px;
     height: 195px; 
     justify-content: center;
@@ -85,6 +85,15 @@ export const ImageService = styled.Image`
 
     margin-bottom: 20px;
 
+`;
+
+export const BoxPositionMark = styled.View`      
+    flex-direction: row;
+    width: 177px;
+    height: 195px; 
+    align-items: flex-start;
+    justify-content: flex-start;    
+    position: absolute;      
 `;
 
 export const BoxPositionDelete = styled.View`      
@@ -134,4 +143,20 @@ export const ButtonCancel = styled(Button)`
   
   background-color: #EB1D0F;
 
+`;
+
+export const BoxMarkMain = styled.View`
+    width: 32px;
+    height: 32px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center; 
+    border-radius: 100px;
+    
+    margin-left: 1px;
+`;
+
+export const ImageMarkMain = styled.Image`
+  width: 32px;
+  height: 32px;
 `;
