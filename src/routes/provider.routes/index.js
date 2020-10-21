@@ -8,7 +8,7 @@ import EditCompleteServices from '../../pages/Provider/ServicesProfileScreen/Edi
 
 import CreateProduct from '../../pages/Provider/Store/CreateProduct';
 import AddImagesProduct from '../../pages/Provider/Store/AddImagesProduct';
-
+import ViewProduct from '../../pages/Provider/Store/ViewProduct';
 
 import FirstAccessRoutes from './FirstAccessRoutes';
 
@@ -42,6 +42,12 @@ function RoutesProviderAll() {
             headerShown: false,            
           }}
         />   
+        <Stack.Screen name="ViewProduct" component={ViewProduct} 
+           options={{
+            headerShown: true,   
+            headerTitle: "Editar produto"         
+          }}
+        />
         <Stack.Screen name="AddTypesServices" component={AddTypesServices} 
            options={{
             headerShown: true,

@@ -20,6 +20,12 @@ import api from '../../../../services/api';
 
 const MyStore = ({isFocused}) => {
   const [selectOrder, setSelectOrder] = useState('Ordenar');
+  const [selectBrand, setSelectBrand] = useState('Todos');
+  const [selectCategory, setSelectCategory] = useState('Todos');
+  const [selectUnit, setSelectUnit] = useState('Todos');
+
+  const [categories, setCategories] = useState();
+  const [units, setUnits] = useState();
 
   const navigation = useNavigation();
 
@@ -37,26 +43,34 @@ const MyStore = ({isFocused}) => {
       async function load() {
 
         if (selectOrder === 'Ordenar') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=created_at`);          
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=created_at&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);          
 
           setProducts(response.data);
         } else if (selectOrder === 'Descrição') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}`);          
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);          
 
           setProducts(response.data);
         } else if (selectOrder === 'Data') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
           setProducts(response.data);
         } else if (selectOrder === 'Preço') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}`);
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
           setProducts(response.data);
         }            
 
-        const responseCount = await api.get(`mainCount?id=${dataAuth.id}`);
+        const responseCount = await api.get(`mainCount?id=${dataAuth.id}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
         setCount(responseCount.data);
+
+        const responseCategories = await api.get('productcategory');
+
+        setCategories(responseCategories.data);
+
+        const responseUnits = await api.get('productunits');
+
+        setUnits(responseUnits.data);
   
         setLoading(false);
       };
@@ -71,24 +85,24 @@ const MyStore = ({isFocused}) => {
       async function load() {
 
         if(selectOrder === 'Ordenar') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
           setProducts(response.data);
         } else if (selectOrder === 'Descrição') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}`);
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
           setProducts(response.data);
         } else if (selectOrder === 'Data') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
           setProducts(response.data);
         } else if (selectOrder === 'Preço') {
-          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}`);
+          const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
           setProducts(response.data);
         } 
 
-        const responseCount = await api.get(`mainCount?id=${dataAuth.id}`);
+        const responseCount = await api.get(`mainCount?id=${dataAuth.id}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
 
         setCount(responseCount.data);
   
@@ -100,33 +114,31 @@ const MyStore = ({isFocused}) => {
     
   }, [page]);
 
-  console.log(selectOrder);
-
   useEffect(() => {
-      if (selectOrder !== 'Ordenar') {
+      if (selectOrder !== 'Ordenar' || selectCategory !== 'Todos' || selectUnit !== 'Todos') {
         async function load() {
 
           setLoadingOrder(true);
       
           if(selectOrder === 'Ordenar') {
-            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
     
             setProducts(response.data);
           } else if (selectOrder === 'Descrição') {
-            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}`);
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'description'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
     
             setProducts(response.data);
           } else if (selectOrder === 'Data') {
-            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}`);
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'created_at'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
     
             setProducts(response.data);
           } else if (selectOrder === 'Preço') {
-            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}`);
+            const response = await api.get(`mainProduct?id=${dataAuth.id}&page=${page}&orderSelect=${'cash_price'}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
     
             setProducts(response.data);
           } 
   
-          const responseCount = await api.get(`mainCount?id=${dataAuth.id}`);
+          const responseCount = await api.get(`mainCount?id=${dataAuth.id}&brand=${selectBrand}&category=${selectCategory}&unit=${selectUnit}`);
     
           setCount(responseCount.data);
     
@@ -135,7 +147,7 @@ const MyStore = ({isFocused}) => {
       
       load();
     };    
-  }, [selectOrder]);
+  }, [selectOrder, selectCategory, selectUnit]);
   
 
   function openFilters() {
@@ -165,6 +177,10 @@ const MyStore = ({isFocused}) => {
 
   function openAddProduct() {
     navigation.navigate('CreateProduct')
+  }
+
+  function handleViewPrduct(id) {
+    navigation.navigate('ViewProduct', {id});
   }
 
   return (
@@ -208,14 +224,44 @@ const MyStore = ({isFocused}) => {
                   <BoxSelectFilters>
                   <ScrollView horizontal={true}
                   showsHorizontalScrollIndicator={false}>
+                    {/*<BoxButtonFilter>
+                    <Picker
+                    selectedValue={selectOrder}
+                    style={{fontSize: 16, color: '#235A5C', width: 130}}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setSelectOrder(itemValue)
+                    }> 
+                      <Picker.Item key={'Marca'} label={'Marca'} value={'Marca'} />                                                    
+                      <Picker.Item key={'Descrição'} label={'Descrição'} value={'Descrição'} />
+                      <Picker.Item key={'Data'} label={'Data'} value={'Data'} />
+                      <Picker.Item key={'Preço'} label={'Preço'} value={'Preço'} />
+                    </Picker>
+                  </BoxButtonFilter>*/}
                     <BoxButtonFilter>
-                      <ButtonFilter>Marcas</ButtonFilter>
+                      <Picker
+                      selectedValue={selectCategory}
+                      style={{fontSize: 16, color: '#235A5C', width: 140}}
+                      onValueChange={(itemValue, itemIndex) =>
+                        setSelectCategory(itemValue)
+                      }> 
+                        <Picker.Item key={'Todos'} label={'Categoria'} value={'Todos'} />                                                       
+                        {categories.map(item => (
+                          <Picker.Item key={item.description} label={item.description} value={item.description} /> 
+                        ))}
+                    </Picker>
                     </BoxButtonFilter>
                     <BoxButtonFilter>
-                      <ButtonFilter>Categoria</ButtonFilter>
-                    </BoxButtonFilter>
-                    <BoxButtonFilter>
-                      <ButtonFilter>Unidade</ButtonFilter>
+                      <Picker
+                        selectedValue={selectUnit}
+                        style={{fontSize: 16, color: '#235A5C', width: 130}}
+                        onValueChange={(itemValue, itemIndex) =>
+                          setSelectUnit(itemValue)
+                        }> 
+                          <Picker.Item key={'Todos'} label={'Unidade'} value={'Todos'} />                                                       
+                          {units.map(item => (
+                          <Picker.Item key={item.description} label={item.description} value={item.description} /> 
+                        ))}
+                      </Picker>
                     </BoxButtonFilter>
                   </ScrollView>
                 </BoxSelectFilters>
@@ -242,7 +288,7 @@ const MyStore = ({isFocused}) => {
                         <ImageProduct source={{uri: item.url}}/>
                         <ProductDescription>{item.product.description}</ProductDescription>
                         <ProductPrice>{item.product.cash_price}</ProductPrice>
-                        <ButtonViewProduct>Ver Produto</ButtonViewProduct>
+                        <ButtonViewProduct onPress={() => {handleViewPrduct(item.product.id)}}>Ver Produto</ButtonViewProduct>
                       </Product>
                     }
                     keyExtractor={item => item.id}
