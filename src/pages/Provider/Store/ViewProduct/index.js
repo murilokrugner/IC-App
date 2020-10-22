@@ -22,12 +22,17 @@ const ViewProduct = () => {
 
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
+  const [product, setProduct] = useState();
 
   useEffect(() => {
     async function loadImages() {
       const response = await api.get(`filesviewproducts?id=${idProduct}`);
 
       setImages(response.data);
+
+      const responseProduct = await api.get(`productId?id=${idProduct}`);
+
+      setProduct(responseProduct.data);
 
       setLoading(false);
       
@@ -36,6 +41,10 @@ const ViewProduct = () => {
     loadImages();
   }, []);
 
+  function handleEditProduct() {
+    navigation.navigate('EditProduct', {idProduct});
+  }
+
   return (
       <Container>
         {loading ? (
@@ -43,7 +52,8 @@ const ViewProduct = () => {
             <ActivityIndicator color="#000" size="small" />
           </BoxLoading>
         ) : (
-          <SwipeableParallaxCarousel
+          <>
+            <SwipeableParallaxCarousel
             data={images}
             parallax={true}
             navigation={true}
@@ -51,24 +61,25 @@ const ViewProduct = () => {
             navigationColor={"#235A5C"}
             height={300}
           />
-        )}
-        <BoxDescription>
-          <Description>Descrição do produto aqui</Description>
-        </BoxDescription>
-        <BoxPrice>
-          <Price>R$ 50,00 a vista</Price>
-          <ForwardPrice>R$ 55,00 a prazo</ForwardPrice>
-        </BoxPrice>
-        <BoxBrand>
-          <Brand>Marca: HONDA</Brand>
-        </BoxBrand>
-        <BoxNote>
-          <TitleNote>Observações sobre o produto: </TitleNote>
-          <Note>teste de obsenfenvnr</Note>
-        </BoxNote>
-        <BoxEdit>
-          <ButtonEdit>Editar produto</ButtonEdit>
-        </BoxEdit>
+            <BoxDescription>
+            <Description>{product.description}</Description>
+            </BoxDescription>
+            <BoxPrice>
+              <Price>R$ {product.cash_price} a vista</Price>
+              <ForwardPrice>R$ {product.forward_price} a prazo</ForwardPrice>
+            </BoxPrice>
+            <BoxBrand>
+              <Brand>Marca: {product.brand}</Brand>
+            </BoxBrand>
+            <BoxNote>
+              <TitleNote>Observações sobre o produto: </TitleNote>
+              <Note>{product.comments}</Note>
+            </BoxNote>
+            <BoxEdit>
+              <ButtonEdit onPress={handleEditProduct}>Editar produto</ButtonEdit>
+          </BoxEdit>
+          </>
+        )}        
       </Container>
   );
 }

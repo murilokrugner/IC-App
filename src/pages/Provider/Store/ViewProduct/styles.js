@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import Button from '../../../../components/ButtonAuth';
 
 export const Container = styled.View`
-    flex: 2;
+    flex: 1;
 `;
 
 
