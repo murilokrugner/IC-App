@@ -138,14 +138,14 @@ export const Product = styled.View`
 
 export const ImageProduct = styled.Image`
     margin-top: 5px;
-    width: 260px;
+    width: 300px;
     height: 220px;
 `;
 
 export const ProductDescription = styled.Text`
     margin-top: 5px;
     padding: 10px;
-    font-size: 14px;
+    font-size: 20px;
 `;
 
 export const ProductPrice = styled.Text`    

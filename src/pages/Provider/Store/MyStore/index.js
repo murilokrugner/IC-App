@@ -287,7 +287,7 @@ const MyStore = ({isFocused}) => {
                       <Product key={item.id}>
                         <ImageProduct source={{uri: item.url}}/>
                         <ProductDescription>{item.product.description}</ProductDescription>
-                        <ProductPrice>{item.product.cash_price}</ProductPrice>
+                        <ProductPrice>R$ {item.product.cash_price}</ProductPrice>
                         <ButtonViewProduct onPress={() => {handleViewPrduct(item.product.id)}}>Ver Produto</ButtonViewProduct>
                       </Product>
                     }
