@@ -8,10 +8,10 @@ import { Container, BoxLoading, BoxDescription,
 import { useAuth } from '../../../../hooks/auth';
 import SwipeableParallaxCarousel from 'react-native-swipeable-parallax-carousel';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
+import { withNavigationFocus } from '@react-navigation/compat';
 import api from '../../../../services/api';
 
-const ViewProduct = () => {
+const ViewProduct = ({isFocused}) => {
   const navigation = useNavigation();
 
   const { dataAuth } = useAuth();
@@ -25,21 +25,24 @@ const ViewProduct = () => {
   const [product, setProduct] = useState();
 
   useEffect(() => {
-    async function loadImages() {
-      const response = await api.get(`filesviewproducts?id=${idProduct}`);
-
-      setImages(response.data);
-
-      const responseProduct = await api.get(`productId?id=${idProduct}`);
-
-      setProduct(responseProduct.data);
-
-      setLoading(false);
-      
+    if (isFocused) {
+      async function loadImages() {
+        const response = await api.get(`filesviewproducts?id=${idProduct}`);
+  
+        setImages(response.data);
+  
+        const responseProduct = await api.get(`productId?id=${idProduct}`);
+  
+        setProduct(responseProduct.data);
+  
+        setLoading(false);
+        
+      }
+  
+      loadImages();
     }
-
-    loadImages();
-  }, []);
+    
+  }, [isFocused]);
 
   function handleEditProduct() {
     navigation.navigate('EditProduct', {idProduct});
@@ -87,4 +90,4 @@ const ViewProduct = () => {
   );
 }
 
-export default ViewProduct;
+export default withNavigationFocus(ViewProduct);

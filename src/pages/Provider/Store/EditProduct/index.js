@@ -33,6 +33,8 @@ const EditProduct = () => {
  
   const [description, setDescription] = useState('');
   const [cashPrice, setCashPrice] = useState('');
+  const [selectCashPrice, setSelectCashPrice] = useState('');
+  const [selectForwardPrice, setSelectForwardPrice] = useState('');
   const [forwardPrice, setForwardPrice] = useState('');
   const [brand, setBrand] = useState('');
   const [comments, setComments] = useState('');
@@ -50,20 +52,23 @@ const EditProduct = () => {
 
       setDescription(response.data.description);
       setCashPrice(response.data.cash_price);
+      setSelectCashPrice(response.data.cash_price);
       setForwardPrice(response.data.forward_price);
+      setSelectForwardPrice(response.data.forward_price);
       setBrand(response.data.brand);
       setComments(response.data.comments);
       setCategory(response.data.category.description);
       setUnit(response.data.unit.description);      
 
+      setSelectCategory(response.data.category.description);
+      setSelectUnit(response.data.unit.description);
+
       const responseUnits = await api.get('productunits');
 
       setUnits(responseUnits.data);
-      setSelectUnit(responseUnits.data);
-
+      
       const responseCategories = await api.get('productcategory');
-
-      setSelectCategory(responseCategories.data);
+      
       setCategories(responseCategories.data);
 
       setLoading(false);
@@ -77,18 +82,64 @@ const EditProduct = () => {
     setLoadingSave(true);
 
     try {
-      const response = await api.put('products', {
-        id: id,
-        description: description,
-        forward_price: forwardPrice,
-        cash_price: cashPrice,
-        id_provider: dataAuth.id,
-        unit: selectUnit,
-        category: selectCategory,
-        brand: brand,
-        comments: comments,
-      });
-  
+
+      if (selectCashPrice === cashPrice && selectForwardPrice === forwardPrice) {
+        const response = await api.put('products', {
+          id: id,
+          description: description,
+          forward_price: selectForwardPrice,
+          cash_price: selectCashPrice,
+          id_provider: dataAuth.id,
+          unit: selectUnit,
+          category: selectCategory,
+          brand: brand.toUpperCase(),
+          comments: comments,
+        });
+      } else if (selectCashPrice !== cashPrice && selectForwardPrice !== forwardPrice) {
+        const forwardPriceFormatted = forwardPrice.slice(2);
+        const cashPriceFormatted = cashPrice.slice(2);
+
+        const response = await api.put('products', {
+          id: id,
+          description: description,
+          forward_price: parseFloat(forwardPriceFormatted).toFixed(2),
+          cash_price: parseFloat(cashPriceFormatted).toFixed(2),
+          id_provider: dataAuth.id,
+          unit: selectUnit,
+          category: selectCategory,
+          brand: brand.toUpperCase(),
+          comments: comments,
+        });
+      } else if (selectCashPrice === cashPrice && selectForwardPrice !== forwardPrice) {
+          const forwardPriceFormatted = forwardPrice.slice(2);
+
+          const response = await api.put('products', {
+            id: id,
+            description: description,
+            forward_price: parseFloat(forwardPriceFormatted).toFixed(2),
+            cash_price: selectCashPrice,
+            id_provider: dataAuth.id,
+            unit: selectUnit,
+            category: selectCategory,
+            brand: brand.toUpperCase(),
+            comments: comments,
+        });
+      } else if (selectCashPrice !== cashPrice && selectForwardPrice === forwardPrice) {
+          const cashPriceFormatted = cashPrice.slice(2);
+
+          const response = await api.put('products', {
+            id: id,
+            description: description,
+            forward_price: selectForwardPrice,
+            cash_price: parseFloat(cashPriceFormatted).toFixed(2),
+            id_provider: dataAuth.id,
+            unit: selectUnit,
+            category: selectCategory,
+            brand: brand.toUpperCase(),
+            comments: comments,
+          });
+      }
+                
       setLoadingSave(false);
       Alert.alert('As alterações para o produto foram salvas');
       navigation.goBack();

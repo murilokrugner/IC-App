@@ -104,7 +104,7 @@ function CreateProduct() {
       cash_price: parseFloat(cashPriceFormatted).toFixed(2),
       unit: selectUnit,      
       category: selectCategory,
-      brand: brand,
+      brand: brand.toUpperCase(),
       comments: comments,
     });
 
