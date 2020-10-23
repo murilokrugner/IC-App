@@ -201,3 +201,16 @@ export const ButtonAdd = styled.Image`
     width: 35px;
     height: 35px;
 `;
+
+export const BoxButtonExit = styled.View`
+    flex-direction: row;
+    justify-content: center;
+`;
+
+export const ButtonExit = styled(Button)`
+    width: 250px;
+    height: 40px;
+    background-color: #FA251F;
+    margin-top: 30px;
+    margin-bottom: 10px;
+`;

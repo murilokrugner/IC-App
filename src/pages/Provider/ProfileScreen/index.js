@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { ActivityIndicator, SafeAreaView, ScrollView, Alert, Text } from 'react-native';
 
-import { Container, Box, BoxImageCover, ImageCover, BoxPositionSelectPhoto, BoxImageSelectPhoto, BoxSelectPhoto, SelectPhoto, 
+import { Container, BoxLoading, Box, BoxImageCover, ImageCover, BoxPositionSelectPhoto, BoxImageSelectPhoto, BoxSelectPhoto, SelectPhoto, 
       BoxPhoto, ImagePhoto, BoxName, Name, BoxStars, ImageStar, ButtonNext, BoxTextServices, TextServices, 
-      BoxContainerServices, BoxButtonAdd, ButtonAdd, BoxServices, BoxLoading, BoxContainerService, BoxService, Service, NameService, ButtonEdit, ImageEdit } from './styles';
+      BoxContainerServices, BoxButtonAdd, ButtonAdd, BoxServices, 
+      BoxContainerService, BoxService, Service, 
+      NameService, ButtonEdit, ImageEdit, BoxButtonExit, ButtonExit } from './styles';
 
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from "react-native-flash-message";
@@ -17,7 +19,7 @@ import Add from '../../../assets/add.png';
 import api from '../../../services/api';
 
 function ProfileScreen({isFocused}) {
-  const { dataAuth } = useAuth();
+  const { dataAuth, signOut } = useAuth();
     const navigation = useNavigation();
 
     function handleNext() {
@@ -399,9 +401,11 @@ function ProfileScreen({isFocused}) {
                           <Text>Nenhum serviço adicionado</Text>
                         )}                        
                 </BoxContainerService>
-                    )}  
-             
-      </BoxContainerServices>
+                )}                              
+      </BoxContainerServices>    
+      <BoxButtonExit>
+                  <ButtonExit onPress={() => {signOut()}}>Sair</ButtonExit>
+                </BoxButtonExit>   
     </Container>
     </ScrollView>
 </SafeAreaView>
