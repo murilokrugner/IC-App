@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
-import { ActivityIndicator } from 'react-native';
+import { SafeAreaView, ActivityIndicator } from 'react-native';
 
 import { Container, BoxLoading, BoxDescription, 
   Description, BoxPrice, Price, ForwardPrice, 
@@ -46,6 +46,7 @@ const ViewProduct = () => {
   }
 
   return (
+    <SafeAreaView style={{flex: 1}}>
       <Container>
         {loading ? (
           <BoxLoading>
@@ -65,11 +66,12 @@ const ViewProduct = () => {
             <Description>{product.description}</Description>
             </BoxDescription>
             <BoxPrice>
-              <Price>R$ {product.cash_price} a vista</Price>
-              <ForwardPrice>R$ {product.forward_price} a prazo</ForwardPrice>
+              <Price>R$ {product.cash_price} a vista - {product.unit.description}</Price>
+              <ForwardPrice>R$ {product.forward_price} a prazo - {product.unit.description}</ForwardPrice>
             </BoxPrice>
             <BoxBrand>
               <Brand>Marca: {product.brand}</Brand>
+              <Brand>Categoria: {product.category.description}</Brand>
             </BoxBrand>
             <BoxNote>
               <TitleNote>Observações sobre o produto: </TitleNote>
@@ -81,6 +83,7 @@ const ViewProduct = () => {
           </>
         )}        
       </Container>
+    </SafeAreaView>
   );
 }
 
