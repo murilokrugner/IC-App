@@ -14,7 +14,5 @@ export const BoxMenu = styled.View`
     background-color: #235A5C;
 
     height: 100px;
-    width: 100%;
-
-    padding: 20px;
+    width: 15;
 `;
