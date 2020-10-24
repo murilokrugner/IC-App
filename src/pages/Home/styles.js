@@ -26,31 +26,6 @@ export const Name = styled.Text`
   color: #235A5C;
 `;
 
-export const BoxSearch = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-export const BoxButtonFilter = styled.View`
-  width: 32px;
-  height: 32px;
-`;
-
-export const ButtonFilter = styled(RectButton)`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-   width: 32px;
-  height: 32px;
-`;
-
-export const ImageButtonFilter = styled.Image`
-  width: 32px;
-  height: 32px;
-  margin-bottom: 10px;
-`;
-
 export const BoxMsg = styled.View`
   padding: 20px;
 `;
@@ -79,7 +54,10 @@ export const ButtonService = styled(RectButton)`
 `;
 
 export const Service = styled.View`
- background-color: #E3DCD0;
+ flex-direction: column;
+ justify-content: flex-start;
+ align-items: center;
+ background-color: #E8E6E3;
  margin: 10px;
  width: 180px;
  height: 180px;
@@ -88,6 +66,23 @@ export const Service = styled.View`
 
 `;
 
+
+export const ImageService = styled.Image`
+  width: 130px;
+  height: 120px;
+
+  margin-top: 15px;
+
+  border-radius: 50px;
+
+`;
+
+export const TitleService = styled.Text`
+  font-size: 19px;
+  font-weight: bold;
+  margin-top: 10px;
+
+`;
 
 export const BoxMsgFilter = styled.View`
   padding: 20px;
@@ -103,6 +98,8 @@ export const BoxServicesMain = styled.View`
   justify-content: center;
   align-items: center;
 
+  height: auto;
+
 `;
 
 export const ButtonServiceMain = styled(RectButton)`
@@ -110,15 +107,47 @@ export const ButtonServiceMain = styled(RectButton)`
   height: 80px;
   border-radius: 20px;
 
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 `;
 
 export const ServiceMain = styled.View`
-  background-color: #E3DCD0;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #E8E6E3;
   margin: 10px;
   width: 360px;
-  height: 70px;
+  height: 100px;
 
   border-radius: 20px;
 
 `;
+
+export const BoxTextServiceMain = styled.View`
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+export const ImageServiceMain = styled.Image`
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50px;
+
+`;
+
+export const NameProvider = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+export const TitleServiceMain = styled.Text`
+  font-size: 14px;
+`;
+
+export const PriceServiceMain = styled.Text`
+  font-weight: bold;
+`;
+
+

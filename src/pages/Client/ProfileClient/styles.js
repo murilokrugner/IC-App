@@ -10,12 +10,11 @@ export const Container = styled.View`
     align-items: center;
 `;
 
-export const ButtonExit = styled(RectButton)`
-    width: 100px;
+export const BoxMenu = styled.View`
+    background-color: #235A5C;
+
     height: 100px;
+    width: 100%;
 
-`;
-
-export const TitleButtonExit = styled.Text`
-    font-size: 16px;
+    padding: 20px;
 `;

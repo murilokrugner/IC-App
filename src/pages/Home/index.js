@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
-import {Container, BoxTitle, Hello, Name, BoxSearch, 
-  BoxButtonFilter, ButtonFilter, ImageButtonFilter, 
+import {Container, BoxTitle, Hello, Name,
   BoxMsg, Msg, BoxServices, BoxServicesMain, ButtonServiceMain, ServiceMain,
-  ButtonService, Service, BoxMsgFilter, BoxPicker} from './styles';
+  ButtonService, ImageService, TitleService, Service, BoxMsgFilter, 
+  BoxPicker, ImageServiceMain, BoxTextServiceMain, NameProvider, TitleServiceMain, PriceServiceMain} from './styles';
 import {Picker} from '@react-native-community/picker';
 import InputSearch from '../../components/InputSearch';
 import ElectrialIcon from '../../assets/electrical.jpg';
@@ -28,20 +28,7 @@ function Home() {
       <BoxTitle>
         <Hello>Olá</Hello>
         <Name>Murilo</Name>
-      </BoxTitle>
-      <BoxSearch>
-        <InputSearch name="search" icon="search" placeholder="Procure um serviço" returnKeyType="send"
-          autoCorrect={true}
-          autoCapitalize="none"
-          value={search}
-          onChangeText={setSearch}
-        />
-        <BoxButtonFilter>
-          <ButtonFilter>
-            <ImageButtonFilter source={FilterIcon}/>
-          </ButtonFilter>
-        </BoxButtonFilter>
-      </BoxSearch>
+      </BoxTitle>      
       <BoxMsg>
         <Msg>Os mais populares</Msg>
       </BoxMsg>
@@ -50,28 +37,62 @@ function Home() {
             showsHorizontalScrollIndicator={false}>
           <ButtonService>
             <Service>
-
+              <ImageService source={ElectrialIcon}/>
+              <TitleService>Eletrecista</TitleService>
             </Service>
           </ButtonService>
           <ButtonService>
             <Service>
-
+              <ImageService source={CelularesIcon}/>
+              <TitleService>Concertos</TitleService>
             </Service>
           </ButtonService>
           <ButtonService>
             <Service>
-
+              <ImageService source={DiaristaIcon}/>
+              <TitleService>Diarista</TitleService>
             </Service>
           </ButtonService>
           <ButtonService>
             <Service>
-
+              <ImageService source={EncanadorIcon}/>
+              <TitleService>Encanador</TitleService>
             </Service>
           </ButtonService>
+          <ButtonService>
+            <Service>
+              <ImageService source={FretesIcon}/>
+              <TitleService>Fretes</TitleService>
+            </Service>
+          </ButtonService>
+          <ButtonService>
+            <Service>
+              <ImageService source={InformaticaIcon}/>
+              <TitleService>Informatica</TitleService>
+            </Service>
+          </ButtonService>
+          <ButtonService>
+            <Service>
+              <ImageService source={JardineiroIcon}/>
+              <TitleService>Jardineiro</TitleService>
+            </Service>
+          </ButtonService>
+          <ButtonService>
+            <Service>
+              <ImageService source={PedreiroIcon}/>
+              <TitleService>Pedreiro</TitleService>
+            </Service>
+          </ButtonService>
+          <ButtonService>
+            <Service>
+              <ImageService source={PintorIcon}/>
+              <TitleService>Pintor</TitleService>
+            </Service>
+          </ButtonService>          
         </ScrollView>        
       </BoxServices>
       <BoxMsgFilter>
-        <Msg>Serviços para você</Msg>
+        <Msg>Promoções</Msg>
         <BoxPicker>
            <Picker
                selectedValue={filters}
@@ -86,12 +107,32 @@ function Home() {
       <BoxServicesMain>
         <ButtonServiceMain>
           <ServiceMain>
-
+            <ImageServiceMain source={PedreiroIcon}/>
+            <BoxTextServiceMain>
+              <NameProvider>Marfhs empresa empreitera</NameProvider>
+              <TitleServiceMain>Cimento extra</TitleServiceMain>
+              <PriceServiceMain>R$ 20,00</PriceServiceMain>
+            </BoxTextServiceMain>
           </ServiceMain>
         </ButtonServiceMain>
         <ButtonServiceMain>
           <ServiceMain>
-
+            <ImageServiceMain source={PedreiroIcon}/>
+            <BoxTextServiceMain>
+              <NameProvider>Marfhs empresa empreitera</NameProvider>
+              <TitleServiceMain>Cimento extra</TitleServiceMain>
+              <PriceServiceMain>R$ 20,00</PriceServiceMain>
+            </BoxTextServiceMain>
+          </ServiceMain>
+        </ButtonServiceMain>
+        <ButtonServiceMain>
+          <ServiceMain>
+            <ImageServiceMain source={PedreiroIcon}/>
+            <BoxTextServiceMain>
+              <NameProvider>Marfhs empresa empreitera</NameProvider>
+              <TitleServiceMain>Cimento extra</TitleServiceMain>
+              <PriceServiceMain>R$ 20,00</PriceServiceMain>
+            </BoxTextServiceMain>
           </ServiceMain>
         </ButtonServiceMain>
       </BoxServicesMain>

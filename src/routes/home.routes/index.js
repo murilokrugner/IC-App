@@ -3,9 +3,11 @@ import { Image, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../../pages/Home';
-import ProfileClient from '../../pages/ProfileClient';
+import ProfileClient from '../../pages/Client/ProfileClient';
 
 import ServicesIcon from '../../assets/services.png';
+import HomeIcon from '../../assets/home.png';
+import UserIcon from '../../assets/user.png';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +16,7 @@ function HomeRoutes() {
       <Tab.Navigator
       tabBarOptions={{
         labelStyle: {
-          fontSize: 14,
+          fontSize: 12,
         },
         activeTintColor: '#fff',
         activeBackgroundColor: '#235A5C',
@@ -23,7 +25,7 @@ function HomeRoutes() {
         tabStyle: {
         },
         style: {
-          height: Platform.OS === 'ios' ? 100 : 65
+          height: Platform.OS === 'ios' ? 100 : 55
         },
     }}
     >
@@ -31,15 +33,15 @@ function HomeRoutes() {
         options={{
         tabBarLabel: 'Serviços',
         tabBarIcon: ({ color, size }) => (
-          <Image source={ServicesIcon} style={{width: 32, height: 32}}/>
+          <Image source={HomeIcon} style={{width: 30, height: 30}}/>
         ),
       }}
     />
     <Tab.Screen name="ProfileClient" component={ProfileClient}
         options={{
-        tabBarLabel: 'Perfil',
+        tabBarLabel: 'Meu Perfil',        
         tabBarIcon: ({ color, size }) => (
-          <Image source={ServicesIcon} style={{width: 32, height: 32}}/>
+          <Image source={UserIcon} style={{width: 30, height: 30}}/>
         ),
       }}
     />

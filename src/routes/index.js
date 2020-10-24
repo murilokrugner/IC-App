@@ -8,7 +8,9 @@ import FirstAccessRoutes from './provider.routes/FirstAccessRoutes';
 import { useAuth } from '../hooks/auth';
 
 function Routes() {
-  const { dataAuth, loading } = useAuth();
+  const { dataAuth, loading, signOut } = useAuth();
+
+  //signOut();
 
   if (loading) {
     return (
