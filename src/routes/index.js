@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, ActivityIndicator} from 'react-native';
 import AuthRoutes from './auth.routes';
-import HomeRoutes from './home.routes';
+import ClientRoutes from './home.routes';
 import RoutesProviderAll from './provider.routes/index';
 import FirstAccessRoutes from './provider.routes/FirstAccessRoutes';
 
@@ -25,7 +25,7 @@ function Routes() {
       )  
     } else if (dataAuth.prov === '0') {
       return (
-        <HomeRoutes />
+        <ClientRoutes />
       )  
     } else if (dataAuth.prov === '1' && dataAuth.first_access === "0") {
       return (

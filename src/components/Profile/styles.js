@@ -5,8 +5,8 @@ export const Container = styled.View`
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    height: 480px;   
-    margin-bottom: 75px
+    height: 370px;   
+    margin-bottom: 75px;
 `;
 
 export const Box = styled.View`
@@ -89,6 +89,8 @@ export const BoxName = styled.View`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    margin-bottom: 20px;
 
 `;
 
