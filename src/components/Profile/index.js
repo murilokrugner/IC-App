@@ -34,7 +34,7 @@ const Profile = () => {
         setLoadingPreviewCover(true);
 
         const response = await api.get(`getImages?id=${userId}`);
-
+        
         if (response.data.user.avatar === null) {
           setImagePhoto();
           setLoadingPreview(false);

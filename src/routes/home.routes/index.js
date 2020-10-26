@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import TabsRoutes from './tabs.routes';
 import ProfileRoutes from './profile.routes';
 
+import ClientData from '../../pages/Client/ClientData';
+
 const Stack = createStackNavigator();
 
 function ClientRoutes() {
@@ -20,6 +22,13 @@ function ClientRoutes() {
         <Stack.Screen name="TabsRoutes" component={TabsRoutes} 
         />
         <Stack.Screen name="ProfileRoutes" component={ProfileRoutes} 
+        />
+        <Stack.Screen name="ClientData" component={ClientData} 
+          options={{
+            headerShown: true,
+            headerTitle: "Meus dados"
+            
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -85,7 +85,7 @@ function SignUpProvider() {
        {item: "        São Paulo (SP)"},
        {item: "        Sergipe (SE)"},
        {item: "        Tocantins (TO)"},
-    ])
+    ]);
 
     useEffect(() => {
         Geolocation.getCurrentPosition(

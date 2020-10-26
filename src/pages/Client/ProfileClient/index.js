@@ -2,15 +2,19 @@ import React from 'react';
 import {ScrollView} from 'react-native';
 import {Container, BoxMenu, BoxOption, BoxSelect, TitleOption, Icon, Line} from './styles';
 import { useAuth } from '../../../hooks/auth';
-
+import { useNavigation } from '@react-navigation/native';
 import Profile from '../../../components/Profile';
 
 function ProfileClient() {
     const { signOut } = useAuth();
-
+    const navigation = useNavigation();
 
     async function handleExit() {
         signOut();
+    }
+
+    function handleClientData() {
+        navigation.navigate('ClientData');
     }
 
     return(
@@ -18,7 +22,7 @@ function ProfileClient() {
             <Container>           
                 <Profile />
                 <BoxMenu>
-                    <BoxOption>
+                    <BoxOption onPress={handleClientData}>
                         <BoxSelect>
                             <TitleOption>Meus dados</TitleOption>
                             <Icon name={"edit-2"} size={20} color="#666360" />
