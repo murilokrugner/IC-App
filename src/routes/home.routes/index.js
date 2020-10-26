@@ -6,6 +6,7 @@ import TabsRoutes from './tabs.routes';
 import ProfileRoutes from './profile.routes';
 
 import ClientData from '../../pages/Client/ClientData';
+import Services from '../../pages/Client/Services';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,12 @@ function ClientRoutes() {
             headerShown: true,
             headerTitle: "Meus dados"
             
+          }}
+        />
+        <Stack.Screen name="Services" component={Services} 
+          options={{
+            headerShown: true,  
+            headerTitle: "Serviços"          
           }}
         />
       </Stack.Navigator>

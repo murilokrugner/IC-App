@@ -83,7 +83,7 @@ const Profile = () => {
                         <ImageCover  source={{
                           uri: imageCover !== undefined
                             ? imageCover
-                            : `https://api.adorable.io/avatars/220/cover.png`,
+                            : `https://ui-avatars.com/api/?name=${dataAuth.name}&size=395&background=random&color=000`,
                           }} />
                       )}
                     </>
@@ -107,7 +107,7 @@ const Profile = () => {
                         <ImagePhoto  source={{
                           uri: imagePhoto !== undefined
                             ? imagePhoto
-                            : `https://api.adorable.io/avatars/220/moment.png`,
+                            : `https://ui-avatars.com/api/?name=${dataAuth.name}&size=220&background=random&color=000`,
                           }} />
                       )}
                     </>

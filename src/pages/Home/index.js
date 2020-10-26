@@ -5,6 +5,8 @@ import {Container, BoxTitle, Hello, Name,
   ButtonService, ImageService, TitleService, Service, BoxMsgFilter, 
   BoxPicker, ImageServiceMain, BoxTextServiceMain, NameProvider, TitleServiceMain, PriceServiceMain} from './styles';
 import {Picker} from '@react-native-community/picker';
+import { useNavigation } from '@react-navigation/native';
+
 import InputSearch from '../../components/InputSearch';
 import ElectrialIcon from '../../assets/electrical.jpg';
 import CelularesIcon from '../../assets/celulares.jpg';
@@ -19,6 +21,8 @@ import PintorIcon from '../../assets/pintor.jpg';
 import FilterIcon from '../../assets/filter.png';
 
 function Home() {
+  const navigation = useNavigation();
+
   const [search, setSearch] = useState();
   const [filters, setFilters] = useState();
 
@@ -35,7 +39,7 @@ function Home() {
       <BoxServices> 
         <ScrollView style={{flex: 1 }} horizontal={true}
             showsHorizontalScrollIndicator={false}>
-          <ButtonService>
+          <ButtonService onPress={() => {navigation.navigate('Services')}}> 
             <Service>
               <ImageService source={ElectrialIcon}/>
               <TitleService>Eletrecista</TitleService>
