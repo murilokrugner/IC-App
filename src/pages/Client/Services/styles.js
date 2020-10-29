@@ -9,12 +9,20 @@ export const Container = styled.View`
   align-items: center;
 `;
 
+export const LoadingLocation = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+
+    margin-top: 10px;
+`;
+
 export const BoxLocation = styled.View`
     flex-direction: row;
     justify-content: flex-start;
     width: 100%;
     align-items: center;
-    height: 30px;
+    height: 35px;
     margin-top: 10px;
     margin-left: 10px;
 `;

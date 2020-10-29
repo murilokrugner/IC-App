@@ -1,11 +1,13 @@
-import React from 'react';
-import { View } from 'react-native';
-import { Container } from '../Services/styles';
+import React, {useState} from 'react';
+import { SafeAreaView } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { Container, BoxDistance, NameFilter, BoxSlider, DistanceSlider } from './styles';
+import { Container, BoxDistance, NameFilter, BoxSlider, DistanceSlider, ButtonApply } from './styles';
 
 const Filters = () => {
+  const [distance, setDistance] = useState(20);
+
   return (
+    <SafeAreaView style={{flex: 1}}>
     <Container>
       <BoxDistance>
                 <NameFilter>Distância:</NameFilter>
@@ -22,7 +24,9 @@ const Filters = () => {
                   <DistanceSlider>{distance} km</DistanceSlider>
                 </BoxSlider>              
               </BoxDistance>
+            <ButtonApply>Aplicar Filtro</ButtonApply>
     </Container>
+    </SafeAreaView>
   );
 }
 

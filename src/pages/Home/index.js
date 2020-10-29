@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet, Alert} from 'react-native';
 import {Container, BoxTitle, Hello, Name,
   BoxMsg, Msg, BoxServices, BoxServicesMain, ButtonServiceMain, ServiceMain,
   ButtonService, ImageService, TitleService, Service, BoxMsgFilter, 
   BoxPicker, ImageServiceMain, BoxTextServiceMain, NameProvider, TitleServiceMain, PriceServiceMain} from './styles';
 import {Picker} from '@react-native-community/picker';
 import { useNavigation } from '@react-navigation/native';
-
+//import Icon from 'react-native-vector-icons/Ionicons';
+//import ActionButton from 'react-native-action-button';
 import InputSearch from '../../components/InputSearch';
 import ElectrialIcon from '../../assets/electrical.jpg';
 import CelularesIcon from '../../assets/celulares.jpg';
@@ -144,5 +145,13 @@ function Home() {
     </Container>
   )
 }
+
+const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
+});
 
 export default Home;

@@ -7,6 +7,10 @@ import ProfileRoutes from './profile.routes';
 
 import ClientData from '../../pages/Client/ClientData';
 import Services from '../../pages/Client/Services';
+import Filters from '../../pages/Client/Filters';
+import ViewService from '../../pages/Client/ViewService';
+
+import Maps from '../../pages/Client/Maps';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +39,24 @@ function ClientRoutes() {
           options={{
             headerShown: true,  
             headerTitle: "Serviços"          
+          }}
+        />
+        <Stack.Screen name="Filters" component={Filters} 
+          options={{
+            headerShown: true,  
+            headerTitle: "Filtros"          
+          }}
+        />
+        <Stack.Screen name="ViewService" component={ViewService} 
+          options={{
+            headerShown: true,  
+            headerTitle: "Serviço"          
+          }}
+        />
+        <Stack.Screen name="Maps" component={Maps} 
+          options={{
+            headerShown: true,  
+            headerTitle: "Mapa"          
           }}
         />
       </Stack.Navigator>

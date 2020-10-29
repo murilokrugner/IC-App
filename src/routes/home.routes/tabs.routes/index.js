@@ -4,15 +4,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../../../pages/Home';
 import ProfileClient from '../../../pages/Client/ProfileClient';
+import MapMain from '../../../pages/MapMain';
 
-import HomeIcon from '../../../assets/home.png';
+import ServicesIcon from '../../../assets/services.png';
 import UserIcon from '../../../assets/user.png';
+import MapIcon from '../../../assets/map.png';
 
 const Tab = createBottomTabNavigator();
 
 function TabsRoutes() {
   return (
       <Tab.Navigator
+      initialRouteName="MapMain"
       tabBarOptions={{
         labelStyle: {
           fontSize: 12,
@@ -27,12 +30,20 @@ function TabsRoutes() {
           height: Platform.OS === 'ios' ? 100 : 55
         },
     }}
-    >
+    >      
       <Tab.Screen name="Home" component={Home}
         options={{
         tabBarLabel: 'Serviços',
         tabBarIcon: ({ color, size }) => (
-          <Image source={HomeIcon} style={{width: 30, height: 30}}/>
+          <Image source={ServicesIcon} style={{width: 30, height: 30}}/>
+        ),
+      }}
+    />
+    <Tab.Screen name="MapMain" component={MapMain}
+        options={{
+        tabBarLabel: 'Mapa',
+        tabBarIcon: ({ color, size }) => (
+          <Image source={MapIcon} style={{width: 30, height: 30}}/>
         ),
       }}
     />
