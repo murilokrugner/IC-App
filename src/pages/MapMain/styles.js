@@ -1,7 +1,12 @@
 import styled, {css} from 'styled-components/native';
-import {Platform} from 'react-native';
+import {Platform, Button} from 'react-native';
+
+export const Box = styled.View`
+  flex-direction: column;
+`;
 
 export const LocationBox = styled.View`
+  flex-direction: column;
   background: #fff;
   shadow-color: #000;
   shadow-offset: 0 0;
@@ -25,6 +30,8 @@ export const LocationText = styled.Text`
   margin: 8px 10px;
   font-size: 14px;
   color: #333;
+  width: 100px;
+  flex-wrap: wrap;
 `;
 
 export const LocationTimeBox = styled.View`

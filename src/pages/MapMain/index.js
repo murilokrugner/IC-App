@@ -1,15 +1,13 @@
-
 import React, {useState, useEffect, Fragment} from 'react';
-import {View, ActivityIndicator, StyleSheet, Image} from 'react-native';
+import {View, ActivityIndicator, StyleSheet, Button, Alert} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
 import Directions from '../../components/Directions';
 import Geolocation from '@react-native-community/geolocation';
 import Details from '../../components/Details';
-import api from '../../services/api';
-import { useAuth } from '../../hooks/auth';
 
 import {
+  Box,
   LocationBox,
   LocationText,
   LocationTimeBox,
@@ -21,7 +19,11 @@ import {
 import markerImage from '../../assets/marker.png';
 import backImage from '../../assets/back.png';
 
+import serviceIcon from '../../assets/customer-support.png';
+
 import {getPixelSize} from '../../util/utils';
+
+import api from '../../services/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,22 +40,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const MapMain = () => {
-  const { dataAuth } = useAuth();
+Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
+function MapMain() {
   const [loading, setLoading] = useState(true);
-
-  const [locale, setLocale] = useState({});
-
   const [coordinates, setCoordinates] = useState({});
   const [destination, setDestination] = useState(null);
-  const [destination2, setDestination2] = useState(null);
+  const [cityLocation, setCityLocation] = useState(null);
   const [mapView, setMapView] = useState();
   const [duration, setDuration] = useState();
   const [location, setLocation] = useState();
+  const [viewService, setViewService] = useState(false);
 
 
-  useEffect(() => {
+  useEffect(() => {    
     Geolocation.getCurrentPosition(
       async ({coords}) => {
         setCoordinates(coords);
@@ -67,10 +67,11 @@ const MapMain = () => {
       async ({coords: {latitude, longitude}}) => {
         const response = await Geocoder.from({latitude, longitude});
         const address = response.results[0].formatted_address;
+        const city = response.results[5].formatted_address.split('-')[0];
         const location = address.substring(0, address.indexOf(','));
 
-        setLocation(location);
-        setLoading(false);
+        setCityLocation(city);
+        setLocation(location);        
       },
       (error) => {
         console.log('Map' + error);
@@ -78,50 +79,25 @@ const MapMain = () => {
       {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
     );    
     
-    //aqui vai pegar a localização do cliente;
-    const latitude = -22.3709947;
-      const longitude = -48.3870517;
-      const title = 'SIMBOLUS';
-      
-      setDestination({latitude, longitude, title});
-
-      function teste() {
-        const latitude = -22.3637372;
-      const longitude = -48.3873279;
-      const title = 'MINATEL';
-      
-      setDestination2({latitude, longitude, title});
-      }
-
-      teste();
-
   }, []);
 
-  function handleBack() {
-    setDestination(null);
-  }
+  useEffect(() => {
+    if (cityLocation !== null) {
+      async function loadServices() {
+        const responseServices = await api.get(`services-providers?city=${'Dois Córregos'}`);     
+        
+        setDestination(responseServices.data);
+        
+        setLoading(false);
+      }
 
-  
-  /*useEffect(() => {
-    async function loadProviders() {
-      const user = await api.get(`users?id=${dataAuth.id}`);
-
-      const response = await api.get('services-providers', {
-        city: user.city,
-      });
-
-      const latitude = user.latitude;
-      const longitude = user.longitude;
-      const title = user.name;
-
-      setLocale({latitude, longitude, title});
-
-      setLoading(false);
+      loadServices();
     }
+  }, [cityLocation])
 
-    //loadProviders();
-  })*/
-
+  function handleViewService() {
+    setViewService(true);
+  }
 
   return (
     <View style={styles.container}>
@@ -138,64 +114,39 @@ const MapMain = () => {
             }}
             style={styles.map}
             showsUserLocation
+            showsMyLocationButton={true}
             ref={(el) => setMapView(el)}
             loadingEnabled>
             {destination && (
-              <Fragment>
-                <Directions
-                  origin={coordinates}
-                  destination={destination}
-                  onReady={(result) => {
-                    setDuration(Math.floor(result.duration)),
-                      mapView.fitToCoordinates(result.coordinates, {
-                        edgePadding: {
-                          right: getPixelSize(50),
-                          left: getPixelSize(50),
-                          top: getPixelSize(50),
-                          bottom: getPixelSize(350),
-                        },
-                      });
-                  }}
-                />
-                <Marker
-                  coordinate={destination}
-                  anchor={{x: 0, y: 0}}
-                  image={markerImage}>
-                  <LocationBox>
-                    <LocationText>{destination.title}</LocationText>
-                  </LocationBox>
-                </Marker>
-                <Marker
-                  coordinate={destination2}
-                  anchor={{x: 0, y: 0}}
-                  image={markerImage}>
-                  <LocationBox>
-                    <LocationText>{destination2.title}</LocationText>
-                  </LocationBox>
-                </Marker>
-                <Marker coordinate={coordinates} anchor={{x: 0, y: 0}}>
-                  <LocationBox>
-                    <LocationTimeBox>
-                      <LocationTimeText>{duration}</LocationTimeText>
-                      <LocationTimeTextSmall>MIN</LocationTimeTextSmall>
-                    </LocationTimeBox>
-                    <LocationText>{location}</LocationText>
-                  </LocationBox>
-                </Marker>
-              </Fragment>
+              <>               
+                  {destination.map(item => (                                      
+                    <Fragment>                                        
+                    <Marker
+                        onPress={handleViewService}
+                        coordinate={item}
+                        anchor={{x: 0, y: 0}}
+                        image={serviceIcon}>
+                        <LocationBox>
+                          <Box>
+                            <LocationText>{item.title}</LocationText>                                                     
+                          </Box>
+                        </LocationBox>                        
+                      </Marker>                                                                                                                    
+                    </Fragment>                    
+                  ))}
+                    <Marker coordinate={coordinates} anchor={{x: 0, y: 0}}>
+                        <LocationBox>                       
+                          <LocationText>Você</LocationText>
+                        </LocationBox>
+                      </Marker>             
+              </>
             )}
-          </MapView>
-
-          {destination ? (
+          </MapView> 
+          {viewService && (
             <Fragment>
-              <Back onPress={handleBack}>
-                <Image source={backImage} />
-              </Back>
               <Details />
             </Fragment>
-          ) : (        
-            <></>
-          )}
+          )}            
         </>
       )}
     </View>
@@ -203,3 +154,4 @@ const MapMain = () => {
 }
 
 export default MapMain;
+
