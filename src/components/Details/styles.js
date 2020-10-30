@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {RectButton} from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   background: #fff;
@@ -13,7 +14,7 @@ export const Container = styled.View`
   elevation: 3;
   border: 1px solid #ddd;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
 `;
 
 export const TypeTitle = styled.Text`
@@ -46,4 +47,26 @@ export const RequestButtonText = styled.Text`
   color: #fff;
   font-weight: bold;
   font-size: 18px;
+`;
+
+export const Box = styled.View`
+  margin-top: 15px;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+
+  position: absolute;
+  margin-left: 15px; 
+`;
+
+export const BoxButtonExit = styled(RectButton)`
+  width: 50px;
+  height: 50px;
+
+`;
+
+export const ButtonExitImage = styled.Image`
+  width: 20px;
+  height: 20px;
+
 `;

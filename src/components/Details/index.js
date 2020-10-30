@@ -6,9 +6,13 @@ import {
   TypeImage,
   RequestButton,
   RequestButtonText,
+  Box,
+  BoxButtonExit,
+  ButtonExitImage
 } from './styles';
 
 import unisagrado from '../../assets/unisagrado.png';
+import exitIcon from '../../assets/cancel.png';
 
 export default function Details() {
   return (
@@ -23,6 +27,11 @@ export default function Details() {
       <RequestButton onPress={() => {}}>
         <RequestButtonText>SOLICITAR ORÇAMENTO</RequestButtonText>
       </RequestButton>
+      <Box>
+        <BoxButtonExit>
+          <ButtonExitImage source={exitIcon}/>
+        </BoxButtonExit>
+      </Box>
     </Container>
   );
 }
