@@ -13,6 +13,7 @@ import {TextInputMask} from 'react-native-masked-text';
 import {Picker} from '@react-native-community/picker';
 import { RadioButton } from 'react-native-paper';
 import api from '../../services/api';
+import apiServices from '../../services/api-services';
 
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
@@ -57,36 +58,6 @@ function SignUpProvider() {
     const[checkedCnpj, setCheckedCnpj] = useState('');
     const[checkedCpf, setCheckedCpf] = useState('');
 
-    const [stateItens, setStateItens] = useState([
-       {item: "        Acre (AC)"},
-       {item: "        Alagoas (AL)"},
-       {item: "        Amapá (AP)"},
-       {item: "        Amazonas (AM)"},
-       {item: "        Bahia (BA)"},
-       {item: "        Ceará (CE)"},
-       {item: "        Distrito Federal (DF)"},
-       {item: "        Espírito Santo (ES)"},
-       {item: "        Goiás (GO)"},
-       {item: "        Maranhão (MA)"},
-       {item: "        Mato Grosso (MT)"},
-       {item: "        Mato Grosso do Sul (MS)"},
-       {item: "        Minas Gerais (MG)"},
-       {item: "        Pará (PA)"},
-       {item: "        Paraíba (PB)"},
-       {item: "        Paraná (PR)"},
-       {item: "        Pernambuco (PE)"},
-       {item: "        Piauí (PI)"},
-       {item: "        Rio de Janeiro (RJ)"},
-       {item: "        Rio Grande do Norte (RN)"},
-       {item: "        Rio Grande do Sul (RS)"},
-       {item: "        Rondônia (RO)"},
-       {item: "        Roraima (RR)"},
-       {item: "        Santa Catarina (SC)"},
-       {item: "        São Paulo (SP)"},
-       {item: "        Sergipe (SE)"},
-       {item: "        Tocantins (TO)"},
-    ]);
-
     useEffect(() => {
         Geolocation.getCurrentPosition(
           async ({coords}) => {
@@ -116,13 +87,7 @@ function SignUpProvider() {
       async function handleSubmit() {
         try {
             setLoading(true);
-
-            if (state === '        Selecione um Estado') {
-                Alert.alert('Informe um estado');
-                setLoading(false);
-                return;
-            }
-
+           
             if (password !== passwordRepeat) {
                 Alert.alert('A senha não coecidem');
                 setLoading(false);
@@ -135,6 +100,12 @@ function SignUpProvider() {
                 return;
             }
 
+            const searchAddress = await apiServices.get(`${cep}/json/`);
+
+            if (searchAddress.data.status === 400) {
+                Alert.alert('Cep inválido');
+                return;
+            }
             
             const response = await api.post('users', {
                 name: name,
@@ -150,7 +121,8 @@ function SignUpProvider() {
                 point_address: point,
                 neighborhood_address: bairr,
                 cep_address: cep,
-                state_address: state,
+                state_address: searchAddress.data.uf,
+                city: searchAddress.data.localidade,
                 provider: true,
                 type_document: "0",
                 first_access: "0",
@@ -270,28 +242,7 @@ function SignUpProvider() {
                                     onSubmitEditing={() => documentRef.current.focus()}
                                     />                               
                                 <Icon name={'phone'} size={20} color="#666360" />
-                            </BoxInputMask>                             
-                            <InputAuth ref={addressRef } name="address" icon="map-pin" placeholder="Endereço" returnKeyType="next"                                 
-                                onSubmitEditing={() => numberRef.current.focus()}
-                                value={address}
-                                onChangeText={setAddress}
-                            />
-                            <InputAuth ref={numberRef } name="number" icon="hash" placeholder="Número" returnKeyType="next"                                 
-                                onSubmitEditing={() => BairroRef.current.focus()}
-                                value={number}
-                                onChangeText={setNumber}
-                                keyboardType="numeric"
-                            />
-                            <InputAuth ref={BairroRef } name="bairro" icon="map-pin" placeholder="Bairro" returnKeyType="next"                                 
-                                onSubmitEditing={() => pointRef.current.focus()}
-                                value={bairr}
-                                onChangeText={setBairr}
-                            />
-                            <InputAuth ref={pointRef} name="point" icon="map-pin" placeholder="Ponto de referencia" returnKeyType="next"                                 
-                                onSubmitEditing={() => cepRef.current.focus()}
-                                value={point}
-                                onChangeText={setPoint}
-                            />
+                            </BoxInputMask>   
                             <BoxInputMask>
                             <TextInputMask
                             type={'zip-code'}
@@ -318,24 +269,28 @@ function SignUpProvider() {
                             onSubmitEditing={() => stateRef.current.focus()}
                             />
                             <Icon name={'minus-square'} size={20} color="#666360" />
-                            </BoxInputMask>
-                            <BoxInputMask> 
-                                <BoxPicker>
-                                    <Picker
-                                        selectedValue={state}
-                                        style={{height: 20, width: 300, color: '#666360'}}
-                                        onValueChange={(itemValue, itemIndex) =>
-                                            setState(itemValue)
-                                        }>
-
-                                        <Picker.Item key={"Estado"} label={"        Selecione um Estado"} value={"Estado"}/>
-                                        {stateItens.map(item => (
-                                            <Picker.Item key={item.item} label={item.item} value={item.item}/>     
-                                        ))}                                  
-                                    </Picker>
-                                </BoxPicker>
-                                <Icon name={'map'} size={20} color="#666360" />
-                            </BoxInputMask> 
+                            </BoxInputMask>                          
+                            <InputAuth ref={addressRef } name="address" icon="map-pin" placeholder="Endereço" returnKeyType="next"                                 
+                                onSubmitEditing={() => numberRef.current.focus()}
+                                value={address}
+                                onChangeText={setAddress}
+                            />
+                            <InputAuth ref={numberRef } name="number" icon="hash" placeholder="Número" returnKeyType="next"                                 
+                                onSubmitEditing={() => BairroRef.current.focus()}
+                                value={number}
+                                onChangeText={setNumber}
+                                keyboardType="numeric"
+                            />
+                            <InputAuth ref={BairroRef } name="bairro" icon="map-pin" placeholder="Bairro" returnKeyType="next"                                 
+                                onSubmitEditing={() => pointRef.current.focus()}
+                                value={bairr}
+                                onChangeText={setBairr}
+                            />
+                            <InputAuth ref={pointRef} name="point" icon="map-pin" placeholder="Ponto de referencia" returnKeyType="next"                                 
+                                onSubmitEditing={() => cepRef.current.focus()}
+                                value={point}
+                                onChangeText={setPoint}
+                            />                            
                             <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
                                 secureTextEntry returnKeyType="send" autoCorrect={false}                            
                                 autoCapitalize="none"

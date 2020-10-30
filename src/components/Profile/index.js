@@ -60,13 +60,211 @@ const Profile = () => {
     }, []);
 
 
-    async function handleUpCover() {
+    function handleUpCover(){
+      setLoadingPreviewCover(true);
+      ImagePicker.showImagePicker(
+        {
+          title: 'Selecionar imagem',
+          cancelButtonTitle: 'cancelar',
+          mediaType: 'photo',
+          takePhotoButtonTitle: 'Tirar uma foto',
+          chooseWhichLibraryTitle: 'Selecionar imagem',
+          chooseFromLibraryButtonTitle: 'Selecionar',
+          //maxWidth: 220,
+          //maxHeight: 220,
+          storageOptions: {
+          skipBackup: true,
+          path: 'images',
+          },
+        },
+        upload => {
+          if (upload.didCancel) {
+            setLoadingPreviewCover(false);
+            setPreviewCover();
+          }
 
+          if (upload.uri) {
+            const previewData = {
+              uri: `data:image/jpeg;base64,${upload.data}`,
+            };
+  
+            let prefix;
+            let ext;
+  
+            if (upload.fileName) {
+              [prefix, ext] = upload.fileName.split('.');
+              ext = ext.toLowerCase() === 'heic' ? 'jpg' : ext;
+            } else {
+              prefix = new Date().getTime();
+              ext = 'jpg';
+            }
+  
+            const imageData = {
+              uri: upload.uri,
+              type: upload.type,
+              name: `${prefix}.${ext}`,
+            };
+
+            const data = new FormData();
+
+            data.append('file', imageData);
+  
+            setPreviewCover(previewData);
+            handleUploadCover(data);
+          }
+        },
+      );   
     }
 
-    async function handleUpImage() {
-
+    async function handleUploadCover(data) {
+      Alert.alert(
+        'Atualizar imagem de perfil',
+        'Deseja alterar a imagem de perfil com a imagem selecionada?',
+        [
+          {
+            text: 'Não',
+            onPress: () => {
+              setPreviewCover();
+              setLoadingPreviewCover(false);
+              return;
+            },
+            style: 'cancel',
+          },
+          {
+            text: 'Sim',
+            onPress: async () => {
+              setLoadingPreviewCover(true);
+              try {
+                async function loadImages() {
+                  const response = await api.get(`getImages?id=${userId}`);
+      
+                  setImagePhoto(response.data.user.cover.url);
+  
+                  setLoadingPreviewCover(false);
+                }
+  
+                const response = await api.post(`files_cover?id=${userId}`, data, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  },
+                });
+                    
+                loadImages();              
+              } catch (error) {
+                setLoadingPreviewCover(false);
+                setPreviewCover();
+              }
+            },
+          },
+        ],
+      );
+  
+      setLoadingPreviewCover(false);
     }
+
+
+    function handleUpImage() {
+        setLoadingPreview(true);
+
+          ImagePicker.showImagePicker(
+            {
+              title: 'Selecionar imagem',
+              cancelButtonTitle: 'cancelar',
+              mediaType: 'photo',
+              takePhotoButtonTitle: 'Tirar uma foto',
+              chooseWhichLibraryTitle: 'Selecionar imagem',
+              chooseFromLibraryButtonTitle: 'Selecionar',
+             // maxWidth: 220,
+             // maxHeight: 220,
+              storageOptions: {
+              skipBackup: true,
+              path: 'images',
+              },
+            },
+            upload => {
+              if (upload.didCancel) {
+                setLoadingPreview(false);
+                setPreview();
+              }
+
+              if (upload.uri) {
+                const previewData = {
+                  uri: `data:image/jpeg;base64,${upload.data}`,
+                };
+      
+                let prefix;
+                let ext;
+      
+                if (upload.fileName) {
+                  [prefix, ext] = upload.fileName.split('.');
+                  ext = ext.toLowerCase() === 'heic' ? 'jpg' : ext;
+                } else {
+                  prefix = new Date().getTime();
+                  ext = 'jpg';
+                }
+      
+                const imageData = {
+                  uri: upload.uri,
+                  type: upload.type,
+                  name: `${prefix}.${ext}`,
+                };
+
+                const data = new FormData();
+
+                data.append('file', imageData);
+      
+                setPreview(previewData);
+                handleUploadPhoto(data);
+              }
+            },
+          );               
+        }
+
+  async function handleUploadPhoto(data) {
+    Alert.alert(
+      'Atualizar imagem de perfil',
+      'Deseja alterar a imagem de perfil com a imagem selecionada?',
+      [
+        {
+          text: 'Não',
+          onPress: () => {
+            setPreview();
+            setLoadingPreview(false);
+            return;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: async () => {
+            setLoadingPreview(true);
+            try {
+              async function loadImages() {
+                const response = await api.get(`getImages?id=${userId}`);
+    
+                setImagePhoto(response.data.user.avatar.url);
+
+                setLoadingPreview(false);
+              }
+
+              const response = await api.post(`files?id=${userId}`, data, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+                  
+              loadImages();              
+            } catch (error) {
+              setLoadingPreview(false);
+              setPreview();
+            }
+          },
+        },
+      ],
+    );
+
+    setLoadingPreview(false);
+  }
 
   return (
     <SafeAreaView>

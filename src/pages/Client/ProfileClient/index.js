@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {Container, BoxMenu, BoxOption, BoxSelect, TitleOption, Icon, Line} from './styles';
 import { useAuth } from '../../../hooks/auth';
 import { useNavigation } from '@react-navigation/native';
 import Profile from '../../../components/Profile';
+import ImagePicker from 'react-native-image-picker';
+
+import Camera from '../../../assets/camera.png';
+import Stars from '../../../assets/starts.png';
+import Add from '../../../assets/add.png';
+import api from '../../../services/api';
 
 function ProfileClient() {
-    const { signOut } = useAuth();
+    const { dataAuth, signOut } = useAuth();
     const navigation = useNavigation();
 
+    const userId = dataAuth.id;
+    
     async function handleExit() {
         signOut();
     }
