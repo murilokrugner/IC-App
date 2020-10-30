@@ -5,18 +5,20 @@ import {RectButton} from 'react-native-gesture-handler';
 export const Box = styled.View`
   flex-direction: column;
   align-items: center;
+  margin-left: 10px;
 `;
 
 export const LocationBox = styled.View`
   flex-direction: column;
   align-items: center;
   background: #fff;
+  opacity : 0.75;
   shadow-color: #000;
   shadow-offset: 0 0;
   shadow-opacity: 0.1;
   elevation: 1;
   border: 1px solid #ddd;
-  border-radius: 3px;
+  border-radius: 20px;
   flex-direction: row;
   ${Platform.select({
     ios: css`
@@ -30,7 +32,7 @@ export const LocationBox = styled.View`
 `;
 
 export const LocationText = styled.Text`
-  margin: 8px 10px;
+  margin: 8px 15px;
   font-size: 14px;
   color: #333;
   width: 100px;
@@ -102,6 +104,7 @@ export const RequestButton = styled.TouchableOpacity`
   height: 44px;
   align-self: stretch;
   margin-top: 20px;
+  width: 150px;
 `;
 
 export const RequestButtonText = styled.Text`
@@ -129,5 +132,26 @@ export const BoxButtonExit = styled(RectButton)`
 export const ButtonExitImage = styled.Image`
   width: 20px;
   height: 20px;
+
+`;
+
+export const BoxIcon = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+export const IconService = styled.Image`
+  width: 20px;
+  height: 20px;
+
+`;
+
+export const BoxRequestButton = styled.View`
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+
 
 `;

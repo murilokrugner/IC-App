@@ -24,8 +24,13 @@ import {
   RequestButtonText,
   BoxDetails,
   BoxButtonExit,
-  ButtonExitImage
+  ButtonExitImage,
+  BoxIcon,
+  IconService,
+  BoxRequestButton
 } from './styles';
+
+import { useNavigation } from '@react-navigation/native';
 
 import markerImage from '../../assets/marker.png';
 import backImage from '../../assets/back.png';
@@ -38,6 +43,9 @@ import api from '../../services/api';
 
 import unisagrado from '../../assets/unisagrado.png';
 import exitIcon from '../../assets/cancel.png';
+
+import ToolsIcon from '../../assets/tools.png';
+import OfficeIcon from '../../assets/office.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -57,6 +65,8 @@ const styles = StyleSheet.create({
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
 function MapMain() {
+  const navigation = useNavigation();
+
   const [loading, setLoading] = useState(true);
   const [coordinates, setCoordinates] = useState({});
   const [destination, setDestination] = useState(null);
@@ -74,6 +84,9 @@ function MapMain() {
   const [time, setTime] = useState('');
   const [image, setImage] = useState('');
 
+  const [viewDirection, setViewDirection] = useState(false);
+  const [destinationRoutes, setDestinationRoutes] = useState(null);
+  const [idService, setIdService] = useState(0);
 
 
   useEffect(() => {    
@@ -107,7 +120,7 @@ function MapMain() {
   useEffect(() => {
     if (cityLocation !== null) {
       async function loadServices() {
-        const responseServices = await api.get(`services-providers?city=${'Dois Córregos'}`);     
+        const responseServices = await api.get(`services-providers?city=${cityLocation}`);     
     
         setDestination(responseServices.data);
         
@@ -124,8 +137,7 @@ function MapMain() {
 
       const response = await api.get(`usersMap?id=${id}`);
 
-      console.log(response.data);
-
+      setIdService(response.data.provider.id);
       setName(response.data.provider.name);
       setAddress(response.data.provider.address);
       setNumberAddress(response.data.provider.number_address);
@@ -133,6 +145,10 @@ function MapMain() {
       setPrice(response.data.price);
       setTime(response.data.time);
       setImage(response.data.provider.avatar.url);
+
+      const responseCoordinates = await api.get(`userCoordinates?id=${id}`);
+
+      setDestinationRoutes(responseCoordinates.data);
 
     } else {
       setViewService(false);
@@ -143,7 +159,21 @@ function MapMain() {
       setPrice();
       setTime();
       setImage();
+      setDestinationRoutes(null);
+      setViewDirection(false);
     }
+  }
+
+  function handleRoute() {
+    if (viewDirection === false) {
+      setViewDirection(true);
+    } else {
+      setViewDirection(false);
+    }
+  }
+
+  function handleService(id) {
+    navigation.navigate('ViewService', {id});
   }
 
   return (
@@ -167,26 +197,57 @@ function MapMain() {
             {destination && (
               <>               
                   {destination.map(item => (                                      
-                    <Fragment>                                        
-                    <Marker
+                    <Fragment>    
+                      <>
+                        {viewDirection && (
+                          <Directions
+                          origin={coordinates}
+                          destination={destinationRoutes}
+                          onReady={(result) => {
+                            setDuration(Math.floor(result.duration)),
+                              mapView.fitToCoordinates(result.coordinates, {
+                                edgePadding: {
+                                  right: getPixelSize(50),
+                                  left: getPixelSize(50),
+                                  top: getPixelSize(50),
+                                  bottom: getPixelSize(350),
+                                },
+                              });
+                          }}
+                        /> 
+                        )}
+                      </>                                   
+                    <Marker                    
                         onPress={() => {handleViewService(item.provider.id)}}
                         coordinate={item.provider}
                         anchor={{x: 0, y: 0}}
                         image={item.service.description === 'Jardineiro' && JardineiroIcon}>
                         <LocationBox>
                           <Box>
-                            <LocationText>{item.provider.title}</LocationText> 
-                            <LocationText>{item.service.description}</LocationText>                                                      
-                          </Box>
+                            <BoxIcon>
+                              <IconService source={OfficeIcon}/>
+                              <LocationText>{item.provider.title}</LocationText>
+                            </BoxIcon>   
+                            <BoxIcon>
+                                <IconService source={ToolsIcon}/>
+                                <LocationText>{item.service.description}</LocationText>  
+                            </BoxIcon>                                                                                                                                        
+                          </Box>                          
                         </LocationBox>                        
                       </Marker>                                                                                                                    
                     </Fragment>                    
                   ))}
                     <Marker coordinate={coordinates} anchor={{x: 0, y: 0}}>
-                        <LocationBox>                       
-                          <LocationText>Você</LocationText>
-                        </LocationBox>
-                      </Marker>             
+                      {viewDirection && (
+                        <LocationBox>
+                        <LocationTimeBox>
+                          <LocationTimeText>{duration}</LocationTimeText>
+                          <LocationTimeTextSmall>MIN</LocationTimeTextSmall>
+                        </LocationTimeBox>
+                        <LocationText>{location}</LocationText>
+                      </LocationBox>
+                      )}
+                    </Marker>             
               </>
             )}
           </MapView> 
@@ -200,9 +261,14 @@ function MapMain() {
               <TypeTitle>Preço Médio: R$ {price}</TypeTitle>
               <TypeDescription>Tempo médio: {time} minutos</TypeDescription>
         
-              <RequestButton onPress={() => {}}>
-                <RequestButtonText>SOLICITAR ORÇAMENTO</RequestButtonText>
-              </RequestButton>
+              <BoxRequestButton>
+                <RequestButton onPress={() => {handleService(idService)}}>                
+                    <RequestButtonText>PERFIL</RequestButtonText>               
+                </RequestButton>
+                <RequestButton onPress={handleRoute}>                
+                    <RequestButtonText>TRAÇAR ROTA</RequestButtonText>               
+                </RequestButton>
+              </BoxRequestButton>
               <BoxDetails>
                 <BoxButtonExit onPress={handleViewService}>
                   <ButtonExitImage source={exitIcon}/>
