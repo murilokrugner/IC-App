@@ -142,12 +142,12 @@ function SignUpProvider() {
             Alert.alert('Não foi possível fazer o seu registro, tente novamente mais tarde');
         }
     }
-
+     
     return(
         <KeyboardAvoidingView style={{flex: 1}}>
             <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-                <Container>
-                    <BoxForm>
+                <Container>                
+                    <BoxForm>                        
                         <Form ref={formRef} onSubmit={handleSubmit}>
                             <InputAuth name="name" icon="user" placeholder="Razão social" returnKeyType="next"                                 
                                 onSubmitEditing={() => nicknameRef.current.focus()}

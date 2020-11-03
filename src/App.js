@@ -10,6 +10,8 @@ import AppUser from './hooks';
 
 import FlashMessage from "react-native-flash-message";
 
+import './config/ReactotronConfig';
+
 console.disableYellowBox = true;
 
 function App() {

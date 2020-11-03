@@ -45,6 +45,7 @@
     "react-native-swipeable-parallax-carousel": "^1.1.0",
     "react-native-tab-view": "^2.15.1",
     "react-native-vector-icons": "^7.1.0",
+    "reactotron-react-native": "^5.0.0",
     "styled-components": "^5.2.0",
     "yarn": "^1.22.5",
     "yup": "^0.29.3"

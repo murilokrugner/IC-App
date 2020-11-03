@@ -6,6 +6,7 @@ import CompleteRegister from '../../../pages/Provider/CompleteRegister'
 import AddTypesServices from '../../../pages/Provider/AddTypesServices';
 import CompleteServices from '../../../pages/Provider/CompleteServices';
 import EditCompleteServices from '../../../pages/Provider/EditCompleteServices';
+import LocaleCompany from '../../../pages/Provider/LocaleCompany';
 
 import RoutesProviderAll from '../index';
 
@@ -20,7 +21,7 @@ function FirstAccessRoutes() {
           headerTitleAlign: 'center',
           cardStyle: { backgroundColor: '#fff' },
         }}
-        initialRouteName="CompleteRegister">
+        initialRouteName="LocaleCompany">
         <Stack.Screen name="CompleteServices" component={CompleteServices} 
           options={{
             headerShown: true,
@@ -53,6 +54,12 @@ function FirstAccessRoutes() {
           options={{
             headerShown: false,
             
+          }}
+        /> 
+        <Stack.Screen name="LocaleCompany" component={LocaleCompany} 
+          options={{
+            headerShown: true,
+            headerTitle: "Localize sua empresa"           
           }}
         /> 
       </Stack.Navigator>

@@ -10,20 +10,11 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 export default function Search({onLocationSelected}) {
   const [searchFocused, setSearchFocused] = useState(false);
 
-  function handleLocationSelected(data, {geometry}) {
-    console.log(data);
-    const {
-      location: {lat: latitude, lng: longitude},
-    } = geometry;
-    const title = data.structured_formatting.main_text;
-    setDestination({latitude, longitude, title});
-  }
-
   return (
     <GooglePlacesAutocomplete
-      placeholder="Para onde?"
+      placeholder="Digite o endereço:"
       placeholderTextColor="#333"
-      onPress={handleLocationSelected}
+      onPress={onLocationSelected}
       query={{
         key: 'AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk',
         language: 'pt',
