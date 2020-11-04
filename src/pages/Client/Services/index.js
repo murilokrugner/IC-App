@@ -22,6 +22,7 @@ const Services = () => {
   const [longitude, setLongitude] = useState('');
   const [coordinates, setCoordinates] = useState({});
   const [location, setLocation] = useState();
+  const [cep, setCep] = useState('');
 
   const [order, setOrder] = useState('Ordenar por: ');
 
@@ -41,8 +42,9 @@ const Services = () => {
       async ({coords: {latitude, longitude}}) => {
         const response = await Geocoder.from({latitude, longitude});
         const address = response.results[0].formatted_address;
-        //const location = address.substring(0, address.indexOf(','));
+        const locationSplit = address.split(',');
 
+        setCep(locationSplit[3]);
         setLocation(address);    
         setLoadingLocation(false);        
       },
