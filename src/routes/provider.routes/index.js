@@ -13,6 +13,8 @@ import AddImagesProduct from '../../pages/Provider/Store/AddImagesProduct';
 import ViewProduct from '../../pages/Provider/Store/ViewProduct';
 import EditProduct from '../../pages/Provider/Store/EditProduct';
 
+import ProviderData from '../../pages/Provider/ProviderData';
+
 import FirstAccessRoutes from './FirstAccessRoutes';
 
 const Stack = createStackNavigator();
@@ -81,7 +83,13 @@ function RoutesProviderAll() {
             headerShown: true,  
             headerTitle: "Meus serviços"        
           }}
-        />   
+        /> 
+        <Stack.Screen name="ProviderData" component={ProviderData} 
+           options={{
+            headerShown: true,  
+            headerTitle: "Meus dados"        
+          }}
+        />           
       </Stack.Navigator>
     </NavigationContainer>
 

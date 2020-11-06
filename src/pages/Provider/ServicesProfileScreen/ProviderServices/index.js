@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 
 import { Container, BoxTextServices, TextServices, BoxButtonAdd, 
@@ -6,7 +6,58 @@ import { Container, BoxTextServices, TextServices, BoxButtonAdd,
     BoxService, Service, NameService, 
     ButtonEdit, ImageEdit } from './styles';
 
-const ProviderServices = () => {
+import { useNavigation } from '@react-navigation/native';
+import { withNavigationFocus } from '@react-navigation/compat';
+import { useAuth } from '../../../../hooks/auth';
+import Add from '../../../../assets/add.png';
+import Edit from '../../../../assets/edit.png';
+import api from '../../../../services/api';
+
+const ProviderServices = ({isFocused}) => {
+  const { dataAuth } = useAuth();
+    const navigation = useNavigation();
+
+    const [loadingServices, setLoadingService] = useState(false);
+    const [data, setData] = useState();
+
+    const userId = dataAuth.id;
+
+    useEffect(() => {
+      async function loadServices() {
+        setLoadingService(true);
+        const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
+
+        setData(response.data);
+        setLoadingService(false);
+    }
+
+      loadServices(); 
+    }, []);
+
+    useEffect(() => {
+      if (isFocused) {
+          
+
+        async function loadServices() {
+          setLoadingService(true);
+          const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
+
+          setData(response.data);
+          setLoadingService(false);
+      }
+
+        loadServices();          
+      }
+    }, [isFocused])
+
+  function handleEdit(id) {
+    navigation.navigate('EditCompleteServices', {id});
+  } 
+
+  function handleAddService() {
+    navigation.navigate('AddTypesServices');
+  }
+
   return (
       <Container>
           <BoxTextServices>
@@ -45,4 +96,4 @@ const ProviderServices = () => {
   );
 }
 
-export default ProviderServices;
+export default withNavigationFocus(ProviderServices);

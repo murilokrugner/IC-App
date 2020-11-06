@@ -124,7 +124,7 @@ function SignUpProvider() {
                 state_address: searchAddress.data.uf,
                 city: searchAddress.data.localidade,
                 provider: true,
-                type_document: "0",
+                type_document: checkedCnpj === 'first' ? "0" : "1",
                 first_access: "0",
             });    
                                         

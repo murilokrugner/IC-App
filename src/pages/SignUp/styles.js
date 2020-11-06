@@ -55,3 +55,17 @@ export const Icon = styled(FeatherIcon)`
   bottom: 0%;
   color: #235A5C;
 `;
+
+export const BoxPicker = styled.View`
+  width: 330px;
+  height: 58px;
+
+  background-color: #ECF6FF;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 5px;
+  margin-bottom: 16px;  
+
+`;

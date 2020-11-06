@@ -10,13 +10,11 @@ import { Container, BoxLoading, Box, BoxImageCover, ImageCover, BoxPositionSelec
 
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from "react-native-flash-message";
-import Edit from '../../../assets/edit.png';
 import ImagePicker from 'react-native-image-picker';
 import { useAuth } from '../../../hooks/auth';
 import { withNavigationFocus } from '@react-navigation/compat';
 import Camera from '../../../assets/camera.png';
 import Stars from '../../../assets/starts.png';
-import Add from '../../../assets/add.png';
 import api from '../../../services/api';
 
 function ProfileScreen({isFocused}) {
@@ -29,12 +27,11 @@ function ProfileScreen({isFocused}) {
 
     const [loadingPreview, setLoadingPreview] = useState(false);
     const [loadingPreviewCover, setLoadingPreviewCover] = useState(false);
-    const [loadingServices, setLoadingService] = useState(false);
     const [preview, setPreview] = useState('');
     const [previewCover, setPreviewCover] = useState('');
     const [imageCover, setImageCover] = useState();
     const [imagePhoto, setImagePhoto] = useState();
-    const [data, setData] = useState();
+    
 
     const userId = dataAuth.id;
 
@@ -67,16 +64,6 @@ function ProfileScreen({isFocused}) {
       }   
       
       loadImages();
-      
-      async function loadServices() {
-        setLoadingService(true);
-        const response = await api.get(`/serviceProvider?provider=${dataAuth.id}`);
-
-        setData(response.data);
-        setLoadingService(false);
-    }
-
-      loadServices(); 
                 
     }, []);
 
@@ -302,16 +289,12 @@ function ProfileScreen({isFocused}) {
     setLoadingPreview(false);
   }
 
-  function handleEdit(id) {
-    navigation.navigate('EditCompleteServices', {id});
-  } 
-
-  function handleAddService() {
-    navigation.navigate('AddTypesServices');
+  function handleProviderData() {
+    navigation.navigate('ProviderData');
   }
 
-  function handleClientData() {
-   // navigation.navigate('ClientData');
+  function handleServices() {
+    navigation.navigate('ProviderServices');
   }
 
   async function handleExit() {
@@ -379,17 +362,17 @@ function ProfileScreen({isFocused}) {
                 <ImageStar source={Stars} />
             </BoxStars>
             <BoxMenu>
-                    <BoxOption onPress={handleClientData}>
+                    <BoxOption onPress={handleProviderData}>
                         <BoxSelect>
                             <TitleOption>Meus dados</TitleOption>
                             <Icon name={"edit-2"} size={20} color="#666360" />
                         </BoxSelect>
                     </BoxOption>
                     <Line />
-                    <BoxOption>
+                    <BoxOption onPress={handleServices}>
                         <BoxSelect>
-                            <TitleOption>Agenda</TitleOption>
-                            <Icon name={"book"} size={20} color="#666360" />
+                            <TitleOption>Serviços</TitleOption>
+                            <Icon name={"grid"} size={20} color="#666360" />
                         </BoxSelect>
                     </BoxOption>
                     <Line />
