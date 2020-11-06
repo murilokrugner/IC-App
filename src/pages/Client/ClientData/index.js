@@ -37,7 +37,7 @@ const ClientData = () => {
     const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [mobile_phone, setMobilePhone] = useState('');    
+    const [mobile_phone, setMobilePhone] = useState('');
     const [document, setDocument] = useState('');
     const [address, setAddress] = useState('');
     const [number_address, setNumberAddress] = useState('');
@@ -133,8 +133,8 @@ const ClientData = () => {
                     state_address: state_address,
                     oldPassword: oldPassword,
                     password: password,
-                    confirmPassword: confirmPassword, 
-                });    
+                    confirmPassword: confirmPassword,
+                });
 
                 if (response.data.error === 'Password does not match') {
                     Alert.alert('Senha antiga é inválida');
@@ -165,7 +165,7 @@ const ClientData = () => {
                     neighborhood_address: neighborhood_address,
                     cep_address: cep_address,
                     state_address: state_address,
-                });    
+                });
 
                 if (response.error === 'Password does not match') {
                     Alert.alert('Senha antiga é inválida');
@@ -180,11 +180,11 @@ const ClientData = () => {
                 setLoadingSave(false);
                 Alert.alert('Não foi possível atualizar os dados, tente novamente mais tarde');
             }
-        }          
+        }
     }
-    
+
   return (
-      <SafeAreaView style={{flex: 1}}> 
+      <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>
           <Container>
               {loading ? (
@@ -195,7 +195,7 @@ const ClientData = () => {
                 <BoxForm>
                 <Form ref={formRef} onSubmit={handleSave}>
                     <TitleInput>Nome</TitleInput>
-                    <Input name="name" icon="user" placeholder="Nome" returnKeyType="next" 
+                    <Input name="name" icon="user" placeholder="Nome" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => nicknameRef.current.focus()}
@@ -204,7 +204,7 @@ const ClientData = () => {
                           ref={nameRef}
                       />
                       <TitleInput>Apelido</TitleInput>
-                      <Input name="nickname" icon="user" placeholder="Apelido" returnKeyType="next" 
+                      <Input name="nickname" icon="user" placeholder="Apelido" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => emailRef.current.focus()}
@@ -213,7 +213,7 @@ const ClientData = () => {
                           ref={nicknameRef}
                       />
                       <TitleInput>E-mail</TitleInput>
-                      <Input name="email" icon="mail" placeholder="E-mail" returnKeyType="next" 
+                      <Input name="email" icon="mail" placeholder="E-mail" returnKeyType="next"
                           keyboardType="email-address"
                           autoCorrect={false}
                           autoCapitalize="none"
@@ -222,7 +222,7 @@ const ClientData = () => {
                           onChangeText={setEmail}
                       />
                       <TitleInput>Telefone</TitleInput>
-                      <Input name="phone" icon="user" placeholder="Telefone" returnKeyType="next" 
+                      <Input name="phone" icon="user" placeholder="Telefone" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => mobile_phoneRef.current.focus()}
@@ -231,7 +231,7 @@ const ClientData = () => {
                           ref={phoneRef}
                       />
                       <TitleInput>Celular/Whatsapp</TitleInput>
-                      <Input name="mobile_phone" icon="user" placeholder="Celular/Whatsapp" returnKeyType="next" 
+                      <Input name="mobile_phone" icon="user" placeholder="Celular/Whatsapp" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => addressRef.current.focus()}
@@ -240,7 +240,7 @@ const ClientData = () => {
                           ref={mobile_phoneRef}
                       />
                       <TitleInput>Documento CPF/CNPJ</TitleInput>
-                      <Input name="document" icon="user" placeholder="Documento CPF/CNPJ" returnKeyType="next" 
+                      <Input name="document" icon="user" placeholder="Documento CPF/CNPJ" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => addressRef.current.focus()}
@@ -249,7 +249,7 @@ const ClientData = () => {
                           ref={documentRef}
                       />
                       <TitleInput>Endereço</TitleInput>
-                      <Input name="address" icon="user" placeholder="Endereço" returnKeyType="next" 
+                      <Input name="address" icon="user" placeholder="Endereço" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => number_addressRef.current.focus()}
@@ -258,7 +258,7 @@ const ClientData = () => {
                           ref={addressRef}
                       />
                       <TitleInput>Número</TitleInput>
-                      <Input name="number_address" icon="user" placeholder="Número" returnKeyType="next" 
+                      <Input name="number_address" icon="user" placeholder="Número" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => point_addressRef.current.focus()}
@@ -267,7 +267,7 @@ const ClientData = () => {
                           ref={number_addressRef}
                       />
                       <TitleInput>Ponto de referência</TitleInput>
-                      <Input name="point_address" icon="user" placeholder="Ponto de referência" returnKeyType="next" 
+                      <Input name="point_address" icon="user" placeholder="Ponto de referência" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => neighborhood_addressRef.current.focus()}
@@ -276,7 +276,7 @@ const ClientData = () => {
                           ref={point_addressRef}
                       />
                       <TitleInput>Cep</TitleInput>
-                      <Input name="cep_address" icon="user" placeholder="Cep" returnKeyType="next" 
+                      <Input name="cep_address" icon="user" placeholder="Cep" returnKeyType="next"
                           autoCorrect={false}
                           autoCapitalize="none"
                           onSubmitEditing={() => cep_addressRef.current.focus()}
@@ -291,24 +291,24 @@ const ClientData = () => {
                               style={{height: 20, width: 300, color: '#666360'}}
                               onValueChange={(itemValue, itemIndex) =>
                                   setStateAddress(itemValue)
-                              }>  
-                              <Picker.Item key={state_address} label={"Estado selecionado: " + state_address} value={state_address}/>                                                                                           
+                              }>
+                              <Picker.Item key={state_address} label={"Estado selecionado: " + state_address} value={state_address}/>
                               {stateItens.map(item => (
                                 <Picker.Item key={item.item} label={item.item} value={item.item}/>
                               ))}
                           </Picker>
-                      </BoxPicker> 
+                      </BoxPicker>
                       <TitleInput>Senha antiga</TitleInput>
-                      <Input name="oldPassword" icon="lock" placeholder="Senha antiga" returnKeyType="next" 
+                      <Input name="oldPassword" icon="lock" placeholder="Senha antiga" returnKeyType="next"
                           autoCorrect={false}
                           secureTextEntry
                           autoCapitalize="none"
                           onSubmitEditing={() => password.current.focus()}
                           value={oldPassword}
-                          onChangeText={SetOldPassword}                          
-                      /> 
-                      <TitleInput>Nova senha</TitleInput> 
-                      <Input name="password" icon="lock" placeholder="Nova senha" returnKeyType="next" 
+                          onChangeText={SetOldPassword}
+                      />
+                      <TitleInput>Nova senha</TitleInput>
+                      <Input name="password" icon="lock" placeholder="Nova senha" returnKeyType="next"
                           autoCorrect={false}
                           secureTextEntry
                           autoCapitalize="none"
@@ -316,9 +316,9 @@ const ClientData = () => {
                           value={password}
                           onChangeText={setPassword}
                           ref={passwordRef}
-                      />   
+                      />
                       <TitleInput>Confirmar senha</TitleInput>
-                      <Input name="confirmPassword" icon="lock" placeholder="Confirmar senha" returnKeyType="send" 
+                      <Input name="confirmPassword" icon="lock" placeholder="Confirmar senha" returnKeyType="send"
                           autoCorrect={false}
                           secureTextEntry
                           autoCapitalize="none"
@@ -326,11 +326,11 @@ const ClientData = () => {
                           value={confirmPassword}
                           onChangeText={SetConfirmPassword}
                           ref={password_repeatRef}
-                      />                                          
+                      />
                 </Form>
-            </BoxForm>            
-              )}         
-              <Line />     
+            </BoxForm>
+              )}
+              <Line />
               {loading === false && (
                   <ButtonSave loading={loadingSave} onPress={() => {formRef.current.submitForm()}}>Salvar</ButtonSave>
               )}

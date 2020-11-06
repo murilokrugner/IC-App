@@ -89,7 +89,7 @@ function MapMain() {
   const [idService, setIdService] = useState(0);
 
 
-  useEffect(() => {    
+  useEffect(() => {
     Geolocation.getCurrentPosition(
       async ({coords}) => {
         setCoordinates(coords);
@@ -107,23 +107,23 @@ function MapMain() {
         const location = address.substring(0, address.indexOf(','));
 
         setCityLocation(city);
-        setLocation(location);        
+        setLocation(location);
       },
       (error) => {
         console.log('Map' + error);
       },
       {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
-    );    
-    
+    );
+
   }, []);
 
   useEffect(() => {
     if (cityLocation !== null) {
       async function loadServices() {
-        const responseServices = await api.get(`services-providers?city=${cityLocation}`);     
-    
+        const responseServices = await api.get(`services-providers?city=${cityLocation}`);
+
         setDestination(responseServices.data);
-        
+
         setLoading(false);
       }
 
@@ -195,9 +195,9 @@ function MapMain() {
             ref={(el) => setMapView(el)}
             loadingEnabled>
             {destination && (
-              <>               
-                  {destination.map(item => (                                      
-                    <Fragment>    
+              <>
+                  {destination.map(item => (
+                    <Fragment>
                       <>
                         {viewDirection && (
                           <Directions
@@ -214,10 +214,10 @@ function MapMain() {
                                 },
                               });
                           }}
-                        /> 
+                        />
                         )}
-                      </>                                   
-                    <Marker                    
+                      </>
+                    <Marker
                         onPress={() => {handleViewService(item.provider.id)}}
                         coordinate={item.provider}
                         anchor={{x: 0, y: 0}}
@@ -227,15 +227,15 @@ function MapMain() {
                             <BoxIcon>
                               <IconService source={OfficeIcon}/>
                               <LocationText>{item.provider.title}</LocationText>
-                            </BoxIcon>   
+                            </BoxIcon>
                             <BoxIcon>
                                 <IconService source={ToolsIcon}/>
-                                <LocationText>{item.service.description}</LocationText>  
-                            </BoxIcon>                                                                                                                                        
-                          </Box>                          
-                        </LocationBox>                        
-                      </Marker>                                                                                                                    
-                    </Fragment>                    
+                                <LocationText>{item.service.description}</LocationText>
+                            </BoxIcon>
+                          </Box>
+                        </LocationBox>
+                      </Marker>
+                    </Fragment>
                   ))}
                     <Marker coordinate={coordinates} anchor={{x: 0, y: 0}}>
                       {viewDirection && (
@@ -247,26 +247,26 @@ function MapMain() {
                         <LocationText>{location}</LocationText>
                       </LocationBox>
                       )}
-                    </Marker>             
+                    </Marker>
               </>
             )}
-          </MapView> 
+          </MapView>
           {viewService && (
             <ContainerDetails>
               <TypeTitle>{name}</TypeTitle>
               <TypeDescription>{address} {numberAddress}</TypeDescription>
               <TypeDescription>{neighborhoodAddress}</TypeDescription>
-        
+
               <TypeImage source={{uri: image}} />
               <TypeTitle>Preço Médio: R$ {price}</TypeTitle>
               <TypeDescription>Tempo médio: {time} minutos</TypeDescription>
-        
+
               <BoxRequestButton>
-                <RequestButton onPress={() => {handleService(idService)}}>                
-                    <RequestButtonText>PERFIL</RequestButtonText>               
+                <RequestButton onPress={() => {handleService(idService)}}>
+                    <RequestButtonText>PERFIL</RequestButtonText>
                 </RequestButton>
-                <RequestButton onPress={handleRoute}>                
-                    <RequestButtonText>TRAÇAR ROTA</RequestButtonText>               
+                <RequestButton onPress={handleRoute}>
+                    <RequestButtonText>TRAÇAR ROTA</RequestButtonText>
                 </RequestButton>
               </BoxRequestButton>
               <BoxDetails>
@@ -275,7 +275,7 @@ function MapMain() {
                 </BoxButtonExit>
               </BoxDetails>
             </ContainerDetails>
-          )}            
+          )}
         </>
       )}
     </View>

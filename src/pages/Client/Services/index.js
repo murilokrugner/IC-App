@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { SafeAreaView, ScrollView, ActivityIndicator } from 'react-native';
 
-import { Container, LoadingLocation, BoxFilters, BoxLocation, Icon, Location, 
+import { Container, LoadingLocation, BoxFilters, BoxLocation, Icon, Location,
   ButtonFilter, TitleButtonFilter, BoxPicker, Line,
   BoxServices, Service, ImageService, NameService, Stars, ButtonView} from './styles';
 
@@ -16,7 +16,7 @@ Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
 const Services = () => {
   const navigation = useNavigation();
-  
+
   const [latitude, setLatitude] = useState('');
   const [loadingLocation, setLoadingLocation] = useState(true);
   const [longitude, setLongitude] = useState('');
@@ -45,8 +45,8 @@ const Services = () => {
         const locationSplit = address.split(',');
 
         setCep(locationSplit[3]);
-        setLocation(address);    
-        setLoadingLocation(false);        
+        setLocation(address);
+        setLoadingLocation(false);
       },
       (error) => {
         console.log(error);
@@ -58,15 +58,15 @@ const Services = () => {
   function handleFilters() {
     navigation.navigate('Filters');
   }
-  
+
   function handleViewService() {
     navigation.navigate('ViewService');
   }
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView style={{flex: 1}}>        
-          <Container>    
+      <ScrollView style={{flex: 1}}>
+          <Container>
             {loadingLocation ? (
               <LoadingLocation>
                 <ActivityIndicator color="#000" size="small"/>
@@ -75,27 +75,27 @@ const Services = () => {
               <BoxLocation>
                 <Icon name="map-pin" size={20}/>
                 <Location>{location}</Location>
-              </BoxLocation> 
-            )}                                            
-              <BoxFilters>                                          
-              <BoxPicker>
+              </BoxLocation>
+            )}
+              <BoxFilters>
+                <BoxPicker>
                 <Picker
                     selectedValue={order}
                     style={{height: 20, width: 158, color: '#235A5C'}}
                     onValueChange={(itemValue, itemIndex) =>
                       setOrder(itemValue)
                   }>
-                <Picker.Item key={"Ordenar por: "} label={"Ordenar por: "} value={"Ordenar por: "}/>  
-                <Picker.Item key={"Nome"} label={"Nome"} value={"Nome"}/>                                 
-                <Picker.Item key={"Avaliação"} label={"Avaliação"} value={"Avaliação"}/>                                 
-                <Picker.Item key={"Preço"} label={"Preço"} value={"Preço"}/>                                 
+                <Picker.Item key={"Ordenar por: "} label={"Ordenar por: "} value={"Ordenar por: "}/>
+                <Picker.Item key={"Nome"} label={"Nome"} value={"Nome"}/>
+                <Picker.Item key={"Avaliação"} label={"Avaliação"} value={"Avaliação"}/>
+                <Picker.Item key={"Preço"} label={"Preço"} value={"Preço"}/>
                 </Picker>
-              </BoxPicker> 
+              </BoxPicker>
               <ButtonFilter onPress={handleFilters}>
                   <TitleButtonFilter>Filtros</TitleButtonFilter>
-              </ButtonFilter>                                          
-            </BoxFilters> 
-            <Line />   
+              </ButtonFilter>
+            </BoxFilters>
+            <Line />
             <BoxServices>
                   <Service>
                     <ImageService source={Ecanador}/>
@@ -103,7 +103,7 @@ const Services = () => {
                     <Stars source={Startss}/>
                     <ButtonView onPress={handleViewService}>Ver</ButtonView>
                   </Service>
-            </BoxServices>                                                    
+            </BoxServices>
         </Container>
       </ScrollView>
     </SafeAreaView>
