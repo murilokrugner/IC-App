@@ -6,6 +6,8 @@ import ProviderRoutes from './Tab';
 import AddTypesServices from '../../pages/Provider/ServicesProfileScreen/AddTypesServices';
 import EditCompleteServices from '../../pages/Provider/ServicesProfileScreen/EditCompleteServices';
 
+import ProviderServices from '../../pages/Provider/ServicesProfileScreen/ProviderServices';
+
 import CreateProduct from '../../pages/Provider/Store/CreateProduct';
 import AddImagesProduct from '../../pages/Provider/Store/AddImagesProduct';
 import ViewProduct from '../../pages/Provider/Store/ViewProduct';
@@ -72,6 +74,12 @@ function RoutesProviderAll() {
         <Stack.Screen name="FirstAccessRoutes" component={FirstAccessRoutes} 
            options={{
             headerShown: false,          
+          }}
+        />   
+        <Stack.Screen name="ProviderServices" component={ProviderServices} 
+           options={{
+            headerShown: true,  
+            headerTitle: "Meus serviços"        
           }}
         />   
       </Stack.Navigator>

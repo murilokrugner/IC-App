@@ -14,6 +14,9 @@ import { withNavigationFocus } from '@react-navigation/compat';
 import { useAuth } from '../../../hooks/auth';
 import api from '../../../services/api';
 
+import UserIcon from '../../../assets/user.png';
+import StoreIcon from '../../../assets/store2.png';
+
 const Tab = createBottomTabNavigator();
 
 function ProviderRoutes({isFocused}) {
@@ -38,13 +41,12 @@ function ProviderRoutes({isFocused}) {
     <Tab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
-        showLabel: false,
         labelStyle: {
-          fontSize: 14,
+          fontSize: 12,
         },
-        activeTintColor: '#000',
-        activeBackgroundColor: '#E8E8E8',        
-        inactiveBackgroundColor: '#fff',
+        activeTintColor: '#fff',
+        activeBackgroundColor: '#235A5C',
+        inactiveBackgroundColor: '#235A5C',
         inactiveTintColor: '#000',
         tabStyle: {
         },
@@ -57,15 +59,15 @@ function ProviderRoutes({isFocused}) {
         options={{
         tabBarLabel: 'Profile',        
         tabBarIcon: ({ color, size }) => (
-          <Image source={ProfileIcon} style={{width: 40, height: 40}}/>
+          <Image source={UserIcon} style={{width: 30, height: 30}}/>
         ),
       }}
     /> 
     <Tab.Screen name="Home" component={Home}
         options={{
-        tabBarLabel: '',    
+        tabBarLabel: 'Home',    
         tabBarIcon: ({ color, size }) => (
-          <Image source={HomeIcon} style={{width: 46, height: 46}}/>
+          <Image source={HomeIcon} style={{width: 30, height: 30}}/>
         ),
       }}
     />
@@ -74,7 +76,7 @@ function ProviderRoutes({isFocused}) {
         options={{
         tabBarLabel: 'Minha loja',
         tabBarIcon: ({ color, size }) => (
-          <Image source={CifraoIcon} style={{width: 40, height: 40}}/>
+          <Image source={CifraoIcon} style={{width: 30, height: 30}}/>
         ),
       }}
       />  
@@ -83,7 +85,7 @@ function ProviderRoutes({isFocused}) {
         options={{
         tabBarLabel: 'Store',
         tabBarIcon: ({ color, size }) => (
-          <Image source={CifraoIcon} style={{width: 40, height: 40}}/>
+          <Image source={StoreIcon} style={{width: 30, height: 30}}/>
         ),
       }}
     />  

@@ -5,7 +5,8 @@ import { Container, BoxLoading, Box, BoxImageCover, ImageCover, BoxPositionSelec
       BoxPhoto, ImagePhoto, BoxName, Name, BoxStars, ImageStar, ButtonNext, BoxTextServices, TextServices, 
       BoxContainerServices, BoxButtonAdd, ButtonAdd, BoxServices, 
       BoxContainerService, BoxService, Service, 
-      NameService, ButtonEdit, ImageEdit, BoxButtonExit, ButtonExit } from './styles';
+      NameService, ButtonEdit, ImageEdit, BoxButtonExit, ButtonExit, BoxMenu, BoxOption,
+      BoxSelect, TitleOption, Icon, Line} from './styles';
 
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from "react-native-flash-message";
@@ -309,6 +310,14 @@ function ProfileScreen({isFocused}) {
     navigation.navigate('AddTypesServices');
   }
 
+  function handleClientData() {
+   // navigation.navigate('ClientData');
+  }
+
+  async function handleExit() {
+    signOut();
+  }
+
   return (
     <SafeAreaView>
   <ScrollView>
@@ -368,44 +377,37 @@ function ProfileScreen({isFocused}) {
             </BoxName>   
             <BoxStars>
                 <ImageStar source={Stars} />
-            </BoxStars> 
-        <BoxTextServices>
-          <TextServices>Adicionar serviço</TextServices>
-          <BoxButtonAdd onPress={handleAddService}>
-            <ButtonAdd source={Add}></ButtonAdd>
-          </BoxButtonAdd>
-        </BoxTextServices>  
-      <BoxContainerServices>
-      
-       
-        {loadingServices ? (
-              <BoxLoading>
-                  <ActivityIndicator color="#000" size="small" />
-              </BoxLoading>
-            ) : (
-                <BoxContainerService>           
-                  {data !== undefined ? (
-                        <>
-                          {data.map(item => (
-                            <BoxService  key={item.id} style={item.complete ? {borderColor: '#15754A'} : {borderColor: '#F01F02'}}>
-                                <Service>
-                                    <NameService>{item.service.description}</NameService>
-                                    <ButtonEdit onPress={() => {handleEdit(item.id)}}>
-                                        <ImageEdit source={Edit}></ImageEdit>
-                                    </ButtonEdit>
-                                </Service>
-                            </BoxService>
-                          ))}
-                        </>                                                   
-                        ) : (
-                          <Text>Nenhum serviço adicionado</Text>
-                        )}                        
-                </BoxContainerService>
-                )}                              
-      </BoxContainerServices>    
-      <BoxButtonExit>
-                  <ButtonExit onPress={() => {signOut()}}>Sair</ButtonExit>
-                </BoxButtonExit>   
+            </BoxStars>
+            <BoxMenu>
+                    <BoxOption onPress={handleClientData}>
+                        <BoxSelect>
+                            <TitleOption>Meus dados</TitleOption>
+                            <Icon name={"edit-2"} size={20} color="#666360" />
+                        </BoxSelect>
+                    </BoxOption>
+                    <Line />
+                    <BoxOption>
+                        <BoxSelect>
+                            <TitleOption>Agenda</TitleOption>
+                            <Icon name={"book"} size={20} color="#666360" />
+                        </BoxSelect>
+                    </BoxOption>
+                    <Line />
+                    <BoxOption>
+                        <BoxSelect>
+                            <TitleOption>Minhas avaliações</TitleOption>
+                            <Icon name={"star"} size={20} color="#666360" />
+                        </BoxSelect>
+                    </BoxOption>
+                    <Line />
+                    <BoxOption onPress={handleExit}>
+                        <BoxSelect>
+                            <TitleOption>Sair</TitleOption>
+                            <Icon name={"log-out"} size={20} color="#666360" />
+                        </BoxSelect>
+                    </BoxOption>
+                    <Line />
+                </BoxMenu>             
     </Container>
     </ScrollView>
 </SafeAreaView>
