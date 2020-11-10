@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {Dimensions} from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import {RectButton} from 'react-native-gesture-handler';
 import Button from '../../../components/ButtonAuth';
@@ -20,11 +21,11 @@ export const LoadingLocation = styled.View`
 export const BoxLocation = styled.View`
     flex-direction: row;
     justify-content: flex-start;
-    width: 100%;
     align-items: center;
     height: 35px;
     margin-top: 10px;
     margin-left: 10px;
+    width: 100%;
 `;
 
 export const Icon = styled(FeatherIcon)`
@@ -36,16 +37,16 @@ export const Icon = styled(FeatherIcon)`
 export const Location = styled.Text`
     font-size: 18px;
     color: #235A5C;
-    
+
 `;
 
-export const BoxFilters = styled.View`       
-    flex-direction: row; 
-    justify-content: space-around; 
-    align-items: center; 
+export const BoxFilters = styled.View`
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     height: 50px;
     width: 350px;
-    
+
 `;
 
 export const BoxPicker = styled.View`

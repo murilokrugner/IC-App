@@ -12,6 +12,11 @@ import { useNavigation } from '@react-navigation/native';
 import Ecanador from '../../../assets/encanador.jpg';
 import Startss from '../../../assets/starts.png';
 
+import api from '../../../services/api';
+import apiServices from '../../../services/api-services';
+import apiCity from '../../../services/api-ibge-city';
+import apiMicrorregiao from '../../../services/api-ibge-microrregiao';
+
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
 const Services = () => {
@@ -22,7 +27,10 @@ const Services = () => {
   const [longitude, setLongitude] = useState('');
   const [coordinates, setCoordinates] = useState({});
   const [location, setLocation] = useState();
-  const [cep, setCep] = useState('');
+  const [getMessorregiao, setGetMessorregiao] = useState(0);
+  const [getMicrorregiao, setGetMicrorregiao] = useState(0);
+
+  const [servicesMicrorregiao, setServicesMicrorregiao] = useState({});
 
   const [order, setOrder] = useState('Ordenar por: ');
 
@@ -45,7 +53,26 @@ const Services = () => {
         const locationSplit = address.split(',');
 
         setCep(locationSplit[3]);
-        setLocation(address);
+
+        const numberIbge = await apiServices.get(`${locationSplit[3].trim()}/json/`);
+
+        const Getregiao = await apiCity.get(`${numberIbge.data.ibge}`);
+
+        const microrregiao = Getregiao.data.microrregiao.id;
+
+        const mesorregiao = Getregiao.data.microrregiao.mesorregiao.id;
+
+        setGetMicrorregiao(microrregiao);
+        setGetMessorregiao(mesorregiao);
+
+        setLocation(locationSplit[2]);
+
+        const getServices = await api.get('services-microrregiao', {
+          microrregiao: microrregiao,
+        });
+
+        setServicesMicrorregiao(getServices.data);
+
         setLoadingLocation(false);
       },
       (error) => {

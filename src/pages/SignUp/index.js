@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {KeyboardAvoidingView, ScrollView, Alert} from 'react-native';
 
-import {Container, BoxForm, BoxPassword, ClickPassword, BoxInputMask, 
+import {Container, BoxForm, BoxPassword, ClickPassword, BoxInputMask,
     Icon} from './styles';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
@@ -13,7 +13,9 @@ import {TextInputMask} from 'react-native-masked-text';
 import {Picker} from '@react-native-community/picker';
 import { RadioButton } from 'react-native-paper';
 import api from '../../services/api';
+
 import apiServices from '../../services/api-services';
+import apiCity from '../../services/api-ibge-city';
 
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
@@ -24,7 +26,7 @@ function SignUp() {
     const nicknameRef = useRef();
     const mailRef = useRef();
     const telphoneRef = useRef();
-    const mobilephoneRef = useRef();    
+    const mobilephoneRef = useRef();
     const documentRef = useRef();
     const addressRef = useRef();
     const numberRef = useRef();
@@ -73,7 +75,7 @@ function SignUp() {
             const response = await Geocoder.from({latitude, longitude});
             const address = response.results[0].formatted_address;
             const location = address.substring(0, address.indexOf(','));
-    
+
             setLocation(location);
             setLoadingLocation(false);
           },
@@ -87,15 +89,9 @@ function SignUp() {
       async function handleSubmit() {
         try {
             setLoading(true);
-           
+
             if (password !== passwordRepeat) {
                 Alert.alert('A senha não coecidem');
-                setLoading(false);
-                return;
-            }
-
-            if (checkedCnpj === '' && checkedCpf === '') {
-                Alert.alert('Selecione o tipo da empresa');
                 setLoading(false);
                 return;
             }
@@ -106,7 +102,15 @@ function SignUp() {
                 Alert.alert('Cep inválido');
                 return;
             }
-            
+
+            const numberIbge = await apiServices.get(`${cep}/json/`);
+
+            const Getregiao = await apiCity.get(`${numberIbge.data.ibge}`);
+
+            const microrregiao = Getregiao.data.microrregiao.id;
+
+            const mesorregiao = Getregiao.data.microrregiao.mesorregiao.id;
+
             const response = await api.post('users', {
                 name: name,
                 nickname: nickname,
@@ -123,11 +127,13 @@ function SignUp() {
                 cep_address: cep,
                 state_address: searchAddress.data.uf,
                 city: searchAddress.data.localidade,
+                microrregiao: microrregiao,
+                mesorregiao: mesorregiao,
                 provider: false,
                 type_document: "0",
                 first_access: "0",
-            });    
-                                        
+            });
+
             setLoading(false);
             Alert.alert('Sua conta foi criada com sucesso!');
 
@@ -136,38 +142,38 @@ function SignUp() {
             } else {
                 navigation.navigate('WithCpf', {email});
             }
-           
+
         } catch (error) {
             setLoading(false);
             Alert.alert('Não foi possível fazer o seu registro, tente novamente mais tarde');
         }
     }
-     
+
     return(
         <KeyboardAvoidingView style={{flex: 1}}>
             <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-                <Container>                
-                    <BoxForm>                        
+                <Container>
+                    <BoxForm>
                         <Form ref={formRef} onSubmit={handleSubmit}>
-                            <InputAuth name="name" icon="user" placeholder="Nome Completo" returnKeyType="next"                                 
+                            <InputAuth name="name" icon="user" placeholder="Nome Completo" returnKeyType="next"
                                 onSubmitEditing={() => nicknameRef.current.focus()}
                                 value={name}
                                 onChangeText={setName}
                             />
-                            <InputAuth ref={nicknameRef} name="nickname" icon="user" placeholder="Apelido" returnKeyType="next"                                 
+                            <InputAuth ref={nicknameRef} name="nickname" icon="user" placeholder="Apelido" returnKeyType="next"
                                 onSubmitEditing={() => mailRef.current.focus()}
                                 value={nickname}
                                 onChangeText={setNickName}
                             />
-                            <InputAuth ref={mailRef} name="email" icon="mail" placeholder="E-mail" 
-                                autoCorrect={false}                            
+                            <InputAuth ref={mailRef} name="email" icon="mail" placeholder="E-mail"
+                                autoCorrect={false}
                                 autoCapitalize="none"
                                 keyboardType="email-address"
-                                returnKeyType="next"     
+                                returnKeyType="next"
                                 onSubmitEditing={() => telphoneRef.current.focus()}
                                 value={email}
                                 onChangeText={setEmail}
-                            />       
+                            />
                             <BoxInputMask>
                             <TextInputMask
                                 type={'cel-phone'}
@@ -185,28 +191,28 @@ function SignUp() {
                                     borderRadius: 10,
                                     padding: 15,
                                     fontSize: 16,
-                                    color: '#000',   
+                                    color: '#000',
                                     marginTop: 5,
-                                    marginBottom: 16                                 
-                                }}                                
+                                    marginBottom: 16
+                                }}
                                 placeholder={'          Telefone Fixo'}
                                 placeholderTextColor={'#666360'}
                                 ref={telphoneRef}
-                                name="phone" 
+                                name="phone"
                                 actions={{
                                     title: 'Icone',
                                     showWithText: true,
                                     show: "always",
                                     icon: require('../../assets/smartphone.png'),
                                 }}
-                                                             
-                                returnKeyType="next" 
+
+                                returnKeyType="next"
                                 onSubmitEditing={() => mobilephoneRef.current.focus()}
                                 />
                                 <Icon name={'smartphone'} size={20} color="#666360" />
-                            </BoxInputMask>  
+                            </BoxInputMask>
 
-                            <BoxInputMask>                                           
+                            <BoxInputMask>
                                 <TextInputMask
                                     type={'cel-phone'}
                                     value={mobilePhone}
@@ -223,26 +229,26 @@ function SignUp() {
                                         borderRadius: 10,
                                         padding: 15,
                                         fontSize: 16,
-                                        color: '#000',   
+                                        color: '#000',
                                         marginTop: 5,
-                                        marginBottom: 16                                 
-                                    }}                                
+                                        marginBottom: 16
+                                    }}
                                     placeholder={'          Celular'}
                                     placeholderTextColor={'#666360'}
                                     ref={mobilephoneRef}
-                                    name="mobile-phone" 
+                                    name="mobile-phone"
                                     actions={{
                                         title: 'Icone',
                                         showWithText: true,
                                         show: "always",
                                         icon: require('../../assets/smartphone.png'),
                                     }}
-                                                                
-                                    returnKeyType="next" 
+
+                                    returnKeyType="next"
                                     onSubmitEditing={() => documentRef.current.focus()}
-                                    />                               
+                                    />
                                 <Icon name={'phone'} size={20} color="#666360" />
-                            </BoxInputMask>   
+                            </BoxInputMask>
                             <BoxInputMask>
                             <TextInputMask
                             type={'zip-code'}
@@ -259,49 +265,49 @@ function SignUp() {
                                 borderRadius: 10,
                                 padding: 15,
                                 fontSize: 16,
-                                color: '#000',   
+                                color: '#000',
                                 marginTop: 5,
-                                marginBottom: 16                                 
+                                marginBottom: 16
                             }}
                             placeholder={'          CEP'}
                             placeholderTextColor={'#666360'}
-                            returnKeyType="next" 
+                            returnKeyType="next"
                             onSubmitEditing={() => stateRef.current.focus()}
                             />
                             <Icon name={'minus-square'} size={20} color="#666360" />
-                            </BoxInputMask>                          
-                            <InputAuth ref={addressRef } name="address" icon="map-pin" placeholder="Endereço" returnKeyType="next"                                 
+                            </BoxInputMask>
+                            <InputAuth ref={addressRef } name="address" icon="map-pin" placeholder="Endereço" returnKeyType="next"
                                 onSubmitEditing={() => numberRef.current.focus()}
                                 value={address}
                                 onChangeText={setAddress}
                             />
-                            <InputAuth ref={numberRef } name="number" icon="hash" placeholder="Número" returnKeyType="next"                                 
+                            <InputAuth ref={numberRef } name="number" icon="hash" placeholder="Número" returnKeyType="next"
                                 onSubmitEditing={() => BairroRef.current.focus()}
                                 value={number}
                                 onChangeText={setNumber}
                                 keyboardType="numeric"
                             />
-                            <InputAuth ref={BairroRef } name="bairro" icon="map-pin" placeholder="Bairro" returnKeyType="next"                                 
+                            <InputAuth ref={BairroRef } name="bairro" icon="map-pin" placeholder="Bairro" returnKeyType="next"
                                 onSubmitEditing={() => pointRef.current.focus()}
                                 value={bairr}
                                 onChangeText={setBairr}
                             />
-                            <InputAuth ref={pointRef} name="point" icon="map-pin" placeholder="Ponto de referencia" returnKeyType="next"                                 
+                            <InputAuth ref={pointRef} name="point" icon="map-pin" placeholder="Ponto de referencia" returnKeyType="next"
                                 onSubmitEditing={() => cepRef.current.focus()}
                                 value={point}
                                 onChangeText={setPoint}
-                            />                            
-                            <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha" 
-                                secureTextEntry returnKeyType="send" autoCorrect={false}                            
+                            />
+                            <InputAuth ref={passwordRef} name="password" icon="key" placeholder="Senha"
+                                secureTextEntry returnKeyType="send" autoCorrect={false}
                                 autoCapitalize="none"
-                                onSubmitEditing={() => passwordRepeatRef.current.focus()}    
+                                onSubmitEditing={() => passwordRepeatRef.current.focus()}
                                 value={password}
                                 onChangeText={setPassword}
                             />
-                            <InputAuth ref={passwordRepeatRef} name="password" icon="lock" placeholder="Confirmar Senha" 
-                                secureTextEntry returnKeyType="send" autoCorrect={false}                            
+                            <InputAuth ref={passwordRepeatRef} name="password" icon="lock" placeholder="Confirmar Senha"
+                                secureTextEntry returnKeyType="send" autoCorrect={false}
                                 autoCapitalize="none"
-                                onSubmitEditing={handleSubmit}    
+                                onSubmitEditing={handleSubmit}
                                 value={passwordRepeat}
                                 onChangeText={setPasswordRepeat}
                             />
@@ -310,11 +316,11 @@ function SignUp() {
 
                         <BoxPassword onPres={() => {navigation.goBack()}}>
                             <ClickPassword>Cancelar</ClickPassword>
-                        </BoxPassword>                                                
-                    </BoxForm>                    
+                        </BoxPassword>
+                    </BoxForm>
                 </Container>
             </ScrollView>
-        </KeyboardAvoidingView>        
+        </KeyboardAvoidingView>
     )
 }
 

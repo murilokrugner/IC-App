@@ -17,20 +17,25 @@ import {
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import { Form } from '@unform/mobile';
-import { useNavigation } from '@react-navigation/native';
-import InputAuth from '../../components/InputAuth';
-import ButtonAuth from '../../components/ButtonAuth';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import InputAuth from '../../../components/InputAuth';
+import ButtonAuth from '../../../components/ButtonAuth';
 import { TextInputMask } from 'react-native-masked-text';
 import { Picker } from '@react-native-community/picker';
 
-import api from '../../services/api';
-import apiServices from '../../services/api-services';
-import apiCity from '../../services/api-ibge-city';
+import api from '../../../services/api';
+import apiServices from '../../../services/api-services';
+import apiCity from '../../../services/api-ibge-city';
 
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
-function SignUpProvider() {
+function SignUpProviderAutonomous() {
     const navigation = useNavigation();
+
+    const param = useRoute();
+
+    const documentParam = param.params.document;
+    const typeParam = param.param.type;
 
     const formRef = useRef(null);
     const nicknameRef = useRef();
@@ -139,6 +144,7 @@ function SignUpProvider() {
                 address: address,
                 number_address: number,
                 point_address: point,
+                document: documentParam,
                 neighborhood_address: bairr,
                 cep_address: cep,
                 state_address: searchAddress.data.uf,
@@ -146,18 +152,14 @@ function SignUpProvider() {
                 microrregiao: microrregiao,
                 mesorregiao: mesorregiao,
                 provider: true,
-                type_document: checkedCnpj === 'first' ? '0' : '1',
+                type_document: typeParam === 0 ? '0' : '1',
                 first_access: '0',
             });
 
             setLoading(false);
             Alert.alert('Sua conta foi criada com sucesso!');
 
-            if (checkedCnpj === 'first') {
-                navigation.navigate('WithCnpj', { email });
-            } else {
-                navigation.navigate('WithCpf', { email });
-            }
+            //navegar onde confirma os documentos
         } catch (error) {
             setLoading(false);
             Alert.alert(
@@ -240,7 +242,7 @@ function SignUpProvider() {
                                         title: 'Icone',
                                         showWithText: true,
                                         show: 'always',
-                                        icon: require('../../assets/smartphone.png'),
+                                        icon: require('../../../assets/smartphone.png'),
                                     }}
                                     returnKeyType="next"
                                     onSubmitEditing={() =>
@@ -283,7 +285,7 @@ function SignUpProvider() {
                                         title: 'Icone',
                                         showWithText: true,
                                         show: 'always',
-                                        icon: require('../../assets/smartphone.png'),
+                                        icon: require('../../../assets/smartphone.png'),
                                     }}
                                     returnKeyType="next"
                                     onSubmitEditing={() =>
@@ -426,4 +428,4 @@ function SignUpProvider() {
     );
 }
 
-export default SignUpProvider;
+export default SignUpProviderAutonomous;
