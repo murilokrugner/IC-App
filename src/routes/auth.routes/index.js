@@ -19,6 +19,10 @@ import WithCpfAutonomous from '../../pages/SignUpProvider/Autonomous/RegisterDoc
 import WhatDocument from '../../pages/SignUpProvider/WhatDocument';
 import SignUpProviderAutonomous from '../../pages/SignUpProvider/SignUpProviderAutonomous';
 import TakePhotoDocument from '../../pages/SignUpProvider/TakePhotoDocument';
+import TakePhotoDocumentVerse from '../../pages/SignUpProvider/TakePhotoDocumentVerse';
+import DocumentsCaptions from '../../pages/SignUpProvider/DocumentsCaptions';
+import TakeYourPhoto from '../../pages/SignUpProvider/TakeYourPhoto';
+import VerifyDocument from '../../pages/SignUpProvider/VerifyDocument';
 
 const Auth = createStackNavigator();
 
@@ -30,7 +34,7 @@ function AuthRoutes() {
                     headerShown: false,
                     cardStyle: { backgroundColor: '#fff' },
                 }}
-                initialRouteName="TakePhotoDocument"
+                initialRouteName="VerifyDocument"
             >
                 <Auth.Screen name="SignIn" component={SignIn} />
                 <Auth.Screen
@@ -110,7 +114,39 @@ function AuthRoutes() {
                     component={TakePhotoDocument}
                     options={{
                         headerShown: true,
-                        headerTitle: 'Tire uma foto do seu documento',
+                        headerTitle: 'Seu documento com foto - RG ou CNH',
+                    }}
+                />
+                <Auth.Screen
+                    name="TakePhotoDocumentVerse"
+                    component={TakePhotoDocumentVerse}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Seu documento com foto - RG ou CNH',
+                    }}
+                />
+                <Auth.Screen
+                    name="DocumentsCaptions"
+                    component={DocumentsCaptions}
+                    options={{
+                        headerShown: true,
+                        headerTitle: '',
+                    }}
+                />
+                <Auth.Screen
+                    name="TakeYourPhoto"
+                    component={TakeYourPhoto}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Tire uma foto com o seu documento',
+                    }}
+                />
+                <Auth.Screen
+                    name="VerifyDocument"
+                    component={VerifyDocument}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Verifique sua foto',
                     }}
                 />
             </Auth.Navigator>

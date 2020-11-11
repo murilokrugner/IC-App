@@ -20,7 +20,7 @@ import { RNCamera } from 'react-native-camera';
 import CameraIcon from '../../../assets/camera2.png';
 import FlashIcon from '../../../assets/flash.png';
 
-const TakePhotoDocument = () => {
+const TakePhotoDocumentVerse = () => {
     let [flash, setFlash] = useState('off');
     let [zoom, setZoom] = useState(0);
     let cameraRef = useRef(null);
@@ -54,7 +54,7 @@ const TakePhotoDocument = () => {
                 }}
             />
             <Box>
-                <TextBox>Frente do documento</TextBox>
+                <TextBox>Verso do documento</TextBox>
             </Box>
             <BoxButtons>
                 <BoxCapture>
@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TakePhotoDocument;
+export default TakePhotoDocumentVerse;

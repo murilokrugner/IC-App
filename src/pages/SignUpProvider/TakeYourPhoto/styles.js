@@ -59,6 +59,7 @@ export const Box = styled.View`
     width: 350px;
     height: 500px;
     border: 5px;
+    border-radius: 40px;
     border-color: #235a5c;
     flex-direction: row;
     justify-content: center;
