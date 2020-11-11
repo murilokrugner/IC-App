@@ -18,6 +18,7 @@ import WithCpfAutonomous from '../../pages/SignUpProvider/Autonomous/RegisterDoc
 
 import WhatDocument from '../../pages/SignUpProvider/WhatDocument';
 import SignUpProviderAutonomous from '../../pages/SignUpProvider/SignUpProviderAutonomous';
+import TakePhotoDocument from '../../pages/SignUpProvider/TakePhotoDocument';
 
 const Auth = createStackNavigator();
 
@@ -29,7 +30,7 @@ function AuthRoutes() {
                     headerShown: false,
                     cardStyle: { backgroundColor: '#fff' },
                 }}
-                initialRouteName="SignIn"
+                initialRouteName="TakePhotoDocument"
             >
                 <Auth.Screen name="SignIn" component={SignIn} />
                 <Auth.Screen
@@ -102,6 +103,14 @@ function AuthRoutes() {
                     options={{
                         headerShown: true,
                         headerTitle: 'Cadastrar',
+                    }}
+                />
+                <Auth.Screen
+                    name="TakePhotoDocument"
+                    component={TakePhotoDocument}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Tire uma foto do seu documento',
                     }}
                 />
             </Auth.Navigator>

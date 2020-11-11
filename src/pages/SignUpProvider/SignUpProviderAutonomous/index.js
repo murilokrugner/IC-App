@@ -32,10 +32,10 @@ Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 function SignUpProviderAutonomous() {
     const navigation = useNavigation();
 
-    const param = useRoute();
+    const route = useRoute();
 
-    const documentParam = param.params.document;
-    const typeParam = param.param.type;
+    const documentParam = route.params.document;
+    const typeParam = route.params.type;
 
     const formRef = useRef(null);
     const nicknameRef = useRef();
@@ -111,12 +111,6 @@ function SignUpProviderAutonomous() {
                 return;
             }
 
-            if (checkedCnpj === '' && checkedCpf === '') {
-                Alert.alert('Selecione o tipo da empresa');
-                setLoading(false);
-                return;
-            }
-
             const searchAddress = await apiServices.get(`${cep}/json/`);
 
             if (searchAddress.data.status === 400) {
@@ -159,7 +153,7 @@ function SignUpProviderAutonomous() {
             setLoading(false);
             Alert.alert('Sua conta foi criada com sucesso!');
 
-            //navegar onde confirma os documentos
+            navigation.navigate('TakePhotoDocument', { email });
         } catch (error) {
             setLoading(false);
             Alert.alert(
