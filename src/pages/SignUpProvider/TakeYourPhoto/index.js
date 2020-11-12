@@ -1,5 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+    Text,
+    TouchableOpacity,
+    View,
+    StyleSheet,
+    ActivityIndicator,
+} from 'react-native';
 
 import {
     Container,
@@ -13,6 +19,7 @@ import {
     BoxFlash,
     Box,
     TextBox,
+    BoxLoading,
 } from './styles';
 
 import { RNCamera } from 'react-native-camera';
@@ -20,20 +27,66 @@ import { RNCamera } from 'react-native-camera';
 import CameraIcon from '../../../assets/camera2.png';
 import FlashIcon from '../../../assets/flash.png';
 
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../../hooks/auth';
+import ImagePicker from 'react-native-image-picker';
+
 const TakeYourPhoto = () => {
+    const { dataAuth } = useAuth();
+    const navigation = useNavigation();
+
     let [flash, setFlash] = useState('off');
-    let [zoom, setZoom] = useState(0);
     let cameraRef = useRef(null);
 
+    const userId = dataAuth.id;
+
+    const [loading, setLoading] = useState(false);
+
     function toggleFlash() {
-        setFlash(flashModeOrder[flash]);
+        //setFlash(flashModeOrder[flash]);
+        if (flash === 'off') {
+            setFlash('on');
+        } else {
+            setFlash('off');
+        }
     }
 
     async function takePicture() {
+        setLoading(true);
         if (cameraRef) {
             const options = { quality: 0.5, base64: true };
             const data = await cameraRef.takePictureAsync(options);
-            console.log(data.uri);
+
+            const uri = `data:image/jpeg;base64,${data.base64}`;
+
+            let prefix;
+            let ext;
+
+            const name = data.uri.split('/');
+
+            console.log(name);
+
+            if (data.fileName) {
+                [prefix, ext] = name[9];
+                ext = ext.toLowerCase() === 'heic' ? 'jpg' : ext;
+            } else {
+                prefix = new Date().getTime();
+                ext = 'jpg';
+            }
+
+            const imageData = {
+                uri: data.uri,
+                type: 'jpg/jpge',
+                name: `${prefix}.${ext}`,
+            };
+
+            const image = new FormData();
+
+            image.append('file', imageData);
+
+            navigation.navigate('VerifyDocumentYour', { uri, image });
+
+            setLoading(false);
         }
     }
 
@@ -57,11 +110,18 @@ const TakeYourPhoto = () => {
                 <TextBox>Sua foto com o documento</TextBox>
             </Box>
             <BoxButtons>
-                <BoxCapture>
-                    <Capture onPress={takePicture}>
-                        <ImageCapture source={CameraIcon} />
-                    </Capture>
-                </BoxCapture>
+                {loading ? (
+                    <BoxLoading>
+                        <ActivityIndicator color="#fff" size="large" />
+                    </BoxLoading>
+                ) : (
+                    <BoxCapture>
+                        <Capture onPress={takePicture}>
+                            <ImageCapture source={CameraIcon} />
+                        </Capture>
+                    </BoxCapture>
+                )}
+
                 <BoxFlash>
                     <Flash onPress={toggleFlash}>
                         <ImageFlash source={FlashIcon} />

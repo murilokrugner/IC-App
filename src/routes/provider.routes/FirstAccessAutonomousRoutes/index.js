@@ -12,6 +12,8 @@ import TakePhotoDocumentVerse from '../../../pages/SignUpProvider/TakePhotoDocum
 import DocumentsCaptions from '../../../pages/SignUpProvider/DocumentsCaptions';
 import TakeYourPhoto from '../../../pages/SignUpProvider/TakeYourPhoto';
 import VerifyDocument from '../../../pages/SignUpProvider/VerifyDocument';
+import VerifyDocumentVerse from '../../../pages/SignUpProvider/VerifyDocumentVerse';
+import VerifyDocumentYour from '../../../pages/SignUpProvider/VerifyDocumentYour';
 
 import RoutesProviderAll from '../index';
 
@@ -96,6 +98,22 @@ function FirstAccessAutonomousRoutes() {
                 <Stack.Screen
                     name="VerifyDocument"
                     component={VerifyDocument}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Foto pronta!',
+                    }}
+                />
+                <Stack.Screen
+                    name="VerifyDocumentVerse"
+                    component={VerifyDocumentVerse}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Foto pronta!',
+                    }}
+                />
+                <Stack.Screen
+                    name="VerifyDocumentYour"
+                    component={VerifyDocumentYour}
                     options={{
                         headerShown: true,
                         headerTitle: 'Foto pronta!',

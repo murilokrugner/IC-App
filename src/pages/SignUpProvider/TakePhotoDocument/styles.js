@@ -31,8 +31,9 @@ export const Flash = styled.TouchableOpacity`
 
 export const BoxButtons = styled.View`
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     height: 100px;
+    width: 100%;
 `;
 
 export const ImageCapture = styled.Image`
@@ -47,11 +48,14 @@ export const ImageFlash = styled.Image`
 export const BoxCapture = styled.View`
     width: 260px;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
 `;
 
 export const BoxFlash = styled.View`
-    width: 100px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: absolute;
 `;
 
 export const Box = styled.View`
@@ -71,4 +75,10 @@ export const TextBox = styled.Text`
     font-weight: bold;
     margin-top: 10px;
     color: #fff;
+`;
+
+export const BoxLoading = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `;

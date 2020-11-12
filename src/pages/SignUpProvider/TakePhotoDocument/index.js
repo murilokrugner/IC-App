@@ -19,6 +19,7 @@ import {
     BoxFlash,
     Box,
     TextBox,
+    BoxLoading,
 } from './styles';
 
 import { RNCamera } from 'react-native-camera';
@@ -42,7 +43,12 @@ const TakePhotoDocument = () => {
     const [loading, setLoading] = useState(false);
 
     function toggleFlash() {
-        setFlash(flashModeOrder[flash]);
+        //setFlash(flashModeOrder[flash]);
+        if (flash === 'off') {
+            setFlash('on');
+        } else {
+            setFlash('off');
+        }
     }
 
     async function takePicture() {
@@ -105,9 +111,9 @@ const TakePhotoDocument = () => {
             </Box>
             <BoxButtons>
                 {loading ? (
-                    <BoxCapture>
+                    <BoxLoading>
                         <ActivityIndicator color="#fff" size="large" />
-                    </BoxCapture>
+                    </BoxLoading>
                 ) : (
                     <BoxCapture>
                         <Capture onPress={takePicture}>
