@@ -8,21 +8,12 @@ import SignUpProvider from '../../pages/SignUpProvider';
 import WhatUser from '../../pages/WhatUser';
 
 import WithCnpj from '../../pages/RegisterDocumentProvider/WithCnpj';
-import WithCpf from '../../pages/RegisterDocumentProvider/WithCpf';
 
 //import pattern from '../../assets/pattern_com_fundo.png';
 
-//rotas para autonomo
-import WithCnpjAutonomous from '../../pages/SignUpProvider/Autonomous/RegisterDocumentProvider/WithCnpjAutonomous';
 import WithCpfAutonomous from '../../pages/SignUpProvider/Autonomous/RegisterDocumentProvider/WithCpfAutonomous';
-
 import WhatDocument from '../../pages/SignUpProvider/WhatDocument';
 import SignUpProviderAutonomous from '../../pages/SignUpProvider/SignUpProviderAutonomous';
-import TakePhotoDocument from '../../pages/SignUpProvider/TakePhotoDocument';
-import TakePhotoDocumentVerse from '../../pages/SignUpProvider/TakePhotoDocumentVerse';
-import DocumentsCaptions from '../../pages/SignUpProvider/DocumentsCaptions';
-import TakeYourPhoto from '../../pages/SignUpProvider/TakeYourPhoto';
-import VerifyDocument from '../../pages/SignUpProvider/VerifyDocument';
 
 const Auth = createStackNavigator();
 
@@ -34,7 +25,7 @@ function AuthRoutes() {
                     headerShown: false,
                     cardStyle: { backgroundColor: '#fff' },
                 }}
-                initialRouteName="VerifyDocument"
+                initialRouteName="SignIn"
             >
                 <Auth.Screen name="SignIn" component={SignIn} />
                 <Auth.Screen
@@ -70,6 +61,14 @@ function AuthRoutes() {
                     }}
                 />
                 <Auth.Screen
+                    name="WhatDocument"
+                    component={WhatDocument}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Você tem?',
+                    }}
+                />
+                <Auth.Screen
                     name="WithCnpj"
                     component={WithCnpj}
                     options={{
@@ -78,75 +77,11 @@ function AuthRoutes() {
                     }}
                 />
                 <Auth.Screen
-                    name="WithCpf"
-                    component={WithCpf}
-                    options={{
-                        headerShown: true,
-                        headerTitle: 'Informe seu CPF',
-                    }}
-                />
-                <Auth.Screen
                     name="WithCpfAutonomous"
                     component={WithCpfAutonomous}
                     options={{
                         headerShown: true,
                         headerTitle: 'Informe seu CPF',
-                    }}
-                />
-                <Auth.Screen
-                    name="WithCnpjAutonomous"
-                    component={WithCnpjAutonomous}
-                    options={{
-                        headerShown: true,
-                        headerTitle: 'Informe seu CNPJ',
-                    }}
-                />
-                <Auth.Screen
-                    name="WhatDocument"
-                    component={WhatDocument}
-                    options={{
-                        headerShown: true,
-                        headerTitle: 'Cadastrar',
-                    }}
-                />
-                <Auth.Screen
-                    name="TakePhotoDocument"
-                    component={TakePhotoDocument}
-                    options={{
-                        headerShown: true,
-                        headerTitle: 'Seu documento com foto - RG ou CNH',
-                    }}
-                />
-                <Auth.Screen
-                    name="TakePhotoDocumentVerse"
-                    component={TakePhotoDocumentVerse}
-                    options={{
-                        headerShown: true,
-                        headerTitle: 'Seu documento com foto - RG ou CNH',
-                    }}
-                />
-                <Auth.Screen
-                    name="DocumentsCaptions"
-                    component={DocumentsCaptions}
-                    options={{
-                        headerShown: true,
-                        headerTitle: '',
-                    }}
-                />
-                <Auth.Screen
-                    name="TakeYourPhoto"
-                    component={TakeYourPhoto}
-                    options={{
-                        headerShown: true,
-                        headerTitle: 'Tire uma foto com o seu documento',
-                    }}
-                />
-                <Auth.Screen
-                    name="VerifyDocument"
-                    component={VerifyDocument}
-                    options={{
-                        headerShown: true,
-                        headerTitle: 'Verifique sua foto',
                     }}
                 />
             </Auth.Navigator>

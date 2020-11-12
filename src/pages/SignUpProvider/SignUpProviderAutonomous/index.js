@@ -35,7 +35,6 @@ function SignUpProviderAutonomous() {
     const route = useRoute();
 
     const documentParam = route.params.document;
-    const typeParam = route.params.type;
 
     const formRef = useRef(null);
     const nicknameRef = useRef();
@@ -146,14 +145,18 @@ function SignUpProviderAutonomous() {
                 microrregiao: microrregiao,
                 mesorregiao: mesorregiao,
                 provider: true,
-                type_document: typeParam === 0 ? '0' : '1',
+                type_document: '1',
                 first_access: '0',
+                blocked: true,
             });
 
             setLoading(false);
             Alert.alert('Sua conta foi criada com sucesso!');
 
-            navigation.navigate('TakePhotoDocument', { email });
+            navigation.goBack();
+            navigation.goBack();
+            navigation.goBack();
+            navigation.goBack();
         } catch (error) {
             setLoading(false);
             Alert.alert(
@@ -174,7 +177,7 @@ function SignUpProviderAutonomous() {
                             <InputAuth
                                 name="name"
                                 icon="user"
-                                placeholder="Razão social"
+                                placeholder="Nome Completo"
                                 returnKeyType="next"
                                 onSubmitEditing={() =>
                                     nicknameRef.current.focus()
@@ -186,7 +189,7 @@ function SignUpProviderAutonomous() {
                                 ref={nicknameRef}
                                 name="nickname"
                                 icon="user"
-                                placeholder="Nome Fantasia"
+                                placeholder="Apelido"
                                 returnKeyType="next"
                                 onSubmitEditing={() => mailRef.current.focus()}
                                 value={nickname}

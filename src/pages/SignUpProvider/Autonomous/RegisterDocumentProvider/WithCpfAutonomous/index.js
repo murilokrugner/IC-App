@@ -13,13 +13,12 @@ function WithCpfAutonomous() {
 
     const [loading, setLoading] = useState(false);
     const [document, setDocument] = useState('');
-    const [type, setType] = useState(0);
 
     async function handleSubmit() {
         try {
             setLoading(true);
 
-            navigation.navigate('SignUpProviderAutonomous', { document, type });
+            navigation.navigate('SignUpProviderAutonomous', { document });
             setLoading(false);
         } catch (error) {
             Alert.alert(

@@ -17,12 +17,11 @@ import {
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import { Form } from '@unform/mobile';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import InputAuth from '../../components/InputAuth';
 import ButtonAuth from '../../components/ButtonAuth';
 import { TextInputMask } from 'react-native-masked-text';
 import { Picker } from '@react-native-community/picker';
-
 import api from '../../services/api';
 import apiServices from '../../services/api-services';
 import apiCity from '../../services/api-ibge-city';
@@ -31,6 +30,10 @@ Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
 function SignUpProvider() {
     const navigation = useNavigation();
+
+    const route = useRoute();
+
+    const document = route.params.document;
 
     const formRef = useRef(null);
     const nicknameRef = useRef();
@@ -67,8 +70,6 @@ function SignUpProvider() {
     const [state, setState] = useState('        Selecione um Estado');
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
-    const [checkedCnpj, setCheckedCnpj] = useState('');
-    const [checkedCpf, setCheckedCpf] = useState('');
 
     useEffect(() => {
         Geolocation.getCurrentPosition(
@@ -106,12 +107,6 @@ function SignUpProvider() {
                 return;
             }
 
-            if (checkedCnpj === '' && checkedCpf === '') {
-                Alert.alert('Selecione o tipo da empresa');
-                setLoading(false);
-                return;
-            }
-
             const searchAddress = await apiServices.get(`${cep}/json/`);
 
             if (searchAddress.data.status === 400) {
@@ -133,6 +128,7 @@ function SignUpProvider() {
                 email: email,
                 phone: phone,
                 mobile_phone: mobilePhone,
+                document: document,
                 password: password,
                 location_x: coordinates.latitude,
                 location_y: coordinates.longitude,
@@ -146,18 +142,18 @@ function SignUpProvider() {
                 microrregiao: microrregiao,
                 mesorregiao: mesorregiao,
                 provider: true,
-                type_document: checkedCnpj === 'first' ? '0' : '1',
+                type_document: '0',
                 first_access: '0',
+                blocked: false,
             });
 
             setLoading(false);
             Alert.alert('Sua conta foi criada com sucesso!');
 
-            if (checkedCnpj === 'first') {
-                navigation.navigate('WithCnpj', { email });
-            } else {
-                navigation.navigate('WithCpf', { email });
-            }
+            navigation.goBack();
+            navigation.goBack();
+            navigation.goBack();
+            navigation.goBack();
         } catch (error) {
             setLoading(false);
             Alert.alert(

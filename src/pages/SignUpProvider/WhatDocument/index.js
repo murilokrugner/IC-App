@@ -24,7 +24,7 @@ const WhatDocument = () => {
         }
 
         if (checkedCnpj === 'first') {
-            navigation.navigate('WithCnpjAutonomous');
+            navigation.navigate('WithCnpj');
         } else {
             navigation.navigate('WithCpfAutonomous');
         }
