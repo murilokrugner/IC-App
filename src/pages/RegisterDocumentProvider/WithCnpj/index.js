@@ -46,7 +46,7 @@ function WithCnpj() {
                             width: 330,
                             height: 58,
                             borderRadius: 10,
-                            padding: 15,
+                            paddingLeft: 45,
                             fontSize: 16,
                             color: '#000',
                             marginTop: 5,

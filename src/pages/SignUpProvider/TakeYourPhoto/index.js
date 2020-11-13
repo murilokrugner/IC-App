@@ -105,6 +105,7 @@ const TakeYourPhoto = () => {
                     buttonPositive: 'Ok',
                     buttonNegative: 'Cancel',
                 }}
+                type={'front'}
             />
             <Box>
                 <TextBox>Sua foto com o documento</TextBox>
@@ -121,12 +122,6 @@ const TakeYourPhoto = () => {
                         </Capture>
                     </BoxCapture>
                 )}
-
-                <BoxFlash>
-                    <Flash onPress={toggleFlash}>
-                        <ImageFlash source={FlashIcon} />
-                    </Flash>
-                </BoxFlash>
             </BoxButtons>
         </Container>
     );

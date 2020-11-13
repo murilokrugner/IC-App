@@ -35,7 +35,7 @@ function WithCpfAutonomous() {
                     <TextInputMask
                         type={'cpf'}
                         value={document}
-                        placeholder={'          CPF'}
+                        placeholder={'CPF'}
                         placeholderTextColor={'#666360'}
                         onChangeText={(text) => {
                             setDocument(text);
@@ -45,7 +45,7 @@ function WithCpfAutonomous() {
                             width: 330,
                             height: 58,
                             borderRadius: 10,
-                            padding: 15,
+                            paddingLeft: 45,
                             fontSize: 16,
                             color: '#000',
                             marginTop: 5,

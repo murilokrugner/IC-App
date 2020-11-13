@@ -69,9 +69,13 @@ const ViewService = () => {
     const userId = dataAuth.id;
 
     useEffect(() => {
-        setImageCover(service.id.provider.cover.url);
+        if (service.id.provider.cover.url !== null) {
+            setImageCover(service.id.provider.cover.url);
+        }
 
-        setImagePhoto(service.id.provider.avatar.url);
+        if (service.id.provider.avatar.url !== null) {
+            setImagePhoto(service.id.provider.avatar.url);
+        }
 
         async function loadImagesServices() {
             const response = await api.get(`files_services?id=${provider.id}`);
@@ -84,7 +88,7 @@ const ViewService = () => {
         }
 
         loadImagesServices();
-    }, []);
+    });
 
     function handleMaps() {
         navigation.navigate('Maps', { provider, name });

@@ -97,7 +97,7 @@ const Services = () => {
                 setLoadingLocation(false);
 
                 const responseServices = await api.get(
-                    `services-microrregiao?microrregiao=${microrregiao}&description=${typeService}`
+                    `services-microrregiao?microrregiao=${microrregiao}&description=${typeService}&order${order}`
                 );
 
                 setServicesMicrorregiao(responseServices.data);
@@ -109,6 +109,23 @@ const Services = () => {
             { enableHighAccuracy: true, maximumAge: 20000, timeout: 20000 }
         );
     }, []);
+
+    useEffect(() => {
+        if (order !== 'Ordenar por: ') {
+            async function loadServices() {
+                setLoading(true);
+                const responseServices = await api.get(
+                    `services-microrregiao?microrregiao=${microrregiao}&description=${typeService}&order${order}`
+                );
+
+                setServicesMicrorregiao(responseServices.data);
+
+                setLoading(false);
+            }
+
+            loadServices();
+        }
+    }, [order]);
 
     function handleFilters() {
         navigation.navigate('Filters');
@@ -209,9 +226,10 @@ const Services = () => {
                                         <Service>
                                             <ImageService
                                                 source={{
-                                                    uri:
-                                                        item.provider.avatar
-                                                            .url,
+                                                    uri: item.provider.avatar
+                                                        ? item.provider.avatar
+                                                              .url
+                                                        : `https://ui-avatars.com/api/?name=${item.provider.name}&size=395&background=random&color=000`,
                                                 }}
                                             />
                                             <NameService>
