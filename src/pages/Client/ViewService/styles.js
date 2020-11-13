@@ -6,7 +6,7 @@ export const Container = styled.View`
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    height: 370px;   
+    height: 370px;
     margin-bottom: 75px;
 `;
 
@@ -20,7 +20,6 @@ export const BoxImageCover = styled.View`
     flex: 1;
     flex-direction: row;
     justify-content: center;
-    
 `;
 
 export const ImageCover = styled.Image`
@@ -42,7 +41,6 @@ export const ImagePhoto = styled.Image`
     width: 220px;
     height: 220px;
     border-radius: 220px;
-
 `;
 
 export const BoxName = styled.View`
@@ -51,7 +49,6 @@ export const BoxName = styled.View`
     justify-content: center;
 
     margin-bottom: 20px;
-
 `;
 
 export const Name = styled.Text`
@@ -88,7 +85,7 @@ export const Time = styled.Text`
 
 export const Line = styled.View`
     height: 1px;
-    background-color: #235A5C;
+    background-color: #235a5c;
     width: 100%;
 
     margin-bottom: 20px;
@@ -101,7 +98,7 @@ export const Images = styled.View`
 
 export const BoxImages = styled.View`
     width: 350px;
-    height: 570px;
+    height: auto;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -115,7 +112,6 @@ export const ImageService = styled.Image`
     margin-left: 2px;
     margin-right: 3px;
     margin-bottom: 6px;
-
 `;
 
 export const BoxButtonMap = styled.View`
@@ -123,7 +119,8 @@ export const BoxButtonMap = styled.View`
     justify-content: center;
 `;
 
-export const ButtonMap = styled(Button) `
+export const ButtonMap = styled(Button)`
+    margin-top: 40px;
     width: 250px;
     height: 40px;
 `;
