@@ -5,6 +5,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import { Form } from '@unform/mobile';
 import { useNavigation } from '@react-navigation/native';
 import api from '../../../../../services/api';
+import { cpf as validateCpf } from 'cpf-cnpj-validator';
 
 function WithCpfAutonomous() {
     const navigation = useNavigation();
@@ -17,6 +18,18 @@ function WithCpfAutonomous() {
     async function handleSubmit() {
         try {
             setLoading(true);
+
+            if (document === '') {
+                Alert.alert('Por favor, informe seu documento');
+                setLoading(false);
+                return;
+            }
+
+            if (validateCpf.isValid(document) === false) {
+                Alert.alert('Erro', ' Cpf inexistente');
+                setLoading(false);
+                return false;
+              }
 
             navigation.navigate('SignUpProviderAutonomous', { document });
             setLoading(false);

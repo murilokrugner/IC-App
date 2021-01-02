@@ -5,6 +5,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import { Form } from '@unform/mobile';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import api from '../../../services/api';
+import { cnpj as validateCnpj } from 'cpf-cnpj-validator';
 
 function WithCnpj() {
     const navigation = useNavigation();
@@ -18,6 +19,18 @@ function WithCnpj() {
     async function handleSubmit() {
         try {
             setLoading(true);
+
+            if (document === '') {
+                Alert.alert('Por favor, informe seu documento');
+                setLoading(false);
+                return;
+            }
+
+            if (validateCnpj.isValid(document) === false) {
+                Alert.alert('Erro', 'Cnpj inexistente');
+                setLoading(false);
+                return false;
+            }
 
             setLoading(false);
             navigation.navigate('SignUpProvider', { document });
@@ -36,7 +49,7 @@ function WithCnpj() {
                     <TextInputMask
                         type={'cnpj'}
                         value={document}
-                        placeholder={'          CNPJ'}
+                        placeholder={'CNPJ'}
                         placeholderTextColor={'#666360'}
                         onChangeText={(text) => {
                             setDocument(text);

@@ -222,8 +222,8 @@ function SignUpProviderAutonomous() {
                                     dddMask={'(99)'}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 330,
-                                        height: 58,
+                                        width: '100%',
+                                        height: 60,
                                         borderRadius: 10,
                                         paddingLeft: 45,
                                         fontSize: 16,
@@ -231,7 +231,7 @@ function SignUpProviderAutonomous() {
                                         marginTop: 5,
                                         marginBottom: 16,
                                     }}
-                                    placeholder={'          Telefone Fixo'}
+                                    placeholder={'    Telefone Fixo'}
                                     placeholderTextColor={'#666360'}
                                     ref={telphoneRef}
                                     name="phone"
@@ -265,8 +265,8 @@ function SignUpProviderAutonomous() {
                                     dddMask={'(99)'}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 330,
-                                        height: 58,
+                                        width: '100%',
+                                        height: 60,
                                         borderRadius: 10,
                                         paddingLeft: 45,
                                         fontSize: 16,
@@ -274,7 +274,7 @@ function SignUpProviderAutonomous() {
                                         marginTop: 5,
                                         marginBottom: 16,
                                     }}
-                                    placeholder={'          Celular'}
+                                    placeholder={'    Celular'}
                                     placeholderTextColor={'#666360'}
                                     ref={mobilephoneRef}
                                     name="mobile-phone"
@@ -306,8 +306,8 @@ function SignUpProviderAutonomous() {
                                     }}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 330,
-                                        height: 58,
+                                        width: '100%',
+                                        height: 60,
                                         borderRadius: 10,
                                         paddingLeft: 45,
                                         fontSize: 16,
@@ -315,7 +315,7 @@ function SignUpProviderAutonomous() {
                                         marginTop: 5,
                                         marginBottom: 16,
                                     }}
-                                    placeholder={'          CEP'}
+                                    placeholder={'    CEP'}
                                     placeholderTextColor={'#666360'}
                                     returnKeyType="next"
                                     onSubmitEditing={() =>
