@@ -144,11 +144,15 @@ function SignUp() {
             setLoading(false);
             Alert.alert('Sua conta foi criada com sucesso!');
 
-            if (checkedCnpj === 'first') {
+            /*if (checkedCnpj === 'first') {
                 navigation.navigate('WithCnpj', { email });
             } else {
                 navigation.navigate('WithCpf', { email });
-            }
+            }*/
+
+            navigation.goBack();
+            navigation.goBack();
+
         } catch (error) {
             setLoading(false);
             Alert.alert(
@@ -223,7 +227,7 @@ function SignUp() {
                                         marginTop: 5,
                                         marginBottom: 16,
                                     }}
-                                    placeholder={'          Telefone Fixo'}
+                                    placeholder={'   Telefone Fixo'}
                                     placeholderTextColor={'#666360'}
                                     ref={telphoneRef}
                                     name="phone"
@@ -266,7 +270,7 @@ function SignUp() {
                                         marginTop: 5,
                                         marginBottom: 16,
                                     }}
-                                    placeholder={'          Celular'}
+                                    placeholder={'   Celular'}
                                     placeholderTextColor={'#666360'}
                                     ref={mobilephoneRef}
                                     name="mobile-phone"
@@ -307,7 +311,7 @@ function SignUp() {
                                         marginTop: 5,
                                         marginBottom: 16,
                                     }}
-                                    placeholder={'          CEP'}
+                                    placeholder={'   CEP'}
                                     placeholderTextColor={'#666360'}
                                     returnKeyType="next"
                                     onSubmitEditing={() =>

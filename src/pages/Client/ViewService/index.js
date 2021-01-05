@@ -69,11 +69,11 @@ const ViewService = () => {
     const userId = dataAuth.id;
 
     useEffect(() => {
-        if (service.id.provider.cover.url !== null) {
+        if (service.id.provider.cover) {
             setImageCover(service.id.provider.cover.url);
         }
 
-        if (service.id.provider.avatar.url !== null) {
+        if (service.id.provider.avatar) {
             setImagePhoto(service.id.provider.avatar.url);
         }
 
@@ -88,7 +88,7 @@ const ViewService = () => {
         }
 
         loadImagesServices();
-    });
+    }, []);
 
     function handleMaps() {
         navigation.navigate('Maps', { provider, name });
@@ -116,7 +116,7 @@ const ViewService = () => {
                                                 uri:
                                                     imageCover !== undefined
                                                         ? imageCover
-                                                        : `https://ui-avatars.com/api/?name=${dataAuth.name}&size=395&background=random&color=000`,
+                                                        : `https://ui-avatars.com/api/?name=${service.id.provider.name}&size=395&background=random&color=000`,
                                             }}
                                         />
                                     )}
@@ -140,7 +140,7 @@ const ViewService = () => {
                                                 uri:
                                                     imagePhoto !== undefined
                                                         ? imagePhoto
-                                                        : `https://ui-avatars.com/api/?name=${dataAuth.name}&size=220&background=random&color=000`,
+                                                        : `https://ui-avatars.com/api/?name=${service.id.provider.name}&size=220&background=random&color=000`,
                                             }}
                                         />
                                     )}

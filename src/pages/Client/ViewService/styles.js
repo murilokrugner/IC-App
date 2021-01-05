@@ -92,8 +92,11 @@ export const Line = styled.View`
 `;
 
 export const Images = styled.View`
+    flex: 1;
     flex-direction: row;
     justify-content: center;
+    height: auto;
+
 `;
 
 export const BoxImages = styled.View`
@@ -103,12 +106,12 @@ export const BoxImages = styled.View`
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+
 `;
 
 export const ImageService = styled.Image`
     width: 170px;
-    height: 170px;
-
+    height: auto;
     margin-left: 2px;
     margin-right: 3px;
     margin-bottom: 6px;

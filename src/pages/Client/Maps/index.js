@@ -49,6 +49,8 @@ function Maps() {
     const provider = route.params.provider;
     const name = route.params.name;
 
+    console.log(provider);
+
     const [loading, setLoading] = useState(true);
     const [coordinates, setCoordinates] = useState({});
     const [destination, setDestination] = useState(null);
