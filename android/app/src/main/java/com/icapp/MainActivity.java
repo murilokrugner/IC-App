@@ -1,4 +1,4 @@
-package com.icapp;
+package com.procureservicos;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
