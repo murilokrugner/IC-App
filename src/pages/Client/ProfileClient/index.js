@@ -16,7 +16,7 @@ function ProfileClient() {
     const navigation = useNavigation();
 
     const userId = dataAuth.id;
-    
+
     async function handleExit() {
         signOut();
     }
@@ -27,7 +27,7 @@ function ProfileClient() {
 
     return(
         <ScrollView style={{flex: 1}}>
-            <Container>           
+            <Container>
                 <Profile />
                 <BoxMenu>
                     <BoxOption onPress={handleClientData}>
@@ -37,20 +37,20 @@ function ProfileClient() {
                         </BoxSelect>
                     </BoxOption>
                     <Line />
-                    <BoxOption>
+                  {/**  <BoxOption>
                         <BoxSelect>
                             <TitleOption>Agenda</TitleOption>
                             <Icon name={"book"} size={20} color="#666360" />
                         </BoxSelect>
                     </BoxOption>
-                    <Line />
-                    <BoxOption>
+                    <Line />*/}
+                  {/**   <BoxOption>
                         <BoxSelect>
                             <TitleOption>Minhas avaliações</TitleOption>
                             <Icon name={"star"} size={20} color="#666360" />
                         </BoxSelect>
                     </BoxOption>
-                    <Line />
+                  <Line /> **/}
                     <BoxOption onPress={handleExit}>
                         <BoxSelect>
                             <TitleOption>Sair</TitleOption>
@@ -58,9 +58,9 @@ function ProfileClient() {
                         </BoxSelect>
                     </BoxOption>
                     <Line />
-                </BoxMenu>                   
+                </BoxMenu>
             </Container>
-        </ScrollView> 
+        </ScrollView>
     )
 }
 

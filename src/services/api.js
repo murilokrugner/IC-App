@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://knowledgesoftware.kinghost.net:21046/',
+    baseURL: 'http://192.168.2.116:3333/',
 });
 
 //201.33.248.208

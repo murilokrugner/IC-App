@@ -47,6 +47,8 @@ import exitIcon from '../../assets/cancel.png';
 import ToolsIcon from '../../assets/tools.png';
 import OfficeIcon from '../../assets/office.png';
 
+import apiServices from '../../services/api-services';
+
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFill,
@@ -88,6 +90,9 @@ function MapMain() {
   const [destinationRoutes, setDestinationRoutes] = useState(null);
   const [idService, setIdService] = useState(0);
 
+  const [teste, setTeste] = useState();
+  const [routes, setRoutes] = useState();
+
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -106,7 +111,11 @@ function MapMain() {
         const city = response.results[5].formatted_address.split('-')[0];
         const location = address.substring(0, address.indexOf(','));
 
-        setCityLocation(city);
+        const locationSplit = address.split(',');
+
+        const locationSplit2 = locationSplit[2].split('-');
+
+        setCityLocation(locationSplit2[0]);
         setLocation(location);
       },
       (error) => {
@@ -120,9 +129,31 @@ function MapMain() {
   useEffect(() => {
     if (cityLocation !== null) {
       async function loadServices() {
-        const responseServices = await api.get(`services-providers?city=${cityLocation}`);
+        const responseServices = await api.get(`services-providers?city=${cityLocation.trim()}`);
 
         setDestination(responseServices.data);
+
+        const data = {
+            'latitude': parseFloat(responseServices.data[0].provider.latitude),
+            'longitude': parseFloat(responseServices.data[0].provider.longitude),
+        }
+
+
+
+        const dataMap = responseServices.data.map(item => {
+            var i = [];
+
+            var j = {
+                'latitude': parseFloat(item.provider.latitude),
+                'longitude': parseFloat(item.provider.longitude),
+            }
+
+                i.push(j);
+
+           setRoutes(i);
+        });
+
+        setTeste(data);
 
         setLoading(false);
       }
@@ -194,7 +225,7 @@ function MapMain() {
             showsMyLocationButton={true}
             ref={(el) => setMapView(el)}
             loadingEnabled>
-            {destination && (
+           {destination && (
               <>
                   {destination.map(item => (
                     <Fragment>
@@ -217,24 +248,29 @@ function MapMain() {
                         />
                         )}
                       </>
-                    <Marker
-                        onPress={() => {handleViewService(item.provider.id)}}
-                        coordinate={item.provider}
-                        anchor={{x: 0, y: 0}}
-                        image={item.service.description === 'Jardineiro' && JardineiroIcon}>
-                        <LocationBox>
-                          <Box>
-                            <BoxIcon>
-                              <IconService source={OfficeIcon}/>
-                              <LocationText>{item.provider.title}</LocationText>
-                            </BoxIcon>
-                            <BoxIcon>
-                                <IconService source={ToolsIcon}/>
-                                <LocationText>{item.service.description}</LocationText>
-                            </BoxIcon>
-                          </Box>
-                        </LocationBox>
-                      </Marker>
+
+                              <Marker
+                              onPress={() => {handleViewService(item.provider.id)}}
+                              coordinate={{
+                                'latitude': parseFloat(item.provider.latitude),
+                                'longitude': parseFloat(item.provider.longitude),
+                              }}
+                              anchor={{x: 0, y: 0}}
+                              image={item.service.description === 'Jardineiro' && JardineiroIcon}>
+                              <LocationBox>
+                                <Box>
+                                  <BoxIcon>
+                                    <IconService source={OfficeIcon}/>
+                                    <LocationText>{item.provider.title}</LocationText>
+                                  </BoxIcon>
+                                  <BoxIcon>
+                                      <IconService source={ToolsIcon}/>
+                                      <LocationText>{item.service.description}</LocationText>
+                                  </BoxIcon>
+                                </Box>
+                              </LocationBox>
+                            </Marker>
+
                     </Fragment>
                   ))}
                     <Marker coordinate={coordinates} anchor={{x: 0, y: 0}}>
@@ -262,9 +298,9 @@ function MapMain() {
               <TypeDescription>Tempo médio: {time} minutos</TypeDescription>
 
               <BoxRequestButton>
-                <RequestButton onPress={() => {handleService(idService)}}>
+               {/**  <RequestButton onPress={() => {handleService(idService)}}>
                     <RequestButtonText>PERFIL</RequestButtonText>
-                </RequestButton>
+                </RequestButton>*/}
                 <RequestButton onPress={handleRoute}>
                     <RequestButtonText>TRAÇAR ROTA</RequestButtonText>
                 </RequestButton>
