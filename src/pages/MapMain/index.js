@@ -204,7 +204,7 @@ function MapMain() {
   }
 
   function handleService(id) {
-    navigation.navigate('ViewService', {id});
+    navigation.navigate('ViewService', {id, name, image});
   }
 
   return (
@@ -298,9 +298,9 @@ function MapMain() {
               <TypeDescription>Tempo médio: {time} minutos</TypeDescription>
 
               <BoxRequestButton>
-               {/**  <RequestButton onPress={() => {handleService(idService)}}>
+                 <RequestButton onPress={() => {handleService(idService)}}>
                     <RequestButtonText>PERFIL</RequestButtonText>
-                </RequestButton>*/}
+                </RequestButton>
                 <RequestButton onPress={handleRoute}>
                     <RequestButtonText>TRAÇAR ROTA</RequestButtonText>
                 </RequestButton>

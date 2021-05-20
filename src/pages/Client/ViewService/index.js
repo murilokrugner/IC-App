@@ -44,17 +44,11 @@ const ViewService = () => {
 
     const route = useRoute();
 
-    const service = route.params;
+    const id = route.params.id;
 
-    const provider = route.params.id.provider;
+    const name = route.params.name;
 
-    const name = route.params.id.name;
-
-    const priceString = service.id.price.toString();
-    const price = priceString.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-    });
+    const image = route.params.image;
 
     const [loadingPreview, setLoadingPreview] = useState(false);
     const [loadingPreviewCover, setLoadingPreviewCover] = useState(false);
@@ -68,26 +62,32 @@ const ViewService = () => {
 
     const userId = dataAuth.id;
 
-    useEffect(() => {
-        if (service.id.provider.cover) {
-            setImageCover(service.id.provider.cover.url);
-        }
+    const [providerData, setProviderData] = useState([]);
+    const [loadingData, setLoadingData] = useState(true);
+    const [coverUrl, setCoverUrl] = useState();
 
-        if (service.id.provider.avatar) {
-            setImagePhoto(service.id.provider.avatar.url);
+    useEffect(() => {
+        async function loadProvider() {
+            const response = await api.get(`/serviceProvider?provider=${id}`);
+
+            const responseCover = await api.get(`getImages?id=${id}`);
+
+            setProviderData(response.data);
+            setCoverUrl(responseCover.data.user.cover.url);
+
+            setLoadingData(false);
         }
 
         async function loadImagesServices() {
-            const response = await api.get(`files_services?id=${provider.id}`);
-
-            console.log(response.data);
+            const response = await api.get(`files_services?id=${id}`);
 
             setImagesServices(response.data);
 
             setLoadingImagesServices(false);
         }
 
-        loadImagesServices();
+      loadImagesServices();
+      loadProvider();
     }, []);
 
     function handleMaps() {
@@ -114,9 +114,9 @@ const ViewService = () => {
                                         <ImageCover
                                             source={{
                                                 uri:
-                                                    imageCover !== undefined
-                                                        ? imageCover
-                                                        : `https://ui-avatars.com/api/?name=${service.id.provider.name}&size=395&background=random&color=000`,
+                                                coverUrl !== undefined
+                                                        ? coverUrl
+                                                        : `https://ui-avatars.com/api/?name=${'service.id.provider.name'}&size=395&background=random&color=000`,
                                             }}
                                         />
                                     )}
@@ -138,27 +138,33 @@ const ViewService = () => {
                                         <ImagePhoto
                                             source={{
                                                 uri:
-                                                    imagePhoto !== undefined
-                                                        ? imagePhoto
-                                                        : `https://ui-avatars.com/api/?name=${service.id.provider.name}&size=220&background=random&color=000`,
+                                                image !== undefined
+                                                        ? image
+                                                        : `https://ui-avatars.com/api/?name=${'service.id.provider.name'}&size=220&background=random&color=000`,
                                             }}
                                         />
                                     )}
                                 </>
                             )}
                         </BoxPhoto>
-                        <BoxName>
-                            <Name>{service.id.provider.name}</Name>
+                        </Box>
+                        {!loadingData && (
+                            <>
+                                <BoxName>
+                            <Name>{name}</Name>
                             <Stars source={StarsIcon} />
                         </BoxName>
-                    </Box>
+
                     <TitleService>
-                        Serviços de {service.id.service.description}
+                        Serviços de {providerData[0].service.description}
                     </TitleService>
                     <BoxInformation>
-                        <Price>Preço médio: R$ {price}</Price>
-                        <Time>Tempo médio: {service.id.time} min</Time>
+                        <Price>Preço médio: R$ {providerData[0].price} reais</Price>
+                        <Time>Tempo médio: {providerData[0].time} min</Time>
                     </BoxInformation>
+                            </>
+                        )}
+
                     <Line />
                     <Images>
                         {loadingImagesServices ? (
@@ -171,15 +177,6 @@ const ViewService = () => {
                             </BoxImages>
                         )}
                     </Images>
-                    <BoxButtonMap>
-                        <ButtonMap
-                            onPress={() => {
-                                handleMaps(provider);
-                            }}
-                        >
-                            Ver no mapa
-                        </ButtonMap>
-                    </BoxButtonMap>
                 </ScrollView>
             </Container>
         </SafeAreaView>
