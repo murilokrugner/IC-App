@@ -119,6 +119,8 @@ function ProfileScreen({ isFocused }) {
         }
     }, [isFocused]);
 
+    console.log(imagePhoto)
+
     function handleUpCover() {
         setLoadingPreviewCover(true);
         ImagePicker.showImagePicker(
@@ -443,13 +445,13 @@ function ProfileScreen({ isFocused }) {
                             </BoxSelect>
                         </BoxOption>
                         <Line />
-                        <BoxOption>
+                     {/**   <BoxOption>
                             <BoxSelect>
                                 <TitleOption>Minhas avaliações</TitleOption>
                                 <Icon name={'star'} size={20} color="#666360" />
                             </BoxSelect>
                         </BoxOption>
-                        <Line />
+                        <Line />*/}
                         <BoxOption onPress={handleExit}>
                             <BoxSelect>
                                 <TitleOption>Sair</TitleOption>

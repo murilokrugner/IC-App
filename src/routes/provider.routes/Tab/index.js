@@ -28,13 +28,13 @@ function ProviderRoutes({isFocused}) {
     if (isFocused) {
       async function loadVerifyStore() {
         const response = await api.get(`store?id=${dataAuth.id}`);
-  
+
         setData(response.data.store);
       }
-  
+
       loadVerifyStore();
     }
-    
+
   }, [isFocused]);
 
   return (
@@ -51,27 +51,27 @@ function ProviderRoutes({isFocused}) {
         tabStyle: {
         },
         style: {
-          height: Platform.OS === 'ios' ? 100 : 55,          
+          height: Platform.OS === 'ios' ? 100 : 55,
         },
     }}
-    >          
+    >
     <Tab.Screen name="Profile" component={Profile}
         options={{
-        tabBarLabel: 'Profile',        
+        tabBarLabel: 'Profile',
         tabBarIcon: ({ color, size }) => (
           <Image source={UserIcon} style={{width: 30, height: 30}}/>
         ),
       }}
-    /> 
-    <Tab.Screen name="Home" component={Home}
+    />
+  {/**   <Tab.Screen name="Home" component={Home}
         options={{
-        tabBarLabel: 'Home',    
+        tabBarLabel: 'Home',
         tabBarIcon: ({ color, size }) => (
           <Image source={HomeIcon} style={{width: 30, height: 30}}/>
         ),
       }}
-    />
-    {data ? (
+    /> **/}
+    {/** {data ? (
       <Tab.Screen name="MyStore" component={MyStore}
         options={{
         tabBarLabel: 'Minha loja',
@@ -79,7 +79,7 @@ function ProviderRoutes({isFocused}) {
           <Image source={CifraoIcon} style={{width: 30, height: 30}}/>
         ),
       }}
-      />  
+      />
     ) : (
       <Tab.Screen name="Store" component={Store}
         options={{
@@ -88,9 +88,9 @@ function ProviderRoutes({isFocused}) {
           <Image source={StoreIcon} style={{width: 30, height: 30}}/>
         ),
       }}
-    />  
-    )}
-               
+    />
+    )} **/}
+
     </Tab.Navigator>
 );
 }

@@ -30,15 +30,15 @@ function TabsRoutes() {
           height: Platform.OS === 'ios' ? 100 : 55
         },
     }}
-    >      
-      <Tab.Screen name="Home" component={Home}
+    >
+      {/** <Tab.Screen name="Home" component={Home}
         options={{
         tabBarLabel: 'Serviços',
         tabBarIcon: ({ color, size }) => (
           <Image source={ServicesIcon} style={{width: 30, height: 30}}/>
         ),
       }}
-    />
+    />**/}
     <Tab.Screen name="MapMain" component={MapMain}
         options={{
         tabBarLabel: 'Mapa',
@@ -49,7 +49,7 @@ function TabsRoutes() {
     />
     <Tab.Screen name="ProfileClient" component={ProfileClient}
         options={{
-        tabBarLabel: 'Meu Perfil',        
+        tabBarLabel: 'Meu Perfil',
         tabBarIcon: ({ color, size }) => (
           <Image source={UserIcon} style={{width: 30, height: 30}}/>
         ),
