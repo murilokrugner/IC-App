@@ -71,6 +71,7 @@ function ProfileScreen({ isFocused }) {
     const [imagePhoto, setImagePhoto] = useState();
 
     const userId = dataAuth.id;
+    const user = dataAuth;
 
     useEffect(() => {
         async function loadImages() {
@@ -118,8 +119,6 @@ function ProfileScreen({ isFocused }) {
             loadServices();
         }
     }, [isFocused]);
-
-    console.log(imagePhoto)
 
     function handleUpCover() {
         setLoadingPreviewCover(true);
@@ -372,7 +371,7 @@ function ProfileScreen({ isFocused }) {
                                                 uri:
                                                     imageCover !== undefined
                                                         ? imageCover
-                                                        : `https://api.adorable.io/avatars/220/cover.png`,
+                                                        : `https://ui-avatars.com/api/?name=${user.name}&size=220&background=random&color=000`,
                                             }}
                                         />
                                     )}
@@ -405,7 +404,7 @@ function ProfileScreen({ isFocused }) {
                                                 uri:
                                                     imagePhoto !== undefined
                                                         ? imagePhoto
-                                                        : `https://api.adorable.io/avatars/220/moment.png`,
+                                                        : `https://ui-avatars.com/api/?name=${user.name}&size=220&background=random&color=000`,
                                             }}
                                         />
                                     )}

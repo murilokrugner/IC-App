@@ -48,110 +48,81 @@ const ViewService = () => {
 
     const name = route.params.name;
 
-    const image = route.params.image;
-
     const [loadingPreview, setLoadingPreview] = useState(false);
-    const [loadingPreviewCover, setLoadingPreviewCover] = useState(false);
-    const [preview, setPreview] = useState('');
-    const [previewCover, setPreviewCover] = useState('');
-    const [imageCover, setImageCover] = useState();
-    const [imagePhoto, setImagePhoto] = useState();
+    const [image, setImage] = useState(null);
+    const [loadingImagesServices, setLoadingImagesServices] = useState(false);
+    const [imagesServices, setImagesServices] = useState(null);
 
-    const [loadingImagesServices, setLoadingImagesServices] = useState(true);
-    const [imagesServices, setImagesServices] = useState({});
-
-    const userId = dataAuth.id;
 
     const [providerData, setProviderData] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
-    const [coverUrl, setCoverUrl] = useState();
+    const [coverUrl, setCoverUrl] = useState(null);
+
+    async function loadProvider() {
+        const response = await api.get(`serviceProvider?provider=${id}`);
+
+        const responseCover = await api.get(`getImages?id=${id}`);
+
+        if (response.data.length !== 0) {
+            setProviderData(response.data);
+        }
+
+        if (responseCover.data.user.avatar) {
+            setImage(responseCover.data.user.avatar.url)
+        }
+
+        if (responseCover.data.user.cover) {
+            setCoverUrl(responseCover.data.user.cover.url);
+        }
+
+        setLoadingData(false);
+    }
+
+    async function loadImagesServices() {
+        const response = await api.get(`files_services?id=${id}`);
+
+        if (response.data.length !== 0) {
+            setImagesServices(response.data);
+        }
+
+        setLoadingImagesServices(false);
+    }
 
     useEffect(() => {
-        async function loadProvider() {
-            const response = await api.get(`/serviceProvider?provider=${id}`);
-
-            const responseCover = await api.get(`getImages?id=${id}`);
-
-            setProviderData(response.data);
-            setCoverUrl(responseCover.data.user.cover.url);
-
-            setLoadingData(false);
-        }
-
-        async function loadImagesServices() {
-            const response = await api.get(`files_services?id=${id}`);
-
-            setImagesServices(response.data);
-
-            setLoadingImagesServices(false);
-        }
-
-      loadImagesServices();
+    //  loadImagesServices();
       loadProvider();
     }, []);
-
-    function handleMaps() {
-        navigation.navigate('Maps', { provider, name });
-    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Container>
                 <ScrollView style={{ flex: 1 }}>
-                    <Box>
-                        <BoxImageCover>
-                            {loadingPreviewCover ? (
-                                <ActivityIndicator
-                                    style={{ marginBottom: 130 }}
-                                    color="#000"
-                                    size="small"
-                                />
-                            ) : (
-                                <>
-                                    {previewCover ? (
-                                        <ImageCover source={previewCover} />
-                                    ) : (
-                                        <ImageCover
-                                            source={{
-                                                uri:
-                                                coverUrl !== undefined
-                                                        ? coverUrl
-                                                        : `https://ui-avatars.com/api/?name=${'service.id.provider.name'}&size=395&background=random&color=000`,
-                                            }}
-                                        />
-                                    )}
-                                </>
-                            )}
-                        </BoxImageCover>
-                        <BoxPhoto>
-                            {loadingPreview ? (
-                                <ActivityIndicator
-                                    style={{ marginTop: 130 }}
-                                    color="#000"
-                                    size="small"
-                                />
-                            ) : (
-                                <>
-                                    {preview ? (
-                                        <ImagePhoto source={preview} />
-                                    ) : (
-                                        <ImagePhoto
-                                            source={{
-                                                uri:
-                                                image !== undefined
-                                                        ? image
-                                                        : `https://ui-avatars.com/api/?name=${'service.id.provider.name'}&size=220&background=random&color=000`,
-                                            }}
-                                        />
-                                    )}
-                                </>
-                            )}
-                        </BoxPhoto>
-                        </Box>
                         {!loadingData && (
                             <>
-                                <BoxName>
-                            <Name>{name}</Name>
+                            <Box>
+                        <BoxImageCover>
+                            <ImageCover
+                                source={{
+                                    uri:
+                                    coverUrl !== null
+                                            ? coverUrl
+                                            : `https://ui-avatars.com/api/?name=${providerData[0].provider.name}&size=395&background=random&color=000`,
+                                }}
+                            />
+                        </BoxImageCover>
+                        <BoxPhoto>
+                            <ImagePhoto
+                                source={{
+                                    uri: image !== null
+                                            ? image
+                                            : `https://ui-avatars.com/api/?name=${providerData[0].provider.name}&size=220&background=random&color=000`,
+                                   }}
+                                 />
+
+                        </BoxPhoto>
+                        </Box>
+                        <BoxName>
+                            <Name>{name ? name : providerData[0].provider.name}</Name>
                             <Stars source={StarsIcon} />
                         </BoxName>
 
@@ -160,23 +131,39 @@ const ViewService = () => {
                     </TitleService>
                     <BoxInformation>
                         <Price>Preço médio: R$ {providerData[0].price} reais</Price>
-                        <Time>Tempo médio: {providerData[0].time} min</Time>
+                        <Time>Tempo médio: {providerData[0].time} hora(s)</Time>
+                        <Time>Telefone: {providerData[0].provider.phone} </Time>
+                        <Time>Celular: {providerData[0].provider.mobile_phone} </Time>
+                        <Time>E-mail: {providerData[0].provider.email} </Time>
+                        <Time>Endereço: {providerData[0].provider.address + ' ' + providerData[0].provider.number_address} </Time>
+                        <Time>Bairro: {providerData[0].provider.neighborhood_address} </Time>
+                        <Time>CEP: {providerData[0].provider.cep_address} </Time>
+                        <Time>Cidade: {providerData[0].provider.city + ' ' + providerData[0].provider.state_address} </Time>
                     </BoxInformation>
                             </>
                         )}
 
                     <Line />
-                    <Images>
+                    {/**
+                     *
+                     * <Images>
                         {loadingImagesServices ? (
                             <ActivityIndicator color="#000" size="small" />
                         ) : (
-                            <BoxImages>
-                                {imagesServices.map((item) => (
-                                    <ImageService source={{ uri: item.url }} />
-                                ))}
-                            </BoxImages>
+                            <>
+                                {imagesServices !== null || imagesServices !== undefined && (
+                                    <BoxImages>
+                                        {imagesServices.map((item) => (
+                                            <ImageService source={{ uri: item.url }} />
+                                        ))}
+                                    </BoxImages>
+                                )}
+                            </>
                         )}
                     </Images>
+                     *
+                     *
+                     */}
                 </ScrollView>
             </Container>
         </SafeAreaView>

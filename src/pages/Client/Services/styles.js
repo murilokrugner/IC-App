@@ -106,8 +106,9 @@ export const ImageService = styled.Image`
 `;
 
 export const NameService = styled.Text`
-    font-size: 20px;
-    margin-top: 30px;
+    font-size: 22px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 `;
 
 export const Stars = styled.Image`

@@ -93,7 +93,7 @@ const Services = () => {
                 setGetMicrorregiao(microrregiao);
                 setGetMessorregiao(mesorregiao);
 
-                setLocation(locationSplit[2]);
+                setLocation(locationSplit[1].split('-')[1]);
                 setLoadingLocation(false);
 
                 const responseServices = await api.get(
@@ -110,18 +110,21 @@ const Services = () => {
         );
     }, []);
 
+    async function loadServices() {
+        setLoading(true);
+        const responseServices = await api.get(
+            `services-microrregiao?microrregiao=${microrregiao}&description=${typeService}&order${order}`
+        );
+
+        console.tron.log(responseServices.data);
+
+        setServicesMicrorregiao(responseServices.data);
+
+        setLoading(false);
+    }
+
     useEffect(() => {
         if (order !== 'Ordenar por: ') {
-            async function loadServices() {
-                setLoading(true);
-                const responseServices = await api.get(
-                    `services-microrregiao?microrregiao=${microrregiao}&description=${typeService}&order${order}`
-                );
-
-                setServicesMicrorregiao(responseServices.data);
-
-                setLoading(false);
-            }
 
             loadServices();
         }
@@ -167,7 +170,7 @@ const Services = () => {
                             <Location>{location}</Location>
                         </BoxLocation>
                     )}
-                    <BoxFilters>
+                  {/**  <BoxFilters>
                         <BoxPicker>
                             <Picker
                                 selectedValue={order}
@@ -206,6 +209,7 @@ const Services = () => {
                             <TitleButtonFilter>Filtros</TitleButtonFilter>
                         </ButtonFilter>
                     </BoxFilters>
+                     */}
                     <Line />
                     <BoxServices>
                         {loading ? (
@@ -235,10 +239,10 @@ const Services = () => {
                                             <NameService>
                                                 {item.provider.name}
                                             </NameService>
-                                            <Stars source={Startss} />
+                                           {/**  <Stars source={Startss} />*/}
                                             <ButtonView
                                                 onPress={() => {
-                                                    handleViewService(item);
+                                                    handleViewService(item.provider.id);
                                                 }}
                                             >
                                                 Ver

@@ -32,8 +32,10 @@ export const Flash = styled.TouchableOpacity`
 export const BoxButtons = styled.View`
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     height: 100px;
     width: 100%;
+    margin-left: 15px;
 `;
 
 export const ImageCapture = styled.Image`
@@ -81,4 +83,20 @@ export const BoxLoading = styled.View`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+`;
+
+export const ContainerTypeCamera = styled.View`
+
+`;
+
+export const ButtonTypeCamera = styled.TouchableOpacity`
+    flex-direction: row;
+
+    width: 36px;
+    height: 36px;
+`;
+
+export const IconTypeCamera = styled.Image`
+    width: 36px;
+    height: 36px;
 `;

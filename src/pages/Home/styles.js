@@ -32,7 +32,7 @@ export const BoxMsg = styled.View`
 
 export const Msg = styled.Text`
   font-size: 22px;
-  font-weight: bold;  
+  font-weight: bold;
 
   color: #235A5C;
 `;
@@ -94,29 +94,29 @@ export const BoxMsgFilter = styled.View`
 export const BoxPicker = styled.View``;
 
 export const BoxServicesMain = styled.View`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  height: auto;
-
+    flex-direction: column;
+    align-items: center;
 `;
 
-export const ButtonServiceMain = styled(RectButton)`
-  width: 380px;
-  height: 80px;
-  border-radius: 20px;
-
-  margin-bottom: 40px;
-`;
-
-export const ServiceMain = styled.View`
+export const ButtonServiceMain = styled.TouchableOpacity`
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   background-color: #E8E6E3;
   margin: 10px;
   width: 360px;
+  height: 100px;
+
+  border-radius: 20px;
+`;
+
+export const ServiceMain = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #E8E6E3;
+  margin: 10px;
+  width: 300px;
   height: 100px;
 
   border-radius: 20px;
@@ -125,8 +125,11 @@ export const ServiceMain = styled.View`
 
 export const BoxTextServiceMain = styled.View`
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
+
+
+  width: 150px;
 `;
 
 export const ImageServiceMain = styled.Image`

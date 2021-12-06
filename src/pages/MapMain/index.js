@@ -84,7 +84,7 @@ function MapMain() {
   const [neighborhoodAddress, setNeighborhoodAddress] = useState('');
   const [price, setPrice] = useState('');
   const [time, setTime] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
 
   const [viewDirection, setViewDirection] = useState(false);
   const [destinationRoutes, setDestinationRoutes] = useState(null);
@@ -93,8 +93,57 @@ function MapMain() {
   const [teste, setTeste] = useState();
   const [routes, setRoutes] = useState();
 
+  async function loadServices() {
+    const responseServices = await api.get(`services-providers?city=${cityLocation.trim()}`);
+
+    if (responseServices.data.length !== 0) {
+        setDestination(responseServices.data);
+
+    const data = {
+        'latitude': parseFloat(responseServices.data[0].provider.latitude),
+        'longitude': parseFloat(responseServices.data[0].provider.longitude),
+    }
+
+    const dataMap = responseServices.data.map(item => {
+        var i = [];
+
+        var j = {
+            'latitude': parseFloat(item.provider.latitude),
+            'longitude': parseFloat(item.provider.longitude),
+        }
+
+            i.push(j);
+
+       setRoutes(i);
+    });
+
+    setTeste(data);
+    }
+
+    setLoading(false);
+  }
 
   useEffect(() => {
+    Geolocation.getCurrentPosition(
+        async ({coords: {latitude, longitude}}) => {
+          const response = await Geocoder.from({latitude, longitude});
+          const address = response.results[0].formatted_address;
+          const city = response.results[5].formatted_address.split('-')[0];
+          const location = address.substring(0, address.indexOf(','));
+
+          const locationSplit = address.split(',');
+
+          const locationSplit2 = locationSplit[2].split('-');
+
+          setCityLocation(locationSplit[1].split('-')[1]);
+          setLocation(location);
+        },
+        (error) => {
+          console.log('Map' + error);
+        },
+        {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
+      );
+
     Geolocation.getCurrentPosition(
       async ({coords}) => {
         setCoordinates(coords);
@@ -104,60 +153,12 @@ function MapMain() {
       },
       {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
     );
-    Geolocation.getCurrentPosition(
-      async ({coords: {latitude, longitude}}) => {
-        const response = await Geocoder.from({latitude, longitude});
-        const address = response.results[0].formatted_address;
-        const city = response.results[5].formatted_address.split('-')[0];
-        const location = address.substring(0, address.indexOf(','));
 
-        const locationSplit = address.split(',');
-
-        const locationSplit2 = locationSplit[2].split('-');
-
-        setCityLocation(locationSplit2[0]);
-        setLocation(location);
-      },
-      (error) => {
-        console.log('Map' + error);
-      },
-      {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
-    );
 
   }, []);
 
   useEffect(() => {
     if (cityLocation !== null) {
-      async function loadServices() {
-        const responseServices = await api.get(`services-providers?city=${cityLocation.trim()}`);
-
-        setDestination(responseServices.data);
-
-        const data = {
-            'latitude': parseFloat(responseServices.data[0].provider.latitude),
-            'longitude': parseFloat(responseServices.data[0].provider.longitude),
-        }
-
-
-
-        const dataMap = responseServices.data.map(item => {
-            var i = [];
-
-            var j = {
-                'latitude': parseFloat(item.provider.latitude),
-                'longitude': parseFloat(item.provider.longitude),
-            }
-
-                i.push(j);
-
-           setRoutes(i);
-        });
-
-        setTeste(data);
-
-        setLoading(false);
-      }
-
       loadServices();
     }
   }, [cityLocation])
@@ -175,7 +176,12 @@ function MapMain() {
       setNeighborhoodAddress(response.data.provider.neighborhood_address);
       setPrice(response.data.price);
       setTime(response.data.time);
-      setImage(response.data.provider.avatar.url);
+
+      if (response.data.provider.avatar) {
+        setImage(response.data.provider.avatar.url);
+      } else {
+          setImage(null)
+      }
 
       const responseCoordinates = await api.get(`userCoordinates?id=${id}`);
 
@@ -293,9 +299,9 @@ function MapMain() {
               <TypeDescription>{address} {numberAddress}</TypeDescription>
               <TypeDescription>{neighborhoodAddress}</TypeDescription>
 
-              <TypeImage source={{uri: image}} />
+              <TypeImage source={{uri: image !== null ? image : `https://ui-avatars.com/api/?name=${name}&size=220&background=random&color=000`}} />
               <TypeTitle>Preço Médio: R$ {price}</TypeTitle>
-              <TypeDescription>Tempo médio: {time} minutos</TypeDescription>
+              <TypeDescription>Tempo médio: {time} hora(s)</TypeDescription>
 
               <BoxRequestButton>
                  <RequestButton onPress={() => {handleService(idService)}}>

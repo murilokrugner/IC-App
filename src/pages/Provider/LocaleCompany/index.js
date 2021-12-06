@@ -61,6 +61,21 @@ function LocaleCompany() {
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
+        async ({coords: {latitude, longitude}}) => {
+          const response = await Geocoder.from({latitude, longitude});
+          const address = response.results[0].formatted_address;
+          const location = address.substring(0, address.indexOf(','));
+
+          setLocation(location);
+          setLoading(false);
+        },
+        (error) => {
+          console.log('Map' + error);
+        },
+        {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
+    );
+
+    Geolocation.getCurrentPosition(
       async ({coords}) => {
         setCoordinates(coords);
       },
@@ -69,21 +84,6 @@ function LocaleCompany() {
       },
       {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
     );
-    Geolocation.getCurrentPosition(
-      async ({coords: {latitude, longitude}}) => {
-        const response = await Geocoder.from({latitude, longitude});
-        const address = response.results[0].formatted_address;
-        const location = address.substring(0, address.indexOf(','));
-
-        setLocation(location);
-        setLoading(false);
-      },
-      (error) => {
-        console.log('Map' + error);
-      },
-      {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
-    );    
-    
   }, []);
 
   function handleBack() {
@@ -106,7 +106,7 @@ function LocaleCompany() {
         location_x: destination.latitude,
         location_y: destination.longitude,
       });
-  
+
       Alert.alert('Localização salva');
       setLoadingLocation(false);
 
@@ -122,10 +122,10 @@ function LocaleCompany() {
     <View style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#FFF" />
-      ) : (              
+      ) : (
         <>
           {destination ? (
-            <>        
+            <>
             <MapView
               initialRegion={{
                 latitude: destination.latitude,
@@ -133,24 +133,24 @@ function LocaleCompany() {
                 latitudeDelta: 0.0068,
                 longitudeDelta: 0.0068,
               }}
-              style={styles.map}            
+              style={styles.map}
               showsUserLocation
               ref={(el) => setMapView(el)}
               loadingEnabled>
               {destination && (
-                <Fragment>                
+                <Fragment>
                   <Marker
                     coordinate={destination}
-                    anchor={{x: 0, y: 0}}                  
+                    anchor={{x: 0, y: 0}}
                     image={markerImage}>
                     <LocationBox>
                       <LocationText>{destination.title}</LocationText>
                     </LocationBox>
-                  </Marker>                
+                  </Marker>
                 </Fragment>
               )}
             </MapView>
-  
+
             {destination ? (
               <Fragment>
                 <Back onPress={handleBack}>
@@ -163,11 +163,11 @@ function LocaleCompany() {
                       <ActivityIndicator color="#000" size="small" />
                     ) : (
                       <RequestButtonText>Salvar</RequestButtonText>
-                    )}                  
+                    )}
                   </RequestButton>
                 </ContainerDetails>
               </Fragment>
-            ) : (        
+            ) : (
               <></>
             )}
           </>

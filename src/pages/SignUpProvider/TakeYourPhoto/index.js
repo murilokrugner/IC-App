@@ -20,6 +20,9 @@ import {
     Box,
     TextBox,
     BoxLoading,
+    ContainerTypeCamera,
+    ButtonTypeCamera,
+    IconTypeCamera
 } from './styles';
 
 import { RNCamera } from 'react-native-camera';
@@ -31,6 +34,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../../hooks/auth';
 import ImagePicker from 'react-native-image-picker';
 
+import typeCameraIcon from '../../../assets/typeCamera.png';
+
 const TakeYourPhoto = () => {
     const { dataAuth } = useAuth();
     const navigation = useNavigation();
@@ -41,6 +46,7 @@ const TakeYourPhoto = () => {
     const userId = dataAuth.id;
 
     const [loading, setLoading] = useState(false);
+    const [cameraType, setCameraType] = useState('back');
 
     function toggleFlash() {
         //setFlash(flashModeOrder[flash]);
@@ -90,6 +96,14 @@ const TakeYourPhoto = () => {
         }
     }
 
+    function handleTypeCamera() {
+        if (cameraType === 'back') {
+            setCameraType('front');
+        } else {
+            setCameraType('back');
+        }
+    }
+
     return (
         <Container>
             <RNCamera
@@ -105,7 +119,7 @@ const TakeYourPhoto = () => {
                     buttonPositive: 'Ok',
                     buttonNegative: 'Cancel',
                 }}
-                type={'front'}
+                type={cameraType}
             />
             <Box>
                 <TextBox>Sua foto com o documento</TextBox>
@@ -122,7 +136,17 @@ const TakeYourPhoto = () => {
                         </Capture>
                     </BoxCapture>
                 )}
+
+                {!loading && (
+                    <ContainerTypeCamera>
+                        <ButtonTypeCamera onPress={handleTypeCamera}>
+                            <IconTypeCamera source={typeCameraIcon} />
+                        </ButtonTypeCamera>
+                    </ContainerTypeCamera>
+                )}
             </BoxButtons>
+
+
         </Container>
     );
 };

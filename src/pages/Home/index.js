@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import {
     Container,
     BoxTitle,
@@ -25,6 +25,7 @@ import {
 } from './styles';
 import { Picker } from '@react-native-community/picker';
 import { useNavigation } from '@react-navigation/native';
+import Geolocation from '@react-native-community/geolocation';
 //import Icon from 'react-native-vector-icons/Ionicons';
 //import ActionButton from 'react-native-action-button';
 import InputSearch from '../../components/InputSearch';
@@ -37,8 +38,13 @@ import InformaticaIcon from '../../assets/informatica.jpg';
 import JardineiroIcon from '../../assets/jardineiro.jpg';
 import PedreiroIcon from '../../assets/pedreiro.jpg';
 import PintorIcon from '../../assets/pintor.jpg';
-
 import FilterIcon from '../../assets/filter.png';
+
+import api from '../../services/api';
+
+import Geocoder from 'react-native-geocoding';
+
+Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
 function Home() {
     const navigation = useNavigation();
@@ -46,9 +52,51 @@ function Home() {
     const [search, setSearch] = useState();
     const [filters, setFilters] = useState();
 
+    const [loading, setLoading] = useState(true);
+    const [services, setServices] = useState(null);
+
+
     function handleServices(type) {
         navigation.navigate('Services', { type });
     }
+
+    async function loadServices(cityLocation) {
+        try {
+
+            const responseServices = await api.get(`services-providers?city=${cityLocation.trim()}`);
+
+            if (responseServices.data.length !== 0) {
+                setServices(responseServices.data);
+                console.tron.log(responseServices.data)
+            }
+
+            setLoading(false);
+        } catch (error) {
+            Alert.alert('Erro ao carregar os dados, tente novamente mais tarde');
+            setLoading(false);
+        }
+    }
+
+    async function getLocation() {
+        Geolocation.getCurrentPosition(
+            async ({coords: {latitude, longitude}}) => {
+              const response = await Geocoder.from({latitude, longitude});
+              const address = response.results[0].formatted_address;
+
+              const locationSplit = address.split(',');
+
+              loadServices(locationSplit[1].split('-')[1]);
+            },
+            (error) => {
+              console.log('Map' + error);
+            },
+            {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
+          );
+    }
+
+    useEffect(() => {
+        getLocation();
+    }, []);
 
     return (
         <Container>
@@ -68,17 +116,17 @@ function Home() {
                     >
                         <ButtonService
                             onPress={() => {
-                                handleServices('Eletrecista');
+                                handleServices('Eletricista');
                             }}
                         >
                             <Service>
                                 <ImageService source={ElectrialIcon} />
-                                <TitleService>Eletrecista</TitleService>
+                                <TitleService>Eletricista</TitleService>
                             </Service>
                         </ButtonService>
                         <ButtonService
                             onPress={() => {
-                                handleServices('Concertos');
+                                handleServices('Técnico de celulares');
                             }}
                         >
                             <Service>
@@ -114,7 +162,7 @@ function Home() {
                         </ButtonService>
                         <ButtonService
                             onPress={() => {
-                                handleServices('Informatica');
+                                handleServices('Técnico de informática');
                             }}
                         >
                             <Service>
@@ -155,67 +203,56 @@ function Home() {
                     </ScrollView>
                 </BoxServices>
                 <BoxMsgFilter>
-                    <Msg>Promoções</Msg>
+                    <Msg>Serviços</Msg>
                     <BoxPicker>
                         <Picker
                             selectedValue={filters}
-                            style={{ height: 20, width: 120, color: '#235A5C' }}
+                            style={{ height: 20, width: 150, color: '#235A5C' }}
                             onValueChange={(itemValue, itemIndex) =>
                                 setFilters(itemValue)
                             }
                         >
                             <Picker.Item
-                                key={'Popular'}
-                                label={'Popular'}
-                                value={'Popular'}
+                                key={'Novos'}
+                                label={'Novos'}
+                                value={'Novos'}
                             />
                         </Picker>
                     </BoxPicker>
                 </BoxMsgFilter>
-                <BoxServicesMain>
-                    <ButtonServiceMain>
-                        <ServiceMain>
-                            <ImageServiceMain source={PedreiroIcon} />
-                            <BoxTextServiceMain>
-                                <NameProvider>
-                                    Marfhs empresa empreitera
-                                </NameProvider>
-                                <TitleServiceMain>
-                                    Cimento extra
-                                </TitleServiceMain>
-                                <PriceServiceMain>R$ 20,00</PriceServiceMain>
-                            </BoxTextServiceMain>
-                        </ServiceMain>
-                    </ButtonServiceMain>
-                    <ButtonServiceMain>
-                        <ServiceMain>
-                            <ImageServiceMain source={PedreiroIcon} />
-                            <BoxTextServiceMain>
-                                <NameProvider>
-                                    Marfhs empresa empreitera
-                                </NameProvider>
-                                <TitleServiceMain>
-                                    Cimento extra
-                                </TitleServiceMain>
-                                <PriceServiceMain>R$ 20,00</PriceServiceMain>
-                            </BoxTextServiceMain>
-                        </ServiceMain>
-                    </ButtonServiceMain>
-                    <ButtonServiceMain>
-                        <ServiceMain>
-                            <ImageServiceMain source={PedreiroIcon} />
-                            <BoxTextServiceMain>
-                                <NameProvider>
-                                    Marfhs empresa empreitera
-                                </NameProvider>
-                                <TitleServiceMain>
-                                    Cimento extra
-                                </TitleServiceMain>
-                                <PriceServiceMain>R$ 20,00</PriceServiceMain>
-                            </BoxTextServiceMain>
-                        </ServiceMain>
-                    </ButtonServiceMain>
-                </BoxServicesMain>
+
+                    <BoxServicesMain>
+                        {loading ? (
+                            <ActivityIndicator size="small" color="#000" />
+                        ) : (
+                            <>
+                                {services === null ? (
+                                    <></>
+                                ) : (
+                                    <>
+                                        {services.map(item => (
+                                            <ButtonServiceMain key={item.id}>
+                                            <ServiceMain>
+                                                <ImageServiceMain source={{uri: item.provider.avatar ? item.provider.avatar.url : `https://ui-avatars.com/api/?name=${item.provider.title}&size=220&background=random&color=000`}} />
+                                                <BoxTextServiceMain>
+                                                    <NameProvider>
+                                                        {item.provider.title}
+                                                    </NameProvider>
+                                                    <TitleServiceMain>
+                                                        {item.service.description}
+                                                    </TitleServiceMain>
+                                                    <PriceServiceMain>R$ {item.price.toFixed(2)}</PriceServiceMain>
+                                                </BoxTextServiceMain>
+                                            </ServiceMain>
+                                        </ButtonServiceMain>
+                                        ))}
+                                    </>
+                                )}
+                            </>
+                        )}
+
+
+                    </BoxServicesMain>
             </ScrollView>
         </Container>
     );

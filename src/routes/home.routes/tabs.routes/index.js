@@ -31,14 +31,14 @@ function TabsRoutes() {
         },
     }}
     >
-      {/** <Tab.Screen name="Home" component={Home}
+      <Tab.Screen name="Home" component={Home}
         options={{
         tabBarLabel: 'Serviços',
         tabBarIcon: ({ color, size }) => (
           <Image source={ServicesIcon} style={{width: 30, height: 30}}/>
         ),
       }}
-    />**/}
+    />
     <Tab.Screen name="MapMain" component={MapMain}
         options={{
         tabBarLabel: 'Mapa',

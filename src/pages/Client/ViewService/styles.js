@@ -6,8 +6,7 @@ export const Container = styled.View`
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    height: 370px;
-    margin-bottom: 75px;
+    height: 100%;
 `;
 
 export const Box = styled.View`
@@ -81,6 +80,8 @@ export const Price = styled.Text`
 
 export const Time = styled.Text`
     font-size: 18px;
+
+    margin-top: 10px;
 `;
 
 export const Line = styled.View`
