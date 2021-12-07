@@ -218,8 +218,8 @@ function SignUp() {
                                     dddMask={'(99)'}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 330,
-                                        height: 58,
+                                        width: '100%',
+                                        height: 60,
                                         borderRadius: 10,
                                         paddingLeft: 45,
                                         fontSize: 16,
@@ -261,8 +261,8 @@ function SignUp() {
                                     dddMask={'(99)'}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 330,
-                                        height: 58,
+                                        width: '100%',
+                                        height: 60,
                                         borderRadius: 10,
                                         paddingLeft: 45,
                                         fontSize: 16,
@@ -302,8 +302,8 @@ function SignUp() {
                                     }}
                                     style={{
                                         backgroundColor: '#ECF6FF',
-                                        width: 330,
-                                        height: 58,
+                                        width: '100%',
+                                        height: 60,
                                         borderRadius: 10,
                                         paddingLeft: 45,
                                         fontSize: 16,

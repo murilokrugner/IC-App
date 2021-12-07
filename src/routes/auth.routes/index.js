@@ -9,6 +9,8 @@ import WhatUser from '../../pages/WhatUser';
 
 import WithCnpj from '../../pages/RegisterDocumentProvider/WithCnpj';
 
+import ForgotPassword from '../../pages/ForgotPassword';
+
 //import pattern from '../../assets/pattern_com_fundo.png';
 
 import WithCpfAutonomous from '../../pages/SignUpProvider/Autonomous/RegisterDocumentProvider/WithCpfAutonomous';
@@ -82,6 +84,14 @@ function AuthRoutes() {
                     options={{
                         headerShown: true,
                         headerTitle: 'Informe seu CPF',
+                    }}
+                />
+                <Auth.Screen
+                    name="ForgotPassword"
+                    component={ForgotPassword}
+                    options={{
+                        headerShown: true,
+                        headerTitle: 'Esqueci a senha',
                     }}
                 />
             </Auth.Navigator>

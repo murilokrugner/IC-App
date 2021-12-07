@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
     flex: 1;
-    height: 100%; 
+    height: 100%;
     flex-direction: column;
 
     justify-content: center;
@@ -30,10 +30,10 @@ export const BoxForm = styled.View`
 
     margin-top: 20px;
 
-    
+
 `;
 
-export const BoxPassword = styled.View`
+export const BoxPassword = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   margin-top: 30px;

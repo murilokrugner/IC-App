@@ -144,7 +144,9 @@ function Home() {
                                 <TitleService>Diarista</TitleService>
                             </Service>
                         </ButtonService>
-                        <ButtonService>
+                        <ButtonService onPress={() => {
+                                handleServices('Encanador');
+                            }}>
                             <Service>
                                 <ImageService source={EncanadorIcon} />
                                 <TitleService>Encanador</TitleService>

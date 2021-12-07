@@ -93,8 +93,8 @@ function MapMain() {
   const [teste, setTeste] = useState();
   const [routes, setRoutes] = useState();
 
-  async function loadServices() {
-    const responseServices = await api.get(`services-providers?city=${cityLocation.trim()}`);
+  async function loadServices(city) {
+    const responseServices = await api.get(`services-providers?city=${city.trim()}`);
 
     if (responseServices.data.length !== 0) {
         setDestination(responseServices.data);
@@ -137,6 +137,8 @@ function MapMain() {
 
           setCityLocation(locationSplit[1].split('-')[1]);
           setLocation(location);
+
+          loadServices(locationSplit[1].split('-')[1]);
         },
         (error) => {
           console.log('Map' + error);
@@ -156,12 +158,6 @@ function MapMain() {
 
 
   }, []);
-
-  useEffect(() => {
-    if (cityLocation !== null) {
-      loadServices();
-    }
-  }, [cityLocation])
 
   async function handleViewService(id) {
     if (viewService === false) {

@@ -19,14 +19,14 @@ import api from '../../services/api';
 function SignIn() {
     const navigation = useNavigation();
     const { signIn, loadingLogin } = useAuth();
-    
+
     const formRef = useRef(null);
     const passwordRef = useRef();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    async function handleSubmit() {     
+    async function handleSubmit() {
         signIn(email, password);
     }
 
@@ -36,7 +36,7 @@ function SignIn() {
             enabled>
             <ScrollView  showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
-                
+
             >
                 <Container>
                     <Image source={Screen} style={{width: 139, height: 219}}/>
@@ -50,17 +50,17 @@ function SignIn() {
                                 value={email}
                                 onChangeText={setEmail}
                             />
-                            <InputAuth ref={passwordRef} name="password" icon="lock" placeholder="Senha" 
-                                secureTextEntry returnKeyType="send" autoCorrect={false}                            
+                            <InputAuth ref={passwordRef} name="password" icon="lock" placeholder="Senha"
+                                secureTextEntry returnKeyType="send" autoCorrect={false}
                                 autoCapitalize="none"
-                                onSubmitEditing={handleSubmit}    
+                                onSubmitEditing={handleSubmit}
                                 value={password}
                                 onChangeText={setPassword}
                             />
                             <ButtonAuth loading={loadingLogin} onPress={() => {formRef.current.submitForm()}}>Entrar</ButtonAuth>
                         </Form>
                     </BoxForm>
-                    <BoxPassword>
+                    <BoxPassword onPress={() => {navigation.navigate('ForgotPassword')}}>
                         <ClickPassword>Esqueci minha senha</ClickPassword>
                     </BoxPassword>
                     <CreateAccountButton onPress={() => { navigation.navigate('WhatUser') }}>
@@ -69,7 +69,7 @@ function SignIn() {
                     </CreateAccountButton>
                 </Container>
             </ScrollView>
-        </KeyboardAvoidingView>        
+        </KeyboardAvoidingView>
     )
 }
 
