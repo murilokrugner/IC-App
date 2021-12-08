@@ -42,11 +42,15 @@ import FilterIcon from '../../assets/filter.png';
 
 import api from '../../services/api';
 
+import { useAuth } from '../../hooks/auth';
+
 import Geocoder from 'react-native-geocoding';
 
 Geocoder.init('AIzaSyBIuZDy_cKsPTBfD2VG5XNV6Ty_SlsNlwk');
 
 function Home() {
+    const { dataAuth } = useAuth();
+
     const navigation = useNavigation();
 
     const [search, setSearch] = useState();
@@ -103,7 +107,7 @@ function Home() {
             <ScrollView>
                 <BoxTitle>
                     <Hello>Olá</Hello>
-                    <Name>Murilo</Name>
+                    <Name>{dataAuth.name}</Name>
                 </BoxTitle>
                 <BoxMsg>
                     <Msg>Os mais populares</Msg>

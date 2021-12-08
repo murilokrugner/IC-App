@@ -20,15 +20,15 @@ function Coments() {
       <Container>
           <Box>
               <BoxComment>
-                  <UserAvatar source={UserImage}/>                  
+                  <UserAvatar source={UserImage}/>
                   <BoxName>
-                    <Name>Murilo Krugner</Name>
+                    <Name></Name>
                     <Comment>
                         <ComentsText>Aqui ficara todos os comentarios, e esse é um comentario de teste</ComentsText>
                     </Comment>
-                  </BoxName>                  
+                  </BoxName>
               </BoxComment>
-              <Line />              
+              <Line />
           </Box>
       </Container>
   )

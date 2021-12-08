@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Fragment} from 'react';
-import {View, ActivityIndicator, StyleSheet, Button, Alert} from 'react-native';
+import {View, ActivityIndicator, StyleSheet, PermissionsAndroid, Linking, Alert} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
 import Directions from '../../components/Directions';
@@ -123,7 +123,33 @@ function MapMain() {
     setLoading(false);
   }
 
-  useEffect(() => {
+  const requestPermissionLocation = async () => {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'App Permissão de Localização',
+        message: 'O App precisa de acesso à Localização',
+        buttonNeutral: 'Pergunte-me depois',
+        buttonNegative: 'Cancelar',
+        buttonPositive: 'OK',
+      },
+    );
+
+    if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      Alert.alert('O App precisa de permissão para usar a localização');
+      await Linking.openSettings();
+      return;
+
+    } else if (granted === PermissionsAndroid.RESULTS.DENIED) {
+      Alert.alert('Permissão de Localização negada');
+      await Linking.openSettings();
+      return;
+    } else {
+        getLocation();
+    }
+  };
+
+  function getLocation() {
     Geolocation.getCurrentPosition(
         async ({coords: {latitude, longitude}}) => {
           const response = await Geocoder.from({latitude, longitude});
@@ -141,7 +167,7 @@ function MapMain() {
           loadServices(locationSplit[1].split('-')[1]);
         },
         (error) => {
-          console.log('Map' + error);
+          console.log(error);
         },
         {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
       );
@@ -151,11 +177,14 @@ function MapMain() {
         setCoordinates(coords);
       },
       (error) => {
-        console.log('Map' + error);
+        console.log(error);
       },
       {enableHighAccuracy: true, maximumAge: 10000, timeout: 10000},
     );
+  }
 
+  useEffect(() => {
+    requestPermissionLocation();
 
   }, []);
 
