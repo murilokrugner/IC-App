@@ -76,7 +76,6 @@ function Home() {
 
             setLoading(false);
         } catch (error) {
-            Alert.alert('Erro ao carregar os dados, tente novamente mais tarde');
             setLoading(false);
         }
     }
